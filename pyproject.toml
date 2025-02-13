@@ -1,32 +1,77 @@
 [build-system]
-requires = [
-    "flit_core >=2,<4",
-    ]
-requires-python = ">=3.6"
-build-backend = "flit_core.buildapi"
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
 
-[tool.flit.metadata]
-module = "indico_toolkit"
-author = "indico"
-author-email = "scott.levin@indico.io"
-home-page = "https://github.com/IndicoDataSolutions/Indico-Solutions-Toolkit"
-classifiers = [ "License :: OSI Approved :: MIT License",]
-description-file = "README.md"
-requires = [
-    "indico-client>=6.1.0",
-    "plotly==5.2.1",
-    "tqdm==4.50.0",
-    "faker==13.3.3",
-    "python-dateutil==2.8.1"
+[project]
+name = "indico-toolkit"
+description = "A library to assist Indico IPA development"
+license = "MIT"
+authors = [
+    { name = "Indico Solutions Engineering", email = "technicaldelivery@indico.io" }
+]
+readme = "README.md"
+urls = { source = "https://github.com/IndicoDataSolutions/Indico-Solutions-Toolkit" }
+requires-python = ">=3.9"
+version = "6.14.0"
+dependencies = [
+    "indico-client (>=6.14.0,<7.0.0)",
+    "faker (>=13.3.3,<14.0.0)",
+    "pandas (>=2.2.3,<3.0.0)",
+    "plotly (>=5.2.1,<6.0.0)",
+    "python-dateutil (>=2.8.1.post0,<3.0.0)",
+    "tqdm (>=4.50.0,<5.0.0)",
 ]
 
-[tool.flit.metadata.requires-extra]
-test = [
-    "pytest==8.3.4",
-    "pytest-asyncio==0.25.2",
-    "pytest-dependency==0.6.0",
-    "requests-mock>=1.7.0-7"
-]
-full = [
-    "spacy>=3.1.4,<4"
-]
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+coverage = "^7.6.12"
+mypy = "^1.15.0"
+poethepoet = "^0.32.2"
+pytest = "^8.3.4"
+pytest-asyncio = "^0.25.3"
+pytest-cov = "^6.0.0"
+pytest-dependency = "^0.6.0"
+pytest-mock = "^3.14.0"
+requests-mock = "^1.12.1"
+ruff = "^0.9.6"
+
+[tool.poe.tasks]
+black = "black indico_toolkit tests"
+black_check = "black --check indico_toolkit tests"
+coverage = "coverage html"
+mypy = "mypy indico_toolkit tests"
+pytest = "pytest tests --cov=indico_toolkit"
+ruff = "ruff check --fix-only --exit-zero indico_toolkit tests"
+ruff_check = "ruff check indico_toolkit tests"
+
+format = ["ruff", "black"]
+check = ["ruff_check", "black_check", "mypy"]
+test = ["pytest", "coverage"]
+all = ["format", "check", "test"]
+
+[tool.black]
+line-length = 88
+
+[tool.ruff]
+line-length = 88
+lint.select = ["E", "F", "I"]
+lint.fixable = ["I"]
+
+[tool.mypy]
+strict = true
+show_error_codes = true
+warn_unreachable = true
+disallow_any_unimported = true
+
+[[tool.mypy.overrides]]
+module = "indico.*"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode="auto"
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover", "@abstractmethod"]
