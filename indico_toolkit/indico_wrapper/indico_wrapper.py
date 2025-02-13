@@ -3,7 +3,7 @@ from indico.queries import (
     RetrieveStorageObject,
     GraphQLRequest,
     JobStatus,
-    CreateModelGroup,
+    AddModelGroupComponent,
     ModelGroupPredict,
     CreateStorageURLs
 )
@@ -38,7 +38,6 @@ class IndicoWrapper:
         source_col: str,
         target_col: str,
         after_component_id: int = None,
-        wait: bool = False,
     ) -> ModelGroup:
         """
         Train an Indico model 
@@ -58,14 +57,13 @@ class IndicoWrapper:
         if not after_component_id:
             after_component_id = workflow.component_by_type("INPUT_OCR_EXTRACTION").id
         return self.client.call(
-            CreateModelGroup(
+            AddModelGroupComponent(
                 name=model_name,
                 dataset_id=dataset.id,
                 source_column_id=dataset.datacolumn_by_name(source_col).id,
-                labelset_id=dataset.labelset_by_name(target_col).id,
+                labelset_column_id=dataset.labelset_by_name(target_col).id,
                 workflow_id=workflow.id,
                 after_component_id=after_component_id,
-                wait=wait,
             )
         )
 
