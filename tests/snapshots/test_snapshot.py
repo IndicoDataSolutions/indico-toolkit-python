@@ -9,6 +9,26 @@ from indico_toolkit.snapshots import Snapshot
 # TODO: tests for exception handling
 
 
+@pytest.fixture
+def snapshot_classes():
+    snapshot_classes = [
+        "Grand Total Due",
+        "Line Cost",
+        "Line Description",
+        "Quantity",
+        "Sub Total",
+        "Tax",
+        "Transaction Date",
+        "Transaction Time",
+        "Vendor City",
+        "Vendor Name",
+        "Vendor State",
+        "Vendor Street Address",
+        "Vendor Zip Code",
+    ]
+    return snapshot_classes
+
+
 def test_instantiation_wo_params(snapshot_csv_path):
     snap = Snapshot(snapshot_csv_path)
     assert snap.text_col == "document"
