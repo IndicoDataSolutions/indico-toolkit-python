@@ -41,12 +41,15 @@ black_check = "black --check indico_toolkit tests"
 coverage = "coverage html"
 mypy = "mypy indico_toolkit tests"
 pytest = "pytest tests --cov=indico_toolkit"
+pytest_integration = "pytest tests/integration --cov=indico_toolkit"
+pytest_unit = "pytest tests --ignore tests/integration --cov=indico_toolkit"
 ruff = "ruff check --fix-only --exit-zero indico_toolkit tests"
 ruff_check = "ruff check indico_toolkit tests"
 
 format = ["ruff", "black"]
 check = ["ruff_check", "black_check", "mypy"]
-test = ["pytest", "coverage"]
+test = ["pytest_unit", "coverage"]
+test_all = ["pytest", "coverage"]
 all = ["format", "check", "test"]
 
 [tool.black]
