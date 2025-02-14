@@ -19,8 +19,8 @@ def static_class_results():
     return results
 
 @pytest.fixture(scope="module")
-def static_extract_preds(static_extract_results, model_name):
-    return static_extract_results["results"]["document"]["results"][model_name]
+def static_extract_preds(static_extract_results):
+    return static_extract_results["results"]["document"]["results"]["Toolkit Test Financial Model"]
 
 @pytest.fixture(scope="module")
 def static_class_preds(static_class_results):

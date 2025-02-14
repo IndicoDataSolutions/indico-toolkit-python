@@ -27,7 +27,7 @@ def test_get_file_paths_from_dir_recursive(testdir_file_path):
     fileproc.get_file_paths_from_dir(
         test_dir, accepted_types=(".json",), recursive_search=True
     )
-    assert len(fileproc.file_paths) == 4
+    assert len(fileproc.file_paths) == len(list(Path(test_dir).glob("**/*.json")))
     for fpath in fileproc.file_paths:
         assert fpath.endswith(".json")
 
