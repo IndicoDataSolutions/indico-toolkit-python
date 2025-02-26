@@ -29,17 +29,17 @@ def snapshot_classes():
     return snapshot_classes
 
 
-def test_instantiation_wo_params(snapshot_csv_path):
-    snap = Snapshot(snapshot_csv_path)
+def test_instantiation_wo_params(snapshot_file):
+    snap = Snapshot(snapshot_file)
     assert snap.text_col == "document"
     assert snap.label_col == "question"
     assert snap.file_name_col == "file_name_10765"
     assert isinstance(snap.df[snap.label_col].iloc[0]["targets"], list)
 
 
-def test_instantiation(snapshot_csv_path):
+def test_instantiation(snapshot_file):
     snap = Snapshot(
-        snapshot_csv_path,
+        snapshot_file,
         text_col="document",
         label_col="question",
         file_name_col="file_name_10765",
@@ -50,16 +50,16 @@ def test_instantiation(snapshot_csv_path):
     assert isinstance(snap.df[snap.label_col].iloc[0]["targets"], list)
 
 
-def test_instantiation_bad_label_col(snapshot_csv_path):
+def test_instantiation_bad_label_col(snapshot_file):
     with pytest.raises(ToolkitInputError):
         Snapshot(
-            snapshot_csv_path,
+            snapshot_file,
             label_col="file_name_10765",
         )
 
 
-def test_remove_extraction_labels(snapshot_csv_path):
-    snap = Snapshot(snapshot_csv_path)
+def test_remove_extraction_labels(snapshot_file):
+    snap = Snapshot(snapshot_file)
     assert "Vendor Name" in [
         i["label"] for i in snap.df[snap.label_col].iloc[0]["targets"]
     ]
@@ -69,31 +69,31 @@ def test_remove_extraction_labels(snapshot_csv_path):
     ]
 
 
-def test_standardize_names(snapshot_csv_path):
-    snap = Snapshot(snapshot_csv_path)
+def test_standardize_names(snapshot_file):
+    snap = Snapshot(snapshot_file)
     snap.standardize_column_names()
     assert "source" and "target" and "file_name" in snap.df.columns
 
 
-def test__eq__not_equal(snapshot_csv_path):
-    snap1 = Snapshot(snapshot_csv_path)
-    snap2 = Snapshot(snapshot_csv_path)
+def test__eq__not_equal(snapshot_file):
+    snap1 = Snapshot(snapshot_file)
+    snap2 = Snapshot(snapshot_file)
     snap1.standardize_column_names()
     with pytest.raises(AssertionError):
         assert snap1 == snap2
 
 
-def test__eq__(snapshot_csv_path):
-    snap1 = Snapshot(snapshot_csv_path)
-    snap2 = Snapshot(snapshot_csv_path)
+def test__eq__(snapshot_file):
+    snap1 = Snapshot(snapshot_file)
+    snap2 = Snapshot(snapshot_file)
     snap1.standardize_column_names()
     snap2.standardize_column_names()
     assert snap1 == snap2
 
 
-def test_append(snapshot_csv_path):
-    snap1 = Snapshot(snapshot_csv_path)
-    snap2 = Snapshot(snapshot_csv_path)
+def test_append(snapshot_file):
+    snap1 = Snapshot(snapshot_file)
+    snap2 = Snapshot(snapshot_file)
     snap1.standardize_column_names()
     snap2.standardize_column_names()
     snap1.append(snap2)
@@ -101,8 +101,8 @@ def test_append(snapshot_csv_path):
     assert snap1.df.shape[0] == expected_length
 
 
-def test_to_csv(snapshot_csv_path):
-    snap = Snapshot(snapshot_csv_path)
+def test_to_csv(snapshot_file):
+    snap = Snapshot(snapshot_file)
     snap.standardize_column_names()
     with tempfile.NamedTemporaryFile(suffix=".csv") as tf:
         snap.to_csv(tf.name)
@@ -111,11 +111,11 @@ def test_to_csv(snapshot_csv_path):
         assert isinstance(df["target"][0], str)
 
 
-def test_split_and_write_to_csv(snapshot_csv_path):
-    snap = Snapshot(snapshot_csv_path)
+def test_split_and_write_to_csv(snapshot_file):
+    snap = Snapshot(snapshot_file)
     with tempfile.TemporaryDirectory() as dirpath:
         snap.split_and_write_to_csv(dirpath, num_splits=3, output_base_name="my_split")
-        original = pd.read_csv(snapshot_csv_path)
+        original = pd.read_csv(snapshot_file)
         assert original.shape[0] == 10  # / 3 = 3,3,4
         df1 = pd.read_csv(os.path.join(dirpath, "my_split_1.csv"))
         df2 = pd.read_csv(os.path.join(dirpath, "my_split_2.csv"))
@@ -129,9 +129,9 @@ def test_split_and_write_to_csv(snapshot_csv_path):
         assert set(full["document"].tolist()) == set(original["document"].tolist())
 
 
-def test_merge_by_file_name(snapshot_csv_path):
-    snap1 = Snapshot(snapshot_csv_path)
-    snap2 = Snapshot(snapshot_csv_path)
+def test_merge_by_file_name(snapshot_file):
+    snap1 = Snapshot(snapshot_file)
+    snap2 = Snapshot(snapshot_file)
     snap1.standardize_column_names()
     snap2.standardize_column_names()
     snap1.merge_by_file_name(snap2)
@@ -142,17 +142,17 @@ def test_merge_by_file_name(snapshot_csv_path):
         assert isinstance(val, dict)
 
 
-def test_merge_by_file_name_columns_no_match(snapshot_csv_path):
-    snap1 = Snapshot(snapshot_csv_path)
-    snap2 = Snapshot(snapshot_csv_path)
+def test_merge_by_file_name_columns_no_match(snapshot_file):
+    snap1 = Snapshot(snapshot_file)
+    snap2 = Snapshot(snapshot_file)
     snap1.standardize_column_names()
     with pytest.raises(ToolkitInputError):
         snap1.merge_by_file_name(snap2)
 
 
-def test_merge_by_file_name_no_filename_matches(snapshot_csv_path):
-    snap1 = Snapshot(snapshot_csv_path)
-    snap2 = Snapshot(snapshot_csv_path)
+def test_merge_by_file_name_no_filename_matches(snapshot_file):
+    snap1 = Snapshot(snapshot_file)
+    snap2 = Snapshot(snapshot_file)
     snap1.standardize_column_names()
     snap2.standardize_column_names()
     snap2.df[snap2.file_name_col] = "no_match"
@@ -161,29 +161,29 @@ def test_merge_by_file_name_no_filename_matches(snapshot_csv_path):
     assert snap1.df[snap1.label_col].tolist() == original_labels
 
 
-def test_get_extraction_label_names(snapshot_csv_path, snapshot_classes):
-    snap = Snapshot(snapshot_csv_path)
+def test_get_extraction_label_names(snapshot_file, snapshot_classes):
+    snap = Snapshot(snapshot_file)
     label_list = snap.get_extraction_label_names()
     assert len(snapshot_classes) == len(label_list)
     for snapshot_class, test_class in zip(snapshot_classes, label_list):
         assert snapshot_class == test_class
 
 
-def test_number_of_samples(snapshot_csv_path):
-    snap = Snapshot(snapshot_csv_path)
+def test_number_of_samples(snapshot_file):
+    snap = Snapshot(snapshot_file)
     assert snap.number_of_samples == 10
 
 
-def test_get_all_labeled_text(snapshot_csv_path):
-    snap = Snapshot(snapshot_csv_path)
+def test_get_all_labeled_text(snapshot_file):
+    snap = Snapshot(snapshot_file)
     labeled_text = snap.get_all_labeled_text("Vendor State")
     assert len(labeled_text) == 10
     assert isinstance(labeled_text[0], str)
     assert labeled_text[0] == "WY"
 
 
-def test_get_all_labeled_text_per_doc(snapshot_csv_path):
-    snap = Snapshot(snapshot_csv_path)
+def test_get_all_labeled_text_per_doc(snapshot_file):
+    snap = Snapshot(snapshot_file)
     labeled_text = snap.get_all_labeled_text("Vendor State", return_per_document=True)
     assert len(labeled_text) == 10
     assert isinstance(labeled_text[0], list)
@@ -191,8 +191,8 @@ def test_get_all_labeled_text_per_doc(snapshot_csv_path):
     assert labeled_text[0][0] == "WY"
 
 
-def test_update_label_col_format(old_snapshot_csv_path):
-    snap = Snapshot(old_snapshot_csv_path)
+def test_update_label_col_format(old_snapshot_file):
+    snap = Snapshot(old_snapshot_file)
     old_df = deepcopy(snap.df)
     snap.update_label_col_format(task_type="annotation")
 

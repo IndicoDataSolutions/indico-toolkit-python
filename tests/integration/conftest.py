@@ -44,17 +44,17 @@ def indico_client() -> IndicoClient:
 
 
 @pytest.fixture(scope="session")
-def pdf_filepath(testdir_file_path):
-    return os.path.join(testdir_file_path, "data/samples/fin_disc.pdf")
+def pdf_filepath(tests_folder):
+    return os.path.join(tests_folder, "data/samples/fin_disc.pdf")
 
 
 @pytest.fixture(scope="session")
-def dataset_obj(indico_client, testdir_file_path):
+def dataset_obj(indico_client, tests_folder):
     if not DATASET_ID:
         dataset = indico_client.call(
             CreateDataset(
                 name="Solutions Toolkit Test Dataset",
-                files=[os.path.join(testdir_file_path, "data/samples/fin_disc_snapshot.csv")],
+                files=[os.path.join(tests_folder, "data/samples/fin_disc_snapshot.csv")],
             )
         )
     else:
@@ -182,8 +182,8 @@ def doc_extraction_standard(indico_client):
 
 
 @pytest.fixture(scope="session")
-def populator_snapshot_csv_path(testdir_file_path):
-    return os.path.join(testdir_file_path, "data/snapshots/populator_snapshot.csv")
+def populator_snapshot_file(tests_folder):
+    return os.path.join(tests_folder, "data/snapshots/populator_snapshot.csv")
 
 @pytest.fixture(scope="session")
 def pdf_dataset_obj(indico_client):

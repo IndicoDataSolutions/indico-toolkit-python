@@ -10,8 +10,8 @@ from indico_toolkit.auto_populate import AutoPopulator
 
 
 @pytest.fixture(scope="function")
-def static_file_to_targets(populator_snapshot_csv_path):
-    df = pd.read_csv(populator_snapshot_csv_path)
+def static_file_to_targets(populator_snapshot_file):
+    df = pd.read_csv(populator_snapshot_file)
     file_to_targets = {}
     for file, target in zip(df["file_name_1820"].to_list(), df["Toolkit Test Financial Model"].to_list()):
         if not isinstance(target, float):
@@ -19,10 +19,10 @@ def static_file_to_targets(populator_snapshot_csv_path):
     return file_to_targets
 
 
-def test_create_classification_workflow(indico_client, testdir_file_path):
+def test_create_classification_workflow(indico_client, tests_folder):
     auto_populator = AutoPopulator(indico_client)
     new_workflow = auto_populator.create_auto_classification_workflow(
-        os.path.join(testdir_file_path, "data/auto_class"),
+        os.path.join(tests_folder, "data/auto_class"),
         "My dataset",
         "My workflow",
         "My teach task",
@@ -31,12 +31,12 @@ def test_create_classification_workflow(indico_client, testdir_file_path):
 
 
 def test_create_classification_workflow_too_few_classes(
-    indico_client, testdir_file_path
+    indico_client, tests_folder
 ):
     auto_populator = AutoPopulator(indico_client)
     with pytest.raises(Exception):
         auto_populator.create_auto_classification_workflow(
-            os.path.join(testdir_file_path, "data/auto_class/class_a/"),
+            os.path.join(tests_folder, "data/auto_class/class_a/"),
             "My dataset",
             "My workflow",
             "My teach task",

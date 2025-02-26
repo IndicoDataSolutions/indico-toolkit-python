@@ -24,8 +24,8 @@ REJECTED = "rejected"
 
 
 @pytest.fixture(scope="session")
-def auto_review_preds(testdir_file_path):
-    with open(os.path.join(testdir_file_path, "data/auto_review/preds.json"), "r") as f:
+def auto_review_preds(tests_folder):
+    with open(os.path.join(tests_folder, "data/auto_review/preds.json"), "r") as f:
         preds = json.load(f)
     return preds
 

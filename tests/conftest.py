@@ -1,19 +1,18 @@
-import os
+from pathlib import Path
+
 import pytest
 
-FILE_PATH = os.path.dirname(os.path.abspath(__file__))
+
+@pytest.fixture
+def tests_folder() -> Path:
+    return Path(__file__).parent
 
 
-@pytest.fixture(scope="session")
-def testdir_file_path():
-    return FILE_PATH
+@pytest.fixture
+def snapshot_file(tests_folder: Path) -> Path:
+    return tests_folder / "data/snapshots/updated_snapshot.csv"
 
 
-@pytest.fixture(scope="session")
-def snapshot_csv_path(testdir_file_path):
-    return os.path.join(testdir_file_path, "data/snapshots/updated_snapshot.csv")
-
-
-@pytest.fixture(scope="session")
-def old_snapshot_csv_path(testdir_file_path):
-    return os.path.join(testdir_file_path, "data/snapshots/snapshot.csv")
+@pytest.fixture
+def old_snapshot_file(tests_folder: Path) -> Path:
+    return tests_folder / "data/snapshots/snapshot.csv"
