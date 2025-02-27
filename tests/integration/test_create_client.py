@@ -1,16 +1,17 @@
-import os
+from pathlib import Path
+
 import pytest
+
 from indico_toolkit import create_client, ToolkitAuthError
 
-HOST_URL = os.environ.get("HOST_URL")
-API_TOKEN_PATH = os.environ.get("API_TOKEN_PATH")
-API_TOKEN = os.environ.get("API_TOKEN")
+
+def test_client_creation(host, token):
+    if Path(token).is_file():
+        create_client(host, token, None)
+    else:
+        create_client(host, None, token)
 
 
-def test_client_creation():
-    create_client(HOST_URL, API_TOKEN_PATH, API_TOKEN)
-
-
-def test_client_fail():
+def test_client_fail(host):
     with pytest.raises(ToolkitAuthError):
-        create_client(HOST_URL, api_token_string="not_a_real_token")
+        create_client(host, api_token_string="not_a_real_token")
