@@ -1,5 +1,5 @@
+import statistics
 from typing import List
-import numpy as np
 
 
 class OnDoc:
@@ -88,5 +88,5 @@ class OnDoc:
             for character in page["chars"]
         ]
         if metric == "mean":
-            return np.mean(confidence)
-        return np.median(confidence)
+            return statistics.mean(confidence)
+        return statistics.median(confidence)
