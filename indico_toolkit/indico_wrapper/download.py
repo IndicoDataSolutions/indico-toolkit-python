@@ -11,7 +11,6 @@ from indico.queries import (
     CreateExport,
     GraphQLRequest,
 )
-import tqdm
 
 
 class Download:
@@ -95,6 +94,14 @@ class Download:
         file_url_col: str,
         max_files_to_download: int = None,
     ) -> int:
+        try:
+            import tqdm
+        except ImportError as error:
+            raise RuntimeError(
+                "downloading pdfs requires additional dependencies: "
+                "`pip install indico-toolkit[downloads]`"
+            ) from error
+
         for i, row in tqdm.tqdm(export_df.iterrows()):
             basename = os.path.basename(row[file_name_col])
             pdf_bytes = self._retrieve_storage_object(row[file_url_col])
