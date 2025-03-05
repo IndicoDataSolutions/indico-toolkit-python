@@ -1,6 +1,3 @@
-# from 3.10, don't need for same class reference in class method
-from __future__ import annotations
-
 import json
 import os
 from json import JSONDecodeError
@@ -107,7 +104,7 @@ class Snapshot:
         else:
             self.df = self.df[[self.label_col, self.text_col, self.file_name_col]]
 
-    def append(self, snap_to_add: Snapshot):
+    def append(self, snap_to_add: "Snapshot"):
         """
         Append the rows from another Snapshot to this snapshot. Ensure column names are standardized beforehand.
         Args:
@@ -129,7 +126,7 @@ class Snapshot:
 
     def merge_by_file_name(
         self,
-        snap_to_merge: Snapshot,
+        snap_to_merge: "Snapshot",
         ensure_identical_text: bool = True,
     ):
         """
@@ -259,7 +256,7 @@ class Snapshot:
             updated_column.append({"task_type": task_type, "targets": updated_targets})
         self.df[self.label_col] = updated_column
 
-    def __eq__(self, other: Snapshot):
+    def __eq__(self, other: "Snapshot"):
         """
         Check if two snapshots can be merged based on common column names
         """
@@ -279,7 +276,7 @@ class Snapshot:
                 f"{self.label_col} doesn't contain valid extraction labels"
             )
 
-    def _assert_key_column_names_match(self, snapshot: Snapshot):
+    def _assert_key_column_names_match(self, snapshot: "Snapshot"):
         try:
             assert self == snapshot
         except AssertionError:
