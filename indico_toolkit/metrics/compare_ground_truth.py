@@ -89,9 +89,9 @@ class CompareGroundTruth:
         span_types = {"overlap": sequences_overlap, "exact": sequences_exact}
         span_type_func = span_types[span_type]
 
-        if not label in self.preds_by_label:
+        if label not in self.preds_by_label:
             false_neg = len(self.gt_by_label[label])
-        elif not label in self.gt_by_label:
+        elif label not in self.gt_by_label:
             false_pos = len(self.preds_by_label[label])
         else:
             for model_pred in self.preds_by_label[label]:
