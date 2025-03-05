@@ -20,7 +20,7 @@ from indico.types import (
 )
 
 from ..errors import ToolkitInputError
-from .queries import *
+from .queries import GetExampleIds, GetTeachDetails, LabelTeachTask
 from .utils import ModelTaskType
 
 

@@ -17,7 +17,13 @@ from indico.types import Workflow
 
 from ..errors import ToolkitPopulationError
 from ..structure.create_structure import Structure
-from .types import *
+from .types import (
+    Example,
+    ExampleList,
+    LabelInput,
+    LabelInst,
+    TokenSpanInput,
+)
 
 
 class AutoPopulator:
