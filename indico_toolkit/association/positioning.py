@@ -187,7 +187,8 @@ class Positioning:
         """
         if "position" not in ocr_tokens[0] or "page_num" not in ocr_tokens[0]:
             raise ToolkitInputError(
-                "Token list argument is missing required key(s): page_num and/or position"
+                "Token list argument is missing required key(s): "
+                "page_num and/or position"
             )
         if include_overlap:
             return [

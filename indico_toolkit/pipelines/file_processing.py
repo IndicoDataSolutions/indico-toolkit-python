@@ -44,7 +44,8 @@ class FileProcessing:
             )
 
         print(
-            f"Found {len(self.file_paths)} valid files and {len(self.invalid_suffix_paths)} paths with invalid suffixes."
+            f"Found {len(self.file_paths)} valid files and "
+            f"{len(self.invalid_suffix_paths)} paths with invalid suffixes."
         )
 
     def move_all_file_paths(
@@ -83,7 +84,8 @@ class FileProcessing:
             if self.file_name_from_path(filepath) not in processed_files:
                 unprocessed_filepaths.append(filepath)
         print(
-            f"Removing {len(self.file_paths) - len(unprocessed_filepaths)} files from file_paths"
+            f"Removing {len(self.file_paths) - len(unprocessed_filepaths)} "
+            "files from file_paths"
         )
         self.file_paths = unprocessed_filepaths
 

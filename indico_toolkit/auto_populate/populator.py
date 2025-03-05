@@ -95,7 +95,8 @@ class AutoPopulator:
 
         if len(classes) < 2:
             raise ToolkitPopulationError(
-                f"You must have documents in at least 2 directories, you only have {len(classes)}"
+                "You must have documents in at least 2 directories, "
+                f"you only have {len(classes)}"
             )
 
         # Upload files to a new dataset.

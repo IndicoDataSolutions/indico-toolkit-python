@@ -59,8 +59,18 @@ class Reviewer(Workflow):
 
 
 SUBMIT_REVIEW = """
-mutation submitStandardQueue($changes: JSONString, $rejected: Boolean, $submissionId: Int!, $notes: String) {
-  submitReview(changes: $changes, rejected: $rejected, submissionId: $submissionId, notes: $notes) {
+mutation submitStandardQueue(
+    $changes: JSONString,
+    $rejected: Boolean,
+    $submissionId: Int!,
+    $notes: String
+) {
+  submitReview(
+    changes: $changes,
+    rejected: $rejected,
+    submissionId: $submissionId,
+    notes: $notes
+) {
     id
     __typename
   }

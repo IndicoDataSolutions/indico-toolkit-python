@@ -67,7 +67,8 @@ class CompareModels(ExtractionMetrics):
         self._set_labelset_info(dfs)
         if len(self.overlapping_fields) == 0:
             raise ToolkitInputError(
-                f"There are no shared labels between the models you provided: {self.non_overlapping_fields}"
+                "There are no shared labels between the models you provided: "
+                f"{self.non_overlapping_fields}"
             )
         self.df = pd.merge(
             dfs[0], dfs[1], on="field_name", suffixes=self._model_suffixes

@@ -64,7 +64,8 @@ class Structure:
             else:
                 if arg == "table_read_order" and kwargs[arg] not in ["row", "column"]:
                     raise ToolkitInputError(
-                        f"Keyword argument {arg} got an unexpected value of {kwargs[arg]}, expected value of either 'row' or 'column'"
+                        f"Keyword argument {arg} got an unexpected value of "
+                        f"{kwargs[arg]}, expected value of either 'row' or 'column'"
                     )
                 omnipage_settings.update({arg: kwargs[arg]})
 
@@ -179,7 +180,8 @@ class Structure:
         }
         if model_type not in model_map.keys():
             raise ToolkitInputError(
-                f"{model_type} not found. Available options include {[model for model in model_map.keys()]}"
+                f"{model_type} not found. Available options "
+                f"include {[model for model in model_map.keys()]}"
             )
         workflow = self.client.call(GetWorkflow(workflow_id))
         if not prev_comp_id:
@@ -205,7 +207,8 @@ class Structure:
             )
         )
         print(
-            f"Newly created teach task with teach_id: {workflow.components[-1].model_group.questionnaire_id}"
+            "Newly created teach task with teach_id: "
+            f"{workflow.components[-1].model_group.questionnaire_id}"
         )
         return workflow
 

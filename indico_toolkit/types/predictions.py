@@ -23,5 +23,6 @@ class Predictions:
                 return ClassificationMGP(predictions)
         else:
             raise ToolkitInputError(
-                f"Unable to process predictions with type {type(predictions)}. Predictions: {predictions}"
+                f"Unable to process predictions with type {type(predictions)}. "
+                f"Predictions: {predictions}"
             )

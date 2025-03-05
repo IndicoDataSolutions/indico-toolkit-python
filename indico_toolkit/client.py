@@ -30,5 +30,6 @@ def create_client(
         return IndicoClient(config)
     except IndicoAuthenticationFailed as e:
         raise ToolkitAuthError(
-            f"{e}\n\n Ensure that you are using your most recently downloaded token with the correct host URL"
+            f"{e}\nEnsure that you are using your most recently downloaded token with "
+            "the correct host URL"
         )

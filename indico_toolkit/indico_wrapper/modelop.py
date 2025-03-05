@@ -147,7 +147,10 @@ class ModelOp:
         model = self.client.call(
             GraphQLRequest(
                 """
-                mutation updateModelGroup($modelGroupId: Int!, $modelTrainingOptions: JSONString) {
+                mutation updateModelGroup(
+                    $modelGroupId: Int!,
+                    $modelTrainingOptions: JSONString
+                ) {
                     updateModelGroupSettings(
                       modelGroupId: $modelGroupId
                       modelTrainingOptions: $modelTrainingOptions

@@ -19,7 +19,8 @@ class WorkflowResult:
     def _check_is_valid_model_name(self) -> None:
         if self.model_name not in self.available_model_names:
             raise ToolkitInputError(
-                f"{self.model_name} is not an available model name. Options: {self.available_model_names}"
+                f"{self.model_name} is not an available model name. "
+                f"Options: {self.available_model_names}"
             )
 
     def __repr__(self):
@@ -84,7 +85,8 @@ class WorkflowResult:
             self._check_is_valid_model_name()
         elif len(self.available_model_names) > 1:
             raise ToolkitInputError(
-                f"Multiple models available, you must set self.model_name to one of {self.available_model_names}"
+                "Multiple models available, you must set self.model_name to one of "
+                f"{self.available_model_names}"
             )
         else:
             self.model_name = self.available_model_names[0]
