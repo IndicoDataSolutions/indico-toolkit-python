@@ -40,8 +40,8 @@ class Reviewer(Workflow):
         )
         try:
             return response["randomSubmission"]["id"]
-        except:
-            raise Exception("The review queue is empty")
+        except Exception:
+            raise RuntimeError("The review queue is empty")
 
     def get_random_exception_id(self):
         response = self.graphQL_request(
@@ -49,8 +49,8 @@ class Reviewer(Workflow):
         )
         try:
             return response["randomSubmission"]["id"]
-        except:
-            raise Exception("The exception queue is empty")
+        except Exception:
+            raise RuntimeError("The exception queue is empty")
 
     def reject_submission(self, submission_id):
         return self.graphQL_request(
