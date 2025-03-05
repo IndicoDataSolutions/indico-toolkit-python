@@ -374,7 +374,7 @@ def test_get_tokens_within_bounds_includes_overlap(bbox_token_page):
         assert "true" in token["text"] or "edge" in token["text"]
 
 
-def test_get_tokens_within_bounds_throws_error(bbox_token_page):
+def test_get_tokens_null_bounds(bbox_token_page):
     null_box = generate_mapped_pred()
     positioning = Positioning()
     null = positioning.get_tokens_within_bounds(null_box, bbox_token_page)
