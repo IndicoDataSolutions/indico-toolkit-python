@@ -26,7 +26,7 @@ class CustomOcr:
         elif isinstance(self.customocr, list) and "pages" in self.customocr[0]:
             if "text" in self.customocr[0]["pages"][0]:
                 return "\n".join(page["pages"][0]["text"] for page in self.customocr)
-        raise Exception("JSON configuration setting does not have full text.")
+        raise RuntimeError("JSON configuration setting does not have full text.")
 
     @property
     def page_texts(self) -> List[str]:
@@ -38,4 +38,4 @@ class CustomOcr:
         elif isinstance(self.customocr, list) and "pages" in self.customocr[0]:
             if "text" in self.customocr[0]["pages"][0]:
                 return [page["pages"][0]["text"] for page in self.customocr]
-        raise Exception("JSON configuration setting does not have page-level text.")
+        raise RuntimeError("JSON configuration setting does not have page-level text.")

@@ -226,4 +226,4 @@ class Workflow(IndicoWrapper):
         if ignore_exceptions:
             print(f"Ignoring exception and continuing: {message}")
         else:
-            raise Exception(message)
+            raise RuntimeError(message)

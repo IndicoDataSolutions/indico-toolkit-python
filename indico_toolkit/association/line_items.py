@@ -161,7 +161,7 @@ class LineItems(Association):
 
     def _get_first_valid_line_item_pred(self) -> dict:
         if len(self._mapped_positions) == 0:
-            raise Exception(
+            raise RuntimeError(
                 "Whoops! You have no line_item_fields predictions. Did you run get_bounding_boxes?"
             )
         return self._mapped_positions[0]

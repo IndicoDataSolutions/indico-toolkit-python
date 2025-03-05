@@ -52,7 +52,7 @@ class DocExtraction(IndicoWrapper):
                 else:
                     extracted_data.append(self._convert_ocr_objects(result))
             else:
-                raise Exception(f"{filepaths[ind]} {status.status}: {status.result}.")
+                raise RuntimeError(f"{filepaths[ind]} {status.status}: {status.result}.")
         return extracted_data
 
     def _submit_to_ocr(self, filepaths: List[str]) -> List[Job]:

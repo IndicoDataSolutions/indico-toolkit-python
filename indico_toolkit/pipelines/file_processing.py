@@ -39,7 +39,7 @@ class FileProcessing:
             self._non_recursive_file_search(path_to_dir, accepted_types)
 
         if len(self.file_paths) == 0:
-            raise Exception(
+            raise RuntimeError(
                 f"There are no files ending with {accepted_types} in {path_to_dir}"
             )
 
@@ -66,7 +66,7 @@ class FileProcessing:
                 else:
                     shutil.copyfile(initial_filepath, new_path_name)
         else:
-            raise Exception(f"{destination_dir} is not a valid directory")
+            raise RuntimeError(f"{destination_dir} is not a valid directory")
 
     def batch_files(self, batch_size: int = 20) -> List[str]:
         for i in range(0, len(self.file_paths), batch_size):

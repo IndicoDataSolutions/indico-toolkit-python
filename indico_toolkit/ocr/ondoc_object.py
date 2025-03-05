@@ -73,12 +73,12 @@ class OnDoc:
         metric {str}: options are "mean" or "median"
         """
         if metric not in ("mean", "median"):
-            raise Exception(
+            raise RuntimeError(
                 f"Metric value must be either mean or median, not '{metric}'"
             )
 
         if "confidence" not in self.ondoc[0]["chars"][0].keys():
-            raise Exception(
+            raise RuntimeError(
                 "You are likely using an old SDK version, confidence is not included"
             )
 
