@@ -14,9 +14,9 @@ class Predictions:
         Returns:
         Extractions object or Classification object depending on predictions type
         """
-        if type(predictions) == list:
+        if isinstance(predictions, list):
             return Extractions(predictions)
-        elif type(predictions) == dict:
+        elif isinstance(predictions, dict):
             if "label" in predictions:
                 return Classification(predictions)
             else:
