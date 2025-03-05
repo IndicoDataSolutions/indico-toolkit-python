@@ -57,7 +57,8 @@ def test_submit_submission_review(
 @pytest.mark.skip(reason="broken on indico-client>=6.1.0")
 def test_submit_auto_review(indico_client, id_pending_scripted, model_name):
     """
-    Submit a document to a workflow, auto review the predictions, and retrieve the results
+    Submit a document to a workflow, auto review the predictions, and retrieve the
+    results
     """
     # Submit to workflow and get predictions
     wflow = Workflow(indico_client)

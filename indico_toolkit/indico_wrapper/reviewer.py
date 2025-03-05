@@ -23,7 +23,8 @@ class Reviewer(Workflow):
         Accept a submission in the review queue
         Args:
             submission_id (int): submission ID
-            changes (dict): accepted predictions with format like, e.g. {"model_name": [{"label"...}]}
+            changes (dict): accepted predictions with format like,
+                e.g. {"model_name": [{"label"...}]}
         """
         self.graphQL_request(
             SUBMIT_REVIEW,

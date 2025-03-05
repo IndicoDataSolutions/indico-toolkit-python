@@ -78,11 +78,15 @@ class CompareModels(ExtractionMetrics):
         self, metric: str = "f1Score", include_difference: bool = True
     ):
         """
-        Get a dataframe focused on one metrics, by default sorted by a column of value differences
+        Get a dataframe focused on one metrics, by default sorted by a column of value
+        differences
+
         Args:
-            metric (str, optional): possible values are 'precision', 'recall', 'f1Score', 'falsePositives',
-                                    'falseNegatives', 'truePositives'. Defaults to "f1Score".
-            include_difference (bool): include a column of the most recent model ID minus the older model ID
+            metric (str, optional): possible values are 'precision', 'recall',
+                'f1Score', 'falsePositives', 'falseNegatives', 'truePositives'.
+                Defaults to "f1Score".
+            include_difference (bool): include a column of the most recent model ID
+                minus the older model ID
         """
         metric_cols = self._get_metric_col_names(metric)
         cols_to_keep = ["field_name", *metric_cols]
@@ -100,17 +104,19 @@ class CompareModels(ExtractionMetrics):
         bar_colors: List[str] = ["salmon", "darkblue"],
     ):
         """
-        Write an html bar plot to disc. Will also open the plot automatically in your browser, where
-        you will interactive functionality and the ability to download a copy as a PNG as well.
+        Write an html bar plot to disc. Will also open the plot automatically in your
+        browser, where you will interactive functionality and the ability to download a
+        copy as a PNG as well.
 
         Args:
             output_path (str): where you want to write plot, e.g. "./myplot.html"
-            metric (str, optional): possible values are 'precision', 'recall', 'f1Score', 'falsePositives',
-                                    'falseNegatives', 'truePositives'. Defaults to "f1Score".
+            metric (str, optional): possible values are 'precision', 'recall',
+                'f1Score', 'falsePositives', 'falseNegatives', 'truePositives'.
+                Defaults to "f1Score".
             plot_title (str, optional): Title of the plot. Defaults to "".
-            bar_colors (List[str], optional): length two list with the colors for your plot, can be
-                                             css color names, rgb, or hex name .
-                                             Defaults to ["#EEE8AA", "#98FB98"].
+            bar_colors (List[str], optional): length two list with the colors for your
+                plot, can be css color names, rgb, or hex name .
+                Defaults to ["#EEE8AA", "#98FB98"].
         """
         metric_cols = self._get_metric_col_names(metric, order_descending=False)
         plotting = Plotting()

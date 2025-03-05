@@ -3,8 +3,8 @@ from typing import List
 
 class StandardOcr:
     """
-    StandardOcr is a helper class for the raw "standard" preset config OCR result. Enables easy extraction
-    of common datapoints into usable objects.
+    StandardOcr is a helper class for the raw "standard" preset config OCR result.
+    Enables easy extraction of common datapoints into usable objects.
     """
 
     def __init__(self, standardocr: dict):

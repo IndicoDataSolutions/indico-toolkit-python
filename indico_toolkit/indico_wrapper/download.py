@@ -43,7 +43,8 @@ class Download:
             dataset_id (int): Dataset ID to download from
             labelset_id (int): ID of your labelset (from teach task)
             output_dir (str): Path to directory to write PDFs
-            max_files_to_download (int): = Max number of files to download (default: None = download all)
+            max_files_to_download (int): = Max number of files to download
+                (default: None = download all)
 
         Raises:
             ToolkitInputError: Exception if invalid directory path
@@ -91,7 +92,8 @@ class Download:
         Args:
             dataset_id (int): dataset ID you're interested in
             labelset_id (int): ID of your labelset (from teach task)
-            file_info (bool, optional): Include additional file level metadata. Defaults to True.
+            file_info (bool, optional): Include additional file level metadata.
+                Defaults to True.
 
         Returns:
             pd.DataFrame: DataFrame with full document text and additional metadata
@@ -149,11 +151,13 @@ class Download:
         Args:
             dataset_id (int): ID of your dataset
             labelset_id (int): ID of your labelset (from teach task)
-            file_info (bool, optional): whether to include additional file metadata. Defaults to True.
+            file_info (bool, optional): whether to include additional file metadata.
+                Defaults to True.
             wait (bool, optional): wait for export to be created. Defaults to True.
 
         Returns:
-            Export: Description of dataset assets. See Python SDK for full object description
+            Export: Description of dataset assets. See Python SDK for full object
+                description
         """
         return self.client.call(
             CreateExport(

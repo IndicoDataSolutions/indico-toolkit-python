@@ -8,13 +8,13 @@ class AutoReviewFunction:
 
     Args:
         function (Callable): method to be invoked when applying reviews.
-        The Callable must have the following arguments in the following order:
-            predictions (List[dict]),
-            labels (List[str]),
-            **kwargs,
-
+            The Callable must have the following arguments in the following order:
+                predictions (List[dict]),
+                labels (List[str]),
+                **kwargs,
         labels (List[str]): list of labels to invoke method on. Defaults to all labels
-        kwargs (Dict[str, str]): dictionary containing additional arguments needed in calling function
+        kwargs (Dict[str, str]): dictionary containing additional arguments needed in
+            calling function
     """
 
     def __init__(

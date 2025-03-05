@@ -8,7 +8,8 @@ from .association import Association, _check_if_token_match_found, sequences_ove
 
 class ExtractedTokens(Association):
     """
-    Class to collect all extracted tokens, e.g. to enable highlighting of source document
+    Class to collect all extracted tokens, e.g. to enable highlighting of source
+    document
     """
 
     def __init__(self, predictions: Union[List[dict], Extractions]):
@@ -16,12 +17,14 @@ class ExtractedTokens(Association):
 
     def match_pred_to_token(self, pred: dict, ocr_tokens: List[dict], pred_index: int):
         """
-        Append matching token positions to self.mapped_positions, if no matches for pred, raise ValueError
+        Append matching token positions to self.mapped_positions, if no matches for
+        pred, raise ValueError
 
         Args:
             pred (dict): Indico extraction model prediction
             ocr_tokens (List[dict]): List of OCR tokens
-            pred_index (int): unique number for each prediction so that tokens can be linked to it
+            pred_index (int): unique number for each prediction so that tokens can be
+                linked to it
 
         Raises:
             ValueError: No matching token was found
@@ -49,7 +52,8 @@ class ExtractedTokens(Association):
         Collect all extracted tokens and with pred text and label added to dictionaries
         Args:
         ocr_tokens (List[dict]): Tokens from 'ondocument' OCR config output
-        raise_for_no_match (bool): raise exception if a matching token isn't found for a prediction
+        raise_for_no_match (bool): raise exception if a matching token isn't found for a
+            prediction
         """
         self._separate_manually_added_predictions()
         self._predictions = self.sort_predictions_by_start_index(self._predictions)

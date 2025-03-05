@@ -7,7 +7,8 @@ from indico_toolkit.indico_wrapper import Workflow
 @pytest.mark.skip(reason="broken on indico-client>=6.1.0")
 def test_workflow_submit_and_get_rows(indico_client, workflow_id, pdf_file):
     """
-    Submit a document to workflow, get results and ocr object, then association line items
+    Submit a document to workflow, get results and ocr object, then association line
+    items
     """
     wflow = Workflow(indico_client)
     sub_ids = wflow.submit_documents_to_workflow(

@@ -14,7 +14,8 @@ class ExampleList:
 
     def get_example(self, example_id: int) -> Example:
         """
-        Returns example with matching example_id. If no matching example id found, return None
+        Returns example with matching example_id. If no matching example id found,
+        return None.
         """
         for example in self.examples:
             if example.id == example_id:
@@ -23,8 +24,9 @@ class ExampleList:
 
     def get_example_id(self, example_data_file_name: str) -> int:
         """
-        Returns id for a specific example with the same name as example_data_file_name. If no matching example found, return None
-        Assumes no duplicate filenames in dataset
+        Returns id for a specific example with the same name as example_data_file_name.
+        If no matching example found, return None. Assumes no duplicate filenames in
+        dataset
         """
         for example in self.examples:
             if example.data_file_name == example_data_file_name:

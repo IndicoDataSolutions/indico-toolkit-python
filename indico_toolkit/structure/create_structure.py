@@ -41,7 +41,8 @@ class Structure:
         Args:
             name_of_dataset (str): Name of the created dataset
             file_path (str): Path of the file to copy.
-            read_api (bool, optional): OCR Engine used for the dataset. Defaults to True=READ_API / False=OMNIPAGE
+            read_api (bool, optional): OCR Engine used for the dataset.
+                Defaults to True=READ_API / False=OMNIPAGE
         Kwargs:
             Advanced OCR settings
         """
@@ -101,13 +102,16 @@ class Structure:
         **kwargs,
     ) -> Dataset:
         """
-        Creates a dataset w/ duplicate instances of 1 file, historically used to create a spoofed demo.
+        Creates a dataset w/ duplicate instances of 1 file, historically used to create
+        a spoofed demo.
 
         Args:
             file_path (str): Path of the file to copy.
             name_of_dataset (str): Name of the created dataset
-            times_to_copy_files (int, optional): Amount of times to copy the file. Defaults to 55.
-            read_api (bool, optional): OCR Engine used for the dataset. Defaults to True=READ_API / False=OMNIPAGE
+            times_to_copy_files (int, optional): Amount of times to copy the file.
+                Defaults to 55.
+            read_api (bool, optional): OCR Engine used for the dataset.
+                Defaults to True=READ_API / False=OMNIPAGE
         Kwargs:
             Advanced OCR settings
         """

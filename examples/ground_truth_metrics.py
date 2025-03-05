@@ -7,8 +7,9 @@ import pandas as pd
 from indico_toolkit.metrics import CompareGroundTruth
 
 """
-Example 1: GT and MODEL PREDICTIONS LISTS FOR A SINGLE DOCUMENT: Say you have the lists of prediction dictionaries for the ground truth
-and the model predictions for a single document. Get the metrics for each label as well as metrics for the overall document.
+Example 1: GT and MODEL PREDICTIONS LISTS FOR A SINGLE DOCUMENT: Say you have the lists
+of prediction dictionaries for the ground truth and the model predictions for a single
+document. Get the metrics for each label as well as metrics for the overall document.
 """
 
 # Replace with your ground truth and model prediction list of dictionaries.
@@ -57,7 +58,9 @@ print("Overall metrics:")
 print(cgt_instance.overall_metrics)
 
 """
-Example 2: MULTIPLE DOCS FROM GT SNAPSHOT & MODEL PREDS SNAPSHOT: Say you have the ground truth and the model predictions for a set of documents in snapshot form. Write to disk a merged snapshot with resulting metrics for each document.
+Example 2: MULTIPLE DOCS FROM GT SNAPSHOT & MODEL PREDS SNAPSHOT: Say you have the
+ground truth and the model predictions for a set of documents in snapshot form. Write
+to disk a merged snapshot with resulting metrics for each document.
 """
 # Add in your pathways to your ground truth and model pred snapshot csv's
 preds_df = pd.read_csv("./example_snapshot_predictions.csv")
@@ -70,7 +73,8 @@ gt_and_preds_df = pd.merge(gt_df, preds_df, on=["file_name", "file_id"])
 all_label_metrics_lst = []
 overall_label_metrics_lst = []
 
-# For each document, pull out the ground truth and predictions, instantiate the CGT class, and print out the metrics for each document
+# For each document, pull out the ground truth and predictions, instantiate the CGT
+# class, and print out the metrics for each document
 for ind in gt_and_preds_df.index:
     ground_truth = eval(gt_and_preds_df["Ground_Truth"][ind])
     preds = eval(gt_and_preds_df["Predictions"][ind])

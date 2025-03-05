@@ -31,8 +31,8 @@ class ExtractionMetrics(IndicoWrapper):
     df = metrics.get_metrics_df(span_type="exact", select_model_id=102)
     print(df.head())
 
-    # write the results to a CSV (can also optionally pass span_type/model ID here as well)
-    metrics.to_csv("./my_metrics.pdf")
+    # write the results to a CSV (can also optionally pass span_type/model ID here as
+      well) metrics.to_csv("./my_metrics.pdf")
 
     # get an interactive bar plot to visualize model improvement over time
     metrics.bar_plot("./my_bar_plot.html")
@@ -108,15 +108,16 @@ class ExtractionMetrics(IndicoWrapper):
         ids_to_exclude: List[int] = [],
     ):
         """
-        Write an html bar plot to disc to compare model IDs within a model group.
-        Will also open the plot automatically in your browser, where you will interactive
+        Write an html bar plot to disc to compare model IDs within a model group. Will
+        also open the plot automatically in your browser, where you will interactive
         functionality and the ability to download a copy as a PNG as well.
 
         Args:
             output_path (str): where you want to write plot, e.g. "./myplot.html"
             span_type (str): options include 'superset', 'exact', 'overlap' or 'token'
-            metric (str, optional): possible values are 'precision', 'recall', 'f1Score', 'falsePositives',
-                                    'falseNegatives', 'truePositives'. Defaults to "f1Score".
+            metric (str, optional): possible values are 'precision', 'recall',
+                'f1Score', 'falsePositives', 'falseNegatives', 'truePositives'.
+                Defaults to "f1Score".
             plot_title (str, optional): Title of the plot. Defaults to "".
             ids_to_exclude (List[int], optional): Model Ids to exclude from plot.
         """
@@ -157,16 +158,18 @@ class ExtractionMetrics(IndicoWrapper):
         fields_to_exclude: List[str] = [],
     ):
         """
-        Write an html line plot to disc with # of samples on x-axis, a metric on the y-axis and
-        each line representing a distinct field.
-        Will also open the plot automatically in your browser, where you will interactive
-        functionality and the ability to download a copy as a PNG as well.
+        Write an html line plot to disc with # of samples on x-axis, a metric on the
+        y-axis and each line representing a distinct field.
+
+        Will also open the plot automatically in your browser, where you will
+        interactive functionality and the ability to download a copy as a PNG as well.
 
         Args:
             output_path (str): where you want to write plot, e.g. "./myplot.html"
             span_type (str): options include 'superset', 'exact', 'overlap' or 'token'
-            metric (str, optional): possible values are 'precision', 'recall', 'f1Score', 'falsePositives',
-                                    'falseNegatives', 'truePositives'. Defaults to "f1Score".
+            metric (str, optional): possible values are 'precision', 'recall',
+                'f1Score', 'falsePositives', 'falseNegatives', 'truePositives'.
+                Defaults to "f1Score".
             plot_title (str, optional): Title of the plot. Defaults to "".
             ids_to_exclude (List[int], optional): Model Ids to exclude from plot.
             fields_to_exclude (List[str], optional): Field Names to exclude from plot.
@@ -216,15 +219,20 @@ class UnbundlingMetrics(ExtractionMetrics):
 
     um = UnbundlingMetrics(client)
     um.get_metrics(1232)
-    um.line_plot("./my_metric_plot.html", metric="recall", title="Insurance Model Recall Improvement")
-
+    um.line_plot(
+        "./my_metric_plot.html",
+        metric="recall",
+        title="Insurance Model Recall Improvement",
+    )
     """
 
     def get_metrics(self, model_group_id: int):
         """
         Collect all metrics available based on a Model Group ID for an Unbundling model
+
         Args:
-            model_group_id (int): Model Group ID that you're interestd in (available within the Explain UI)
+            model_group_id (int): Model Group ID that you're interestd in (available
+                within the Explain UI)
         """
         results = self.graphQL_request(METRIC_QUERY, {"modelGroupId": model_group_id})
         if len(results["modelGroups"]["modelGroups"]) == 0:
@@ -280,16 +288,18 @@ class UnbundlingMetrics(ExtractionMetrics):
         fields_to_exclude: List[str] = [],
     ):
         """
-        Write an html line plot to disc with # of samples on x-axis, a metric on the y-axis and
-        each line representing a distinct field.
-        Will also open the plot automatically in your browser, where you will interactive
-        functionality and the ability to download a copy as a PNG as well.
+        Write an html line plot to disc with # of samples on x-axis, a metric on the
+        y-axis and each line representing a distinct field.
+
+        Will also open the plot automatically in your browser, where you will
+        interactive functionality and the ability to download a copy as a PNG as well.
 
         Args:
             output_path (str): where you want to write plot, e.g. "./myplot.html"
             span_type (str): options include 'superset', 'exact', 'overlap' or 'token'
-            metric (str, optional): possible values are 'precision', 'recall', 'f1_score', 'false_positives',
-                                    'false_negatives', 'true_positives'. Defaults to "f1_score".
+            metric (str, optional): possible values are 'precision', 'recall',
+                'f1_score', 'false_positives', 'false_negatives', 'true_positives'.
+                Defaults to "f1_score".
             plot_title (str, optional): Title of the plot. Defaults to "".
             ids_to_exclude (List[int], optional): Model Ids to exclude from plot.
             fields_to_exclude (List[str], optional): Field Names to exclude from plot.

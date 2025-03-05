@@ -43,14 +43,17 @@ class IndicoWrapper:
         """
         Train an Indico model
         Args:
-            dataset (Dataset): A dataset object (should represent an uploaded CSV dataset)
+            dataset (Dataset): A dataset object (should represent an uploaded CSV
+                dataset)
             workflow (Workflow): A workflow object to the corresponding dataset
             model_name (str): the name for your model
             source_col (str): the csv column that contained the text
             target_col (str): the csv column that contained the labels
-            after_component_id (int, optional): The workflow component that precedes this model group. If None, will be set
-                                                programmatically to the id of the Input OCR Extraction component. Defaults to None.
-            wait (bool, optional): Wait for the model to finish training. Defaults to False.
+            after_component_id (int, optional): The workflow component that precedes
+                this model group. If None, will be set programmatically to the id of the
+                Input OCR Extraction component. Defaults to None.
+            wait (bool, optional): Wait for the model to finish training.
+                Defaults to False.
 
         Returns:
             ModelGroup: Model group object
@@ -101,8 +104,9 @@ class IndicoWrapper:
             options (dict, optional): Model Prediction options. Defaults to None.
             wait (bool, optional): Wait for predictions to finish. Defaults to True.
 
-        Returns: if wait is False, returns the job ID, else returns a list of Predictions where each
-        Predictions is either type Classifications or Extractions depending on your model.
+        Returns: if wait is False, returns the job ID, else returns a list of
+            Predictions where each Predictions is either type Classifications or
+            Extractions depending on your model.
         """
         job = self.client.call(ModelGroupPredict(model_id, samples, load, options))
         if not wait:

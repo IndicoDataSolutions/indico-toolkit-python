@@ -4,14 +4,15 @@ from typing import List
 
 class OnDoc:
     """
-    OnDoc is a helper class for the raw "ondocument" preset confid OCR result. Enables easy extraction
-    of common datapoints into usable objects. "ondocument" is the default extraction config on the
-    Indico platform.
+    OnDoc is a helper class for the raw "ondocument" preset confid OCR result. Enables
+    easy extraction of common datapoints into usable objects. "ondocument" is the
+    default extraction config on the Indico platform.
     """
 
     def __init__(self, ondoc: List[dict]):
         """
-        ondoc {List[dict]}: ondocument result object from indico.queries.DocumentExtraction
+        ondoc {List[dict]}: ondocument result object from
+        indico.queries.DocumentExtraction
         """
         self.ondoc = ondoc
 

@@ -12,8 +12,8 @@ API_TOKEN_PATH = "./indico_api_token.txt"
 client = create_client(HOST, API_TOKEN_PATH)
 
 """
-Example 1: Explore and compare performance for all models in a Model Group to, for example, see improvement
-over time.
+Example 1: Explore and compare performance for all models in a Model Group to, for
+example, see improvement over time.
 """
 metrics = ExtractionMetrics(client)
 metrics.get_metrics(MODEL_GROUP_ID)

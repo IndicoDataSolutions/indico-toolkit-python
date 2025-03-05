@@ -20,7 +20,8 @@ class DocExtraction(IndicoWrapper):
     ):
         """
         Args:
-            preset_config (str): Options are simple, legacy, detailed, ondocument, and standard.
+            preset_config (str): Options are simple, legacy, detailed, ondocument, and
+                standard.
         """
         self._preset_config = preset_config
         self.client = client
@@ -33,11 +34,13 @@ class DocExtraction(IndicoWrapper):
     ) -> List[Union[StandardOcr, OnDoc, CustomOcr, str]]:
         """
         Args:
-            filepaths (List[str]): List of paths to local documents you would like to submit for extraction
+            filepaths (List[str]): List of paths to local documents you would like to
+                submit for extraction
             text_setting (str): Options are full_text and page_texts.
 
         Returns:
-            extracted_data (List[Union[StandardOcr, OnDoc, CustomOcr, str]]): data from DocumentExtraction converted to OCR objects or string text
+            extracted_data (List[Union[StandardOcr, OnDoc, CustomOcr, str]]): data from
+                DocumentExtraction converted to OCR objects or string text
         """
         jobs = self._submit_to_ocr(filepaths)
         extracted_data = []

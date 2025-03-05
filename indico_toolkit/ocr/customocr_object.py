@@ -3,13 +3,14 @@ from typing import List, Union
 
 class CustomOcr:
     """
-    CustomOcr is a helper class for the raw preset config OCR results. Enables easy extraction
-    of full text and page-level text.
+    CustomOcr is a helper class for the raw preset config OCR results. Enables easy
+    extraction of full text and page-level text.
     """
 
     def __init__(self, customocr: Union[List[dict], dict]):
         """
-        customocr Union[List[dict], dict]: result object from indico.queries.DocumentExtraction
+        customocr Union[List[dict], dict]: result object from
+        indico.queries.DocumentExtraction
         """
         self.customocr = customocr
 

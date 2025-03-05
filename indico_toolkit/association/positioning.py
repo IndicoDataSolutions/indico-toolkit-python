@@ -8,8 +8,8 @@ class Positioning:
     """
     Class to help identify relative positions in a document using bounding box data.
 
-    Positions are expected to contain, at a minimum, the following top-level keys: "bbTop", "bbBot",
-    "bbLeft", "bbRight", "page_num".
+    Positions are expected to contain, at a minimum, the following top-level
+    keys: "bbTop", "bbBot", "bbLeft", "bbRight", "page_num".
     """
 
     def __init__(self):
@@ -23,7 +23,8 @@ class Positioning:
         Args:
             above_pos (dict): the position expected to be above
             below_pos (dict): to position expected to be below
-            must_be_same_page (bool, optional): required to be on same page. Defaults to True.
+            must_be_same_page (bool, optional): required to be on same page. Defaults to
+                True.
 
         Returns:
             bool: True if above_pos is above below_pos
@@ -47,14 +48,18 @@ class Positioning:
         self, above_pos: dict, below_pos: dict, min_overlap_percent: float = None
     ) -> bool:
         """
-        Check if the location of one box is on the same page and above another and if the lower box's overlap is at least the given percentage.
+        Check if the location of one box is on the same page and above another and if
+        the lower box's overlap is at least the given percentage.
+
         Args:
             above_pos (dict): the position expected to be above
             below_pos (dict): the position expected to be below
-            min_overlap_percent (float, optional): the minimum amount of overlap needed. Defaults to None.
+            min_overlap_percent (float, optional): the minimum amount of overlap needed.
+                Defaults to None.
 
         Returns:
-            bool: True if above_pos is above below_pos and below_pos' amount of overlap is at least min_overlap_percent
+            bool: True if above_pos is above below_pos and below_pos' amount of overlap
+                is at least min_overlap_percent
         """
         is_above = False
         is_min_overlap = True
@@ -77,7 +82,8 @@ class Positioning:
         Args:
             pos1 (dict): first position
             pos2 (dict): second position
-            must_be_same_page (bool, optional): required to be on same page. Defaults to True.
+            must_be_same_page (bool, optional): required to be on same page. Defaults to
+            True.
 
         Returns:
             bool: True if positions on same level, else False
@@ -94,11 +100,13 @@ class Positioning:
         self, pos1: dict, pos2: dict, page_height: int = None
     ) -> float:
         """
-        Get the minimum distance between any two corners of two bounding boxes via the pythagorean formula.
+        Get the minimum distance between any two corners of two bounding boxes via the
+        pythagorean formula.
+
         Args:
-            page_height (int, optional): If you want to measure distances across pages, set the OCR page height
-                                         otherwise locations on separate pages will raise an exception.
-                                         Defaults to None.
+            page_height (int, optional): If you want to measure distances across pages,
+                set the OCR page height otherwise locations on separate pages will raise
+                an exception. Defaults to None.
 
         Returns:
             float: minimum distance
@@ -181,7 +189,9 @@ class Positioning:
                     page_num: int
                 }
             ocr_tokens (List[dict]): on-doc OCR token output from raw or OnDoc class
-            include_overlap (bool, optional): Determines whether to include tokens partially inside bbox. Defaults to False.
+            include_overlap (bool, optional): Determines whether to include tokens
+                partially inside bbox. Defaults to False.
+
         Returns:
             List[dict]: list of OCR tokens that fall within the specified bounding box
         """
@@ -215,12 +225,13 @@ class Positioning:
     ) -> float:
         """
         Get the vertical minimum distance between two bounding boxes
+
         Args:
             above_pos (dict): the position expected to be above
             below_pos (dict): to position expected to be below
-            page_height (int, optional): If you want to measure distances across pages, set the OCR page height
-                                         otherwise locations on separate pages will raise an exception.
-                                         Defaults to None.
+            page_height (int, optional): If you want to measure distances across pages,
+                set the OCR page height otherwise locations on separate pages will raise
+                an exception. Defaults to None.
 
         Returns:
             float: minimum distance
@@ -244,6 +255,7 @@ class Positioning:
     def get_horizontal_min_distance(pos1: dict, pos2: dict) -> float:
         """
         Get the horizontal minimum distance between two bounding boxes
+
         Returns:
             float: minimum distance
         """

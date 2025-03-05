@@ -48,7 +48,8 @@ class ModelOp:
         or the most recent model if `model_id` is not specified.
         Args:
             model_group_id (int): id of model group
-            model_id (int, optional): argument to return a specific model within a model group
+            model_id (int, optional): argument to return a specific model within a model
+                group
         """
         all_model_options = self.get_all_model_options(model_group_id)
 
@@ -130,17 +131,21 @@ class ModelOp:
              model_type (str): type of model ("text_extraction", "text_classification")
              **kwargs: Advanced Model Training Options
 
-            Default values of Advanced Model Training Options and the avaiable parameters:
+            Default values of Advanced Model Training Options and avaiable parameters:
                     For Text Extraction Model:
-                        max_empty_chunk_ratio : 1.0 (min of 0, no max value: a large number effectivly turns this option off)
+                        max_empty_chunk_ratio : 1.0 (min of 0, no max value: a large
+                            number effectivly turns this option off)
                         auto_negative_scaling : True
-                        optimize_for : "predict_speed" ( "predict_speed", "accuracy", "speed", "accuracy_fp16" and "predict_speed_fp16")
+                        optimize_for : "predict_speed" ( "predict_speed", "accuracy",
+                            "speed", "accuracy_fp16" and "predict_speed_fp16")
                         subtoken_predictions : True
-                        base_model : "roberta" ("roberta", "small" (distilled version of RoBERTa), "multilingual", "fast", "textcnn", "fasttextcnn")
+                        base_model : "roberta" ("roberta", "small" (distilled version of
+                            RoBERTa), "multilingual", "fast", "textcnn", "fasttextcnn")
                         class_weight : "sqrt" ("linear", "sqrt", "log", None)
 
                     For Text Classification Model:
-                        model_type : "standard" (“tfidf_lr”, “tfidf_gbt”, “standard”, “finetune”)
+                        model_type : "standard" ("tfidf_lr", "tfidf_gbt", "standard",
+                            "finetune")
         Returns:
             dict: Dictionary of advanced model training options
         """

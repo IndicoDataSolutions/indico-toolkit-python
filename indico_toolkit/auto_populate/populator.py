@@ -65,11 +65,11 @@ class AutoPopulator:
     ) -> Workflow:
         """
         Label and train a model based on a directory structure or existing teach task.
-        You should have a base directory containing sub directories where each directory contains
-        a unique file type and only that file type.
+        You should have a base directory containing sub directories where each
+        directory contains a unique file type and only that file type.
 
         Example:
-            base_directory/ -> Instantiate with the page to 'base_directory' as your 'directory_path'
+            base_directory/
             base_directory/invoices/ -> folder containing only invoices
             base_directory/disclosures/ -> folder containing only disclosures
             etc. etc.
@@ -78,7 +78,7 @@ class AutoPopulator:
             dataset_name (str): Name of created dataset
             worlflow_name (str): Name of created workflow
             teach_task_name (str): Name of created teach task
-            accepted_types (Tuple[str], optional): List of accepted file types to search use
+            accepted_types (Tuple[str], optional): List of accepted file types to search
         Returns:
             Workflow: a Workflow object representation of the newly created workflow
         """
@@ -145,14 +145,20 @@ class AutoPopulator:
     ) -> Workflow:
         """
         Create duplicate teach task in same Indico platform.
+
         Note: Does not work with datasets created with a snapshot
+
         Args:
             dataset_id (int): The dataset id of the dataset you wish to copy
-            teach_task_id (int): The teach task id of the corresponding teach task to the dataset
+            teach_task_id (int): The teach task id of the corresponding teach task to
+                the dataset
             workflow_name (string): The name of the newly created workflow
-            data_column_id (str, optional): The datacolumn id of the corresponding dataset. Defaults to 'document'
-            rename_labels (dict, optional): Dictionary in format {old_label_name : new_label_name}
+            data_column_id (str, optional): The datacolumn id of the corresponding
+                dataset. Defaults to 'document'
+            rename_labels (dict, optional): Dictionary in format
+                {old_label_name : new_label_name}
             remove_labels (list, optional): List of labels to remove from old teach task
+
         Returns:
             Workflow: a Workflow object representation of the newly created workflow
         """
@@ -240,7 +246,8 @@ class AutoPopulator:
             workflow_id (int): Id of the workflow you wish to add labels to
             teach_task_id (int): Id of the corresponding teach task to the workflow
             file_to_targets (dict): mapping of filenames to target label data
-            rename_labels (dict, optional): Dictionary in format {old_label_name : new_label_name}
+            rename_labels (dict, optional): Dictionary in format
+                {old_label_name : new_label_name}
             remove_labels (list, optional): List of labels to remove from old teach task
         """
         (
@@ -277,8 +284,10 @@ class AutoPopulator:
             model_group_id (int): ID of the model group to be labeled
             file_to_targets (dict): mapping in the format {filename : targets_list}
             target_name_map (dict): mapping of field name to corresponding target ID
-            rename_labels (dict, optional): Dictionary in format {old_label_name : new_label_name}
+            rename_labels (dict, optional): Dictionary in format
+                {old_label_name : new_label_name}
             remove_labels (list, optional): List of labels to remove from old teach task
+
         Returns:
             A list of LabelInput to be ingested by the platform via submitLabelsV2
         """

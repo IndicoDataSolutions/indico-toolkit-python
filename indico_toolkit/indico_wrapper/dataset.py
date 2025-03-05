@@ -34,7 +34,9 @@ class Datasets(IndicoWrapper):
 
     def add_new_files_to_task(self, workflow_id: id, wait: bool = True) -> Workflow:
         """
-        Add newly uploaded documents to an existing teach task given the task's associated workflow ID
+        Add newly uploaded documents to an existing teach task given the task's
+        associated workflow ID
+
         Args:
             workflow_id (id): workflow ID associated with teach task
             wait (bool, optional): wait for data to be added. Defaults to True.
@@ -54,7 +56,8 @@ class Datasets(IndicoWrapper):
         Create an empty dataset
         Args:
             name (str): Name of the dataset
-            dataset_type (str, optional): TEXT, IMAGE, or DOCUMENT. Defaults to "DOCUMENT".
+            dataset_type (str, optional): TEXT, IMAGE, or DOCUMENT.
+                Defaults to "DOCUMENT".
         """
         return self.client.call(
             CreateEmptyDataset(dataset_name, dataset_type, ocr_engine)
@@ -84,7 +87,8 @@ class Datasets(IndicoWrapper):
 
     def get_dataset_metadata(self, dataset_id: int) -> List[dict]:
         """
-        Get list of dataset files with information like file name, status, and number of pages
+        Get list of dataset files with information like file name, status, and number of
+        pages
         """
         query = """
             query GetDataset($id: Int) {

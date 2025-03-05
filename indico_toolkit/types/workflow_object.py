@@ -11,7 +11,8 @@ class WorkflowResult:
 
         Args:
             result (dict): raw workflow result object
-            model_name (str, optional): Extraction/Classification model name . Defaults to None.
+            model_name (str, optional): Extraction/Classification model name.
+                Defaults to None.
         """
         self.result = result
         self.model_name = model_name

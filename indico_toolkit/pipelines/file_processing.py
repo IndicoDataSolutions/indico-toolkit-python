@@ -25,9 +25,11 @@ class FileProcessing:
     ):
         """
         Recursively find all file in specified types within a target directory
+
         Args:
             path_to_dir (str): root directory containing files
-            accepted_types (Tuple[str], optional): Valid extensions types to process . Defaults to ("pdf", "tiff", "tif", "doc", "docx").
+            accepted_types (Tuple[str], optional): Valid extensions types to process.
+                Defaults to ("pdf", "tiff", "tif", "doc", "docx").
             recursive_search (bool): search sub directories as well. Defaults to False.
 
         Raises:
@@ -77,7 +79,8 @@ class FileProcessing:
         """
         Removes files from self.file_paths if they are part of provided file iterable
         Args:
-            processed_files (Iterable[str]): iterable of file names, NOT full paths, e.g. ["invoice.pdf",]
+            processed_files (Iterable[str]): iterable of file names, NOT full paths,
+                e.g. ["invoice.pdf",]
         """
         unprocessed_filepaths = []
         for filepath in self.file_paths:

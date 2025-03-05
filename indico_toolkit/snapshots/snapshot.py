@@ -29,9 +29,12 @@ class Snapshot:
 
         Args:
             path_to_snapshot (str): path to Snapshot CSV
-            text_col (str, optional): Column with text, will be inferred if not provided. Defaults to None.
-            label_col (str, optional): Column with labels, will be inferred if not provided. Defaults to None.
-            file_name_col (str, optional): Column with file names, will be inferred if not provided. Defaults to None.
+            text_col (str, optional): Column with text, will be inferred if not
+                provided. Defaults to None.
+            label_col (str, optional): Column with labels, will be inferred if not
+                provided. Defaults to None.
+            file_name_col (str, optional): Column with file names, will be inferred if
+                not provided. Defaults to None.
         """
         if not _PANDAS_INSTALLED:
             raise RuntimeError(
@@ -97,7 +100,8 @@ class Snapshot:
 
     def drop_unneeded_columns(self, columns_to_drop: List[str] = None):
         """
-        Keep only text, labels, and file name columns or specify columns to drop by passing them in as a list.
+        Keep only text, labels, and file name columns or specify columns to drop by
+        passing them in as a list.
         """
         if columns_to_drop:
             self.df.drop(labels=columns_to_drop, axis=1, inplace=True)
@@ -106,7 +110,9 @@ class Snapshot:
 
     def append(self, snap_to_add: "Snapshot"):
         """
-        Append the rows from another Snapshot to this snapshot. Ensure column names are standardized beforehand.
+        Append the rows from another Snapshot to this snapshot. Ensure column names are
+        standardized beforehand.
+
         Args:
             snap_to_add (Snapshot): Snapshot to add
         """
@@ -130,12 +136,13 @@ class Snapshot:
         ensure_identical_text: bool = True,
     ):
         """
-        Merge extraction labels for identical files. Merge is 'left' and file names / rows only present
-        in 'snap_to_merge' are excluded.
+        Merge extraction labels for identical files. Merge is 'left' and file names /
+        rows only present in 'snap_to_merge' are excluded.
+
         Args:
             snap_to_merge (Snapshot): Snapshot you want to merge
-            ensure_identical_text (bool, optional): Require document text to be identical for common file name.
-                                                    Defaults to True.
+            ensure_identical_text (bool, optional): Require document text to be
+                identical for common file name. Defaults to True.
         """
         self._assert_key_column_names_match(snap_to_merge)
         suffix = "_to_merge"
@@ -188,8 +195,8 @@ class Snapshot:
         Get all of the text that was tagged for a given label
         Args:
             label_name (str): name of the label
-            return_per_document (bool, optional): return a list per document or one list with everything.
-                                                  Defaults to False.
+            return_per_document (bool, optional): return a list per document or one list
+                with everything. Defaults to False.
         """
         available_labels = self.get_extraction_label_names()
         if label_name not in available_labels:
@@ -213,13 +220,15 @@ class Snapshot:
         self, output_dir: str, num_splits: int = 5, output_base_name: str = "split_num"
     ) -> None:
         """
-        For large files that may face memory constraints, split the file into multiple CSVs and write
-        to disk.
+        For large files that may face memory constraints, split the file into multiple
+        CSVs and write to disk.
+
         Args:
             output_dir (str): Location where split files will be written.
             num_splits (int, optional): The number of splits of the CSV. Defaults to 5.
-            output_base_name (str, optional): The base name of the split CSVs: Defaults to "split_num".
-                                              So files would be "split_num_1.csv", "split_num_2.csv", etc.
+            output_base_name (str, optional): The base name of the split CSVs:
+                Defaults to "split_num". So files would be "split_num_1.csv",
+                "split_num_2.csv", etc.
         """
         split_length = self.number_of_samples // num_splits
         rows_taken = 0
@@ -237,9 +246,10 @@ class Snapshot:
         """
         Modifies label column to updated format with spans.
         Args:
-            task_type (str): Task type to specifiy df as (annotation = extraction, classification = classification)
+            task_type (str): Task type to specifiy df as
+                (annotation = extraction, classification = classification)
 
-        NOTE: page_num in the span is currently set to None.
+        Note: page_num in the span is currently set to None.
         """
         updated_column = []
         for label_set in self.df[self.label_col]:

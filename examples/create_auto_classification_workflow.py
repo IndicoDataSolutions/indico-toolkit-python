@@ -2,9 +2,8 @@ from indico_toolkit import create_client
 from indico_toolkit.auto_populate import AutoPopulator
 
 """
-Create an Indico Classification Workflow without any labeling 
-using an organized directory/folder structure. Each folder/directory should contain only one file 
-type.
+Create an Indico Classification Workflow without any labeling using an organized
+directory/folder structure. Each folder/directory should contain only one file type.
 
 For example, you would target '/base_directory/' if you had your files organized like:
 
