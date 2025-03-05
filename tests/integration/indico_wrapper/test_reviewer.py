@@ -1,5 +1,4 @@
 import pytest
-from indico.queries import GetSubmission
 
 from indico_toolkit.indico_wrapper import Reviewer, Workflow
 

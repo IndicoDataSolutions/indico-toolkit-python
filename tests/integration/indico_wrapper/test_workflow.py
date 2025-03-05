@@ -1,10 +1,9 @@
 import pytest
-from indico import IndicoClient
-from indico.types import Job, Submission
+from indico.types import Submission
 
 from indico_toolkit.indico_wrapper import Workflow
 from indico_toolkit.ocr import OnDoc
-from indico_toolkit.types import Predictions, WorkflowResult
+from indico_toolkit.types import WorkflowResult
 from indico_toolkit.types.extractions import Extractions
 
 

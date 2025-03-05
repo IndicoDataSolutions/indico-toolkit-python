@@ -6,7 +6,6 @@ import pytest
 from indico_toolkit.types import (
     Classification,
     Extractions,
-    Predictions,
     WorkflowResult,
 )
 

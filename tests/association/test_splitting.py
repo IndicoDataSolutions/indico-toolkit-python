@@ -1,5 +1,3 @@
-import pytest
-
 from indico_toolkit.association import split_prediction
 
 

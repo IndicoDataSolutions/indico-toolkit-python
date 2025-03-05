@@ -1,5 +1,4 @@
 import json
-import string
 from typing import Iterator
 
 from indico import IndicoClient

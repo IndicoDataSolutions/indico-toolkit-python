@@ -2,8 +2,6 @@
 Test Model Ops class methods
 """
 
-import json
-
 import pytest
 
 from indico_toolkit.indico_wrapper.modelop import ModelOp

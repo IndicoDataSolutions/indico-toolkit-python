@@ -1,8 +1,7 @@
 import json
 import os
 import shutil
-import tempfile
-from os.path import isdir, isfile
+from os.path import isfile
 from pathlib import Path
 from typing import Iterable, List, Tuple, Union
 

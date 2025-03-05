@@ -2,7 +2,7 @@
 
 from collections import defaultdict
 from copy import deepcopy
-from typing import Dict, Iterable, List, Union
+from typing import Iterable, List, Union
 
 from ..types import Extractions
 from .association import Association, _check_if_token_match_found, sequences_overlap

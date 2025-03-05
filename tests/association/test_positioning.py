@@ -3,7 +3,7 @@ import os
 
 import pytest
 
-from indico_toolkit.association import Positioning, positioning
+from indico_toolkit.association import Positioning
 from indico_toolkit.errors import ToolkitInputError
 
 

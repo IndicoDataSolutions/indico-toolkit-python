@@ -1,9 +1,8 @@
 import io
-import time
 from os import PathLike
 from typing import Dict, List, Union
 
-from indico import IndicoClient, IndicoRequestError
+from indico import IndicoClient
 from indico.queries import (
     GetSubmission,
     GetWorkflow,

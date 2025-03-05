@@ -12,7 +12,6 @@ from indico.queries import (
 )
 from indico.types import Dataset, ModelGroup, Workflow
 
-from ..errors import ToolkitInputError
 from ..retry import retry
 from ..types import Predictions
 

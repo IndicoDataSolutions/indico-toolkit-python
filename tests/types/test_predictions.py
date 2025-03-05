@@ -1,5 +1,4 @@
 import pytest
-from _pytest.python import Class
 
 from indico_toolkit.errors import ToolkitInputError
 from indico_toolkit.types import (
@@ -8,7 +7,6 @@ from indico_toolkit.types import (
     Extractions,
     Predictions,
 )
-from tests.types.conftest import extractions_obj
 
 
 def test_bad_type():
