@@ -37,4 +37,4 @@ def test_create_delete_dataset(dataset_wrapper, pdf_file):
     )
     assert isinstance(dataset, Dataset)
     status = dataset_wrapper.delete_dataset(dataset.id)
-    assert status == True
+    assert status

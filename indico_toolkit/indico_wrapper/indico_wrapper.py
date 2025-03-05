@@ -104,7 +104,7 @@ class IndicoWrapper:
         Predictions is either type Classifications or Extractions depending on your model.
         """
         job = self.client.call(ModelGroupPredict(model_id, samples, load, options))
-        if wait == False:
+        if not wait:
             return job.id
         status = self.get_job_status(job.id, wait=True)
         if status.status != "SUCCESS":

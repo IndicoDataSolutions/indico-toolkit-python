@@ -189,7 +189,7 @@ class Positioning:
             raise ToolkitInputError(
                 "Token list argument is missing required key(s): page_num and/or position"
             )
-        if include_overlap == True:
+        if include_overlap:
             return [
                 token
                 for token in ocr_tokens

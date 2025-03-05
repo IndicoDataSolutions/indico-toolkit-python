@@ -195,10 +195,9 @@ def test_positioned_on_same_level(input, expected):
 
 def test_positioned_on_same_level_must_be_same_page():
     position = Positioning()
-    output = position.positioned_on_same_level(
+    assert not position.positioned_on_same_level(
         generate_mapped_pred(), generate_mapped_pred(page_num=1)
     )
-    assert output == False
 
 
 @pytest.mark.parametrize(

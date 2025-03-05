@@ -215,7 +215,7 @@ class AutoPopulator:
             labels=[dataclasses.asdict(label) for label in labels],
             model_group_id=new_model_group_id,
         )
-        if result["submitLabelsV2"]["success"] == False:
+        if not result["submitLabelsV2"]["success"]:
             raise ToolkitPopulationError("Error: Failed to submit labels")
         return workflow
 
@@ -256,7 +256,7 @@ class AutoPopulator:
             labels=[dataclasses.asdict(label) for label in labels],
             model_group_id=model_group_id,
         )
-        if result["submitLabelsV2"]["success"] == False:
+        if not result["submitLabelsV2"]["success"]:
             raise ToolkitPopulationError("Error: Failed to submit labels")
 
     def get_labels_by_filename(

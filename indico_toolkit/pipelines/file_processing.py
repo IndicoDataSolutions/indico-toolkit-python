@@ -61,7 +61,7 @@ class FileProcessing:
                 initial_filepath = Path(file)
                 file_to_be_moved = initial_filepath.name
                 new_path_name = destination_dir / file_to_be_moved
-                if copy_files == False:
+                if not copy_files:
                     initial_filepath.rename(new_path_name)
                 else:
                     shutil.copyfile(initial_filepath, new_path_name)
