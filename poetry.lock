@@ -709,22 +709,6 @@ files = [
 test = ["pytest (>=6)"]
 
 [[package]]
-name = "faker"
-version = "13.16.0"
-description = "Faker is a Python package that generates fake data for you."
-optional = false
-python-versions = ">=3.6"
-groups = ["main"]
-markers = "python_version <= \"3.11\" or python_version >= \"3.12\""
-files = [
-    {file = "Faker-13.16.0-py3-none-any.whl", hash = "sha256:920f94d5aa865fd922bc29f2cf75c75b4d86b30eec23e7174d7513241b759b05"},
-    {file = "Faker-13.16.0.tar.gz", hash = "sha256:25c5be99bc5fd8676eea8c1490e0de87f6d9734651c7af2cefc99b322b2936f4"},
-]
-
-[package.dependencies]
-python-dateutil = ">=2.4"
-
-[[package]]
 name = "frozenlist"
 version = "1.5.0"
 description = "A list-like structure which implements collections.abc.MutableSequence"
@@ -2116,4 +2100,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9"
-content-hash = "62785f6c3eaeddaa01fd17dff7ea739c8d92d899a06529f8f8ca025e38cb8f5a"
+content-hash = "93b9070df6e7a943bb65317eeb2d165711d22c4d1b42c373b5d7c4f67c79458f"
