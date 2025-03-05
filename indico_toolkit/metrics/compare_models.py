@@ -134,7 +134,7 @@ class CompareModels(ExtractionMetrics):
         Args:
             output_path (str): path to write CSV on your system, e.g. "./my_metrics.csv"
         """
-        df.to_csv(output_path, index=False)
+        self.df.to_csv(output_path, index=False)
 
     def get_data_df(self):
         raise NotImplementedError(
