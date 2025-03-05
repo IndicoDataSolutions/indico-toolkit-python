@@ -1329,10 +1329,10 @@ type = ["mypy (>=1.11.2)"]
 name = "plotly"
 version = "5.24.1"
 description = "An open-source, interactive data visualization library for Python"
-optional = false
+optional = true
 python-versions = ">=3.8"
 groups = ["main"]
-markers = "python_version <= \"3.11\" or python_version >= \"3.12\""
+markers = "python_version <= \"3.11\" and extra == \"metrics\" or python_version >= \"3.12\" and extra == \"metrics\""
 files = [
     {file = "plotly-5.24.1-py3-none-any.whl", hash = "sha256:f67073a1e637eb0dc3e46324d9d51e2fe76e9727c892dde64ddf1e1b51f29089"},
     {file = "plotly-5.24.1.tar.gz", hash = "sha256:dbc8ac8339d248a4bcc36e08a5659bacfe1b079390b8953533f4eb22169b4bae"},
@@ -1860,10 +1860,10 @@ files = [
 name = "tenacity"
 version = "9.0.0"
 description = "Retry code until it succeeds"
-optional = false
+optional = true
 python-versions = ">=3.8"
 groups = ["main"]
-markers = "python_version <= \"3.11\" or python_version >= \"3.12\""
+markers = "python_version <= \"3.11\" and extra == \"metrics\" or python_version >= \"3.12\" and extra == \"metrics\""
 files = [
     {file = "tenacity-9.0.0-py3-none-any.whl", hash = "sha256:93de0c98785b27fcf659856aa9f54bfbd399e29969b0621bc7f762bd441b4539"},
     {file = "tenacity-9.0.0.tar.gz", hash = "sha256:807f37ca97d62aa361264d497b0e31e92b8027044942bfa756160d908320d73b"},
@@ -2099,8 +2099,9 @@ propcache = ">=0.2.0"
 
 [extras]
 downloads = ["tqdm"]
+metrics = ["plotly"]
 
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9"
-content-hash = "0a2859376f97aad5f857d5c9cdc76a97299dd7bac8388c9cfc064b89ae69f873"
+content-hash = "06c0aca116eb25802b0278a7bd070121a4d9a4317b369b891aa378fc5a01e74c"

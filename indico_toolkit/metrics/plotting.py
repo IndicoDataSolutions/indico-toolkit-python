@@ -1,10 +1,22 @@
-import plotly as py
-import plotly.graph_objects as go
 from typing import Iterable, Union
+
+try:
+    import plotly as py
+    import plotly.graph_objects as go
+    _PLOTLY_INSTALLED = True
+except ImportError as error:
+    _PLOTLY_INSTALLED = False
+    _IMPORT_ERROR = error
 
 
 class Plotting:
     def __init__(self):
+        if not _PLOTLY_INSTALLED:
+            raise RuntimeError(
+                "plotting metrics requires additional dependencies: "
+                "`pip install indico-toolkit[metrics]`"
+            ) from _IMPORT_ERROR
+
         self._plot_data = []
         self.layout = go.Layout()
 
