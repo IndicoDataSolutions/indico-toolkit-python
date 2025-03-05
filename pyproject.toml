@@ -64,10 +64,6 @@ show_error_codes = true
 warn_unreachable = true
 disallow_any_unimported = true
 
-[[tool.mypy.overrides]]
-module = "indico.*"
-ignore_missing_imports = true
-
 [tool.pytest.ini_options]
 asyncio_mode="auto"
 asyncio_default_fixture_loop_scope="function"
