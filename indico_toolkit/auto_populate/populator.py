@@ -11,7 +11,6 @@ from indico.queries import (
     DownloadExport,
     GetDataset,
     GetModelGroup,
-    GetWorkflow,
 )
 from indico.types import Workflow
 
@@ -243,7 +242,6 @@ class AutoPopulator:
             rename_labels (dict, optional): Dictionary in format {old_label_name : new_label_name}
             remove_labels (list, optional): List of labels to remove from old teach task
         """
-        workflow = GetWorkflow(workflow_id)
         (
             labelset_id,
             model_group_id,

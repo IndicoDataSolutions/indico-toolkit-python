@@ -60,7 +60,7 @@ class CompareModels(ExtractionMetrics):
         """
         dfs = []
         for model in self.models:
-            metrics = self.get_metrics(model.group_id)
+            self.get_metrics(model.group_id)
             df = self.get_metrics_df(span_type, model.id)
             df.drop("model_id", axis=1, inplace=True)
             dfs.append(df)
