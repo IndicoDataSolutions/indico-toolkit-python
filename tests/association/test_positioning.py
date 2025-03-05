@@ -1,6 +1,8 @@
-import pytest
 import json
 import os
+
+import pytest
+
 from indico_toolkit.association import Positioning, positioning
 from indico_toolkit.errors import ToolkitInputError
 
@@ -22,15 +24,16 @@ def generate_mapped_pred(
         "page_num": page_num,
     }
 
+
 FILE_PATH = os.path.dirname(os.path.abspath(__file__))
+
 
 @pytest.fixture(scope="function")
 def bbox_token_page():
-    with open(os.path.join(FILE_PATH, "data/token_page/tokens.json"),
-    "r",
-    ) as f:
+    with open(os.path.join(FILE_PATH, "data/token_page/tokens.json"), "r") as f:
         tokens = json.load(f)
     return tokens
+
 
 @pytest.mark.parametrize(
     "input, expected",
@@ -102,22 +105,32 @@ def test_positioned_above_same_page_false(input, expected):
     is_above = positioning.positioned_above(input[0], input[1], must_be_same_page=False)
     assert is_above == expected
 
+
 @pytest.mark.parametrize(
     "input, expected",
     [
         ((generate_mapped_pred(), generate_mapped_pred(11, 20, 10, 20)), False),
         ((generate_mapped_pred(), generate_mapped_pred(-5, 5, 1, 9)), False),
         ((generate_mapped_pred(), generate_mapped_pred(11, 20, 6, 15)), False),
-        ((generate_mapped_pred(0, 10, 10, 20), generate_mapped_pred(11, 20, 4, 15)), False),
+        (
+            (generate_mapped_pred(0, 10, 10, 20), generate_mapped_pred(11, 20, 4, 15)),
+            False,
+        ),
         ((generate_mapped_pred(), generate_mapped_pred(11, 20, 1, 9)), True),
         ((generate_mapped_pred(), generate_mapped_pred(11, 20, 4, 15)), True),
-        ((generate_mapped_pred(0, 10, 10, 20), generate_mapped_pred(11, 20, 5, 15)), True),
-    ]
+        (
+            (generate_mapped_pred(0, 10, 10, 20), generate_mapped_pred(11, 20, 5, 15)),
+            True,
+        ),
+    ],
 )
 def test_positioned_above_overlap_same_page_true(input, expected):
     position = Positioning()
-    output = position.positioned_above_overlap(input[0], input[1], min_overlap_percent=.5)
+    output = position.positioned_above_overlap(
+        input[0], input[1], min_overlap_percent=0.5
+    )
     assert output == expected
+
 
 def test_positioned_above_overlap_same_page_false():
     position = Positioning()
@@ -125,14 +138,19 @@ def test_positioned_above_overlap_same_page_false():
         position.positioned_above_overlap(
             generate_mapped_pred(page_num=1),
             generate_mapped_pred(),
-            min_overlap_percent=.5
+            min_overlap_percent=0.5,
         )
+
+
 @pytest.mark.parametrize(
     "input, expected",
     [
         ((generate_mapped_pred(), generate_mapped_pred(-5, 5, 1, 9)), False),
-        ((generate_mapped_pred(0, 10, 10, 20), generate_mapped_pred(11, 20, 4, 15)), True),
-    ]
+        (
+            (generate_mapped_pred(0, 10, 10, 20), generate_mapped_pred(11, 20, 4, 15)),
+            True,
+        ),
+    ],
 )
 def test_positioned_above_overlap_min_overlap_percent_none(input, expected):
     position = Positioning()
@@ -182,6 +200,7 @@ def test_positioned_on_same_level_must_be_same_page():
     )
     assert output == False
 
+
 @pytest.mark.parametrize(
     "input, expected",
     [
@@ -229,8 +248,14 @@ def test_get_horizontal_overlap_different_pages():
 @pytest.mark.parametrize(
     "input, expected",
     [
-        ((generate_mapped_pred(0, 10, 0, 10), generate_mapped_pred(10, 20, 20, 40)), 0.0),
-        ((generate_mapped_pred(0, 10, 10, 20), generate_mapped_pred(10, 20, 0, 10)), 0.0),
+        (
+            (generate_mapped_pred(0, 10, 0, 10), generate_mapped_pred(10, 20, 20, 40)),
+            0.0,
+        ),
+        (
+            (generate_mapped_pred(0, 10, 10, 20), generate_mapped_pred(10, 20, 0, 10)),
+            0.0,
+        ),
         ((generate_mapped_pred(0, 10, 0, 10), generate_mapped_pred(10, 20, 0, 5)), 1.0),
         ((generate_mapped_pred(0, 10, 0, 5), generate_mapped_pred(10, 20, 0, 10)), 0.5),
     ],
@@ -253,8 +278,14 @@ def test_get_vertical_overlap_different_pages():
 @pytest.mark.parametrize(
     "input, expected",
     [
-        ((generate_mapped_pred(0, 10, 0, 10), generate_mapped_pred(20, 40, 10, 20)), 0.0),
-        ((generate_mapped_pred(10, 20, 0, 10), generate_mapped_pred(0, 10, 10, 20)), 0.0),
+        (
+            (generate_mapped_pred(0, 10, 0, 10), generate_mapped_pred(20, 40, 10, 20)),
+            0.0,
+        ),
+        (
+            (generate_mapped_pred(10, 20, 0, 10), generate_mapped_pred(0, 10, 10, 20)),
+            0.0,
+        ),
         ((generate_mapped_pred(0, 10, 0, 10), generate_mapped_pred(0, 5, 10, 20)), 1.0),
         ((generate_mapped_pred(0, 5, 0, 10), generate_mapped_pred(0, 10, 10, 20)), 0.5),
     ],
@@ -317,6 +348,7 @@ def test_manhatan_distance_between_points(input, expected):
     distance = Positioning.manhattan_distance_between_points(input[0], input[1])
     assert round(distance, 2) == expected
 
+
 def test_get_tokens_within_bounds(bbox_token_page):
     box = generate_mapped_pred(300, 360, 290, 450, page_num=0)
     positioning = Positioning()
@@ -324,25 +356,31 @@ def test_get_tokens_within_bounds(bbox_token_page):
     assert len(bounds) == 1
     assert "true" in bounds[0]["text"]
 
+
 def test_get_tokens_within_bounds_excludes_overlap(bbox_token_page):
     box = generate_mapped_pred(300, 360, 290, 450, page_num=0)
     positioning = Positioning()
     bounds = positioning.get_tokens_within_bounds(box, bbox_token_page)
     assert "false" not in bounds[0]["text"] and "edge" not in bounds[0]["text"]
 
+
 def test_get_tokens_within_bounds_includes_overlap(bbox_token_page):
     box = generate_mapped_pred(300, 360, 290, 450, page_num=0)
     positioning = Positioning()
-    edges = positioning.get_tokens_within_bounds(box, bbox_token_page, include_overlap=True)
+    edges = positioning.get_tokens_within_bounds(
+        box, bbox_token_page, include_overlap=True
+    )
     assert len(edges) == 2
     for token in edges:
         assert "true" in token["text"] or "edge" in token["text"]
+
 
 def test_get_tokens_within_bounds_throws_error(bbox_token_page):
     null_box = generate_mapped_pred()
     positioning = Positioning()
     null = positioning.get_tokens_within_bounds(null_box, bbox_token_page)
     assert null == []
+
 
 def test_get_tokens_within_bounds_throws_error():
     positioning = Positioning()

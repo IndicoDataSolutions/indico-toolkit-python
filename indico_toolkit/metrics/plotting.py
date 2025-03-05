@@ -3,6 +3,7 @@ from typing import Iterable, Union
 try:
     import plotly as py
     import plotly.graph_objects as go
+
     _PLOTLY_INSTALLED = True
 except ImportError as error:
     _PLOTLY_INSTALLED = False

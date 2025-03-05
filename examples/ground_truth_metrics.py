@@ -1,6 +1,7 @@
 """
 Compare a snapshot containing ground truth to a snapshot containing model predictions
 """
+
 import pandas as pd
 
 from indico_toolkit.metrics import CompareGroundTruth

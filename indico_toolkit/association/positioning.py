@@ -1,7 +1,7 @@
 from math import sqrt
-
-from indico_toolkit.errors import ToolkitInputError
 from typing import List
+
+from ..errors import ToolkitInputError
 
 
 class Positioning:
@@ -44,8 +44,8 @@ class Positioning:
         return is_above
 
     def positioned_above_overlap(
-            self, above_pos: dict, below_pos: dict, min_overlap_percent: float = None
-        ) -> bool:
+        self, above_pos: dict, below_pos: dict, min_overlap_percent: float = None
+    ) -> bool:
         """
         Check if the location of one box is on the same page and above another and if the lower box's overlap is at least the given percentage.
         Args:
@@ -59,10 +59,10 @@ class Positioning:
         is_above = False
         is_min_overlap = True
         if below_pos["page_num"] != above_pos["page_num"]:
-            raise ToolkitInputError(
-                "Predictions are not on the same page!"
-            )
-        if self.xaxis_overlap(above_pos, below_pos) and self.yaxis_above(above_pos, below_pos):
+            raise ToolkitInputError("Predictions are not on the same page!")
+        if self.xaxis_overlap(above_pos, below_pos) and self.yaxis_above(
+            above_pos, below_pos
+        ):
             is_above = True
             overlap_amount = self.get_horizontal_overlap(above_pos, below_pos)
             if min_overlap_percent and overlap_amount < min_overlap_percent:
@@ -138,11 +138,12 @@ class Positioning:
         """
         page_difference = abs(pos1["page_num"] - pos2["page_num"])
         if page_difference > 0:
-            raise ToolkitInputError(
-                "Predictions are not on the same page!"
-            )
+            raise ToolkitInputError("Predictions are not on the same page!")
         if self.xaxis_overlap(pos1, pos2):
-            horizontal_overlap_distance = abs(max(pos1["bbLeft"], pos2["bbLeft"]) - min(pos1["bbRight"], pos2["bbRight"]))
+            horizontal_overlap_distance = abs(
+                max(pos1["bbLeft"], pos2["bbLeft"])
+                - min(pos1["bbRight"], pos2["bbRight"])
+            )
             position_width = abs(pos2["bbLeft"] - pos2["bbRight"])
             return horizontal_overlap_distance / position_width
         else:
@@ -156,17 +157,19 @@ class Positioning:
         """
         page_difference = abs(pos1["page_num"] - pos2["page_num"])
         if page_difference > 0:
-            raise ToolkitInputError(
-                "Predictions are not on the same page!"
-            )
+            raise ToolkitInputError("Predictions are not on the same page!")
         if self.yaxis_overlap(pos1, pos2):
-            vertical_overlap_distance = abs(max(pos1["bbTop"], pos2["bbTop"]) - min(pos1["bbBot"], pos2["bbBot"]))
+            vertical_overlap_distance = abs(
+                max(pos1["bbTop"], pos2["bbTop"]) - min(pos1["bbBot"], pos2["bbBot"])
+            )
             position_height = abs(pos2["bbTop"] - pos2["bbBot"])
             return vertical_overlap_distance / position_height
         else:
             return 0.0
-    
-    def get_tokens_within_bounds(self, bbox: dict, ocr_tokens: List[dict], include_overlap: bool=False) -> List[dict]:
+
+    def get_tokens_within_bounds(
+        self, bbox: dict, ocr_tokens: List[dict], include_overlap: bool = False
+    ) -> List[dict]:
         """
         Args:
             bbox (dict): dict with target box dimensions and page number
@@ -187,16 +190,23 @@ class Positioning:
                 "Token list argument is missing required key(s): page_num and/or position"
             )
         if include_overlap == True:
-            return [token for token in ocr_tokens if
-            self.on_same_page(bbox, token)
-            and self.yaxis_overlap(bbox, token["position"]) and self.xaxis_overlap(bbox, token["position"])] 
+            return [
+                token
+                for token in ocr_tokens
+                if self.on_same_page(bbox, token)
+                and self.yaxis_overlap(bbox, token["position"])
+                and self.xaxis_overlap(bbox, token["position"])
+            ]
         else:
-            return [token for token in ocr_tokens if 
-            self.on_same_page(bbox, token)
-            and token["position"]["bbLeft"] > bbox["bbLeft"]
-            and token["position"]["bbRight"] < bbox["bbRight"]
-            and token["position"]["bbTop"] > bbox["bbTop"]
-            and token["position"]["bbBot"] < bbox["bbBot"]]
+            return [
+                token
+                for token in ocr_tokens
+                if self.on_same_page(bbox, token)
+                and token["position"]["bbLeft"] > bbox["bbLeft"]
+                and token["position"]["bbRight"] < bbox["bbRight"]
+                and token["position"]["bbTop"] > bbox["bbTop"]
+                and token["position"]["bbBot"] < bbox["bbBot"]
+            ]
 
     @staticmethod
     def get_vertical_min_distance(
@@ -241,7 +251,7 @@ class Positioning:
             raise ToolkitInputError(
                 "Predictions are not on the same page! Must enter a page height"
             )
-    
+
         min_distance_1 = abs(pos1["bbLeft"] - pos2["bbRight"])
         min_distance_2 = abs(pos1["bbRight"] - pos2["bbLeft"])
         return min(min_distance_1, min_distance_2)

@@ -1,15 +1,17 @@
 from dataclasses import dataclass
 from typing import List
 
+
 @dataclass
 class Example:
     id: int
     data_file_name: str
 
+
 class ExampleList:
     def __init__(self, examples: List[Example]):
         self.examples = examples
-    
+
     def get_example(self, example_id: int) -> Example:
         """
         Returns example with matching example_id. If no matching example id found, return None
@@ -18,7 +20,7 @@ class ExampleList:
             if example.id == example_id:
                 return example
         return None
-    
+
     def get_example_id(self, example_data_file_name: str) -> int:
         """
         Returns id for a specific example with the same name as example_data_file_name. If no matching example found, return None
@@ -29,11 +31,13 @@ class ExampleList:
                 return example.id
         return None
 
+
 @dataclass
 class TokenSpanInput:
     start: int
     end: int
     pageNum: int
+
 
 @dataclass
 class SpatialSpanInput:
@@ -43,11 +47,13 @@ class SpatialSpanInput:
     right: int
     pageNum: int
 
+
 @dataclass
 class LabelInst:
     clsId: int
     spans: List[TokenSpanInput] = None
     bounds: List[SpatialSpanInput] = None
+
 
 @dataclass
 class LabelInput:

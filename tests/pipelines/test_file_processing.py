@@ -1,9 +1,11 @@
 import json
-import pytest
-from pathlib import Path
 import os
-from indico_toolkit.pipelines import FileProcessing
 import tempfile
+from pathlib import Path
+
+import pytest
+
+from indico_toolkit.pipelines import FileProcessing
 
 
 def test_get_file_paths_from_dir(tests_folder):
@@ -36,8 +38,8 @@ def test_move_all_filepaths():
     fileproc = FileProcessing()
     with tempfile.TemporaryDirectory() as temp_dir_one:
         temp_dir_two = tempfile.TemporaryDirectory()
-        temp = tempfile.NamedTemporaryFile(dir=temp_dir_one, suffix='.pdf')
-        fileproc.move_all_file_paths(temp_dir_one,temp_dir_two.name,('pdf'),True)
+        temp = tempfile.NamedTemporaryFile(dir=temp_dir_one, suffix=".pdf")
+        fileproc.move_all_file_paths(temp_dir_one, temp_dir_two.name, ("pdf",), True)
         assert os.listdir(temp_dir_two.name) == [Path(temp.name).name]
 
 

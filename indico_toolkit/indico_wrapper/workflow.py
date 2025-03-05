@@ -1,28 +1,29 @@
-import time
 import io
+import time
 from os import PathLike
-from typing import List, Union, Dict
+from typing import Dict, List, Union
+
 from indico import IndicoClient, IndicoRequestError
 from indico.queries import (
-    Submission,
-    SubmissionFilter,
-    ListSubmissions,
-    UpdateSubmission,
     GetSubmission,
     GetWorkflow,
-    WorkflowSubmission,
-    SubmitReview,
-    WaitForSubmissions,
-    UpdateWorkflowSettings,
     JobStatus,
+    ListSubmissions,
+    Submission,
+    SubmissionFilter,
+    SubmitReview,
+    UpdateSubmission,
+    UpdateWorkflowSettings,
+    WaitForSubmissions,
+    WorkflowSubmission,
 )
-from indico.types import Workflow
 from indico.queries.submission import SubmissionResult
-from .indico_wrapper import IndicoWrapper
-from indico_toolkit import ToolkitStatusError
-from indico_toolkit.ocr import OnDoc
-from indico_toolkit.types import WorkflowResult
+from indico.types import Workflow
 
+from ..errors import ToolkitStatusError
+from ..ocr import OnDoc
+from ..types import WorkflowResult
+from .indico_wrapper import IndicoWrapper
 
 COMPLETE_FILTER = SubmissionFilter(status="COMPLETE", retrieved=False)
 PENDING_REVIEW_FILTER = SubmissionFilter(status="PENDING_REVIEW", retrieved=False)
@@ -60,9 +61,7 @@ class Workflow(IndicoWrapper):
             List[int]: List of unique and persistent identifier for each submission.
         """
         return self.client.call(
-            WorkflowSubmission(
-                workflow_id=workflow_id, files=files, streams=streams
-            )
+            WorkflowSubmission(workflow_id=workflow_id, files=files, streams=streams)
         )
 
     def get_ondoc_ocr_from_etl_url(self, etl_url: str) -> OnDoc:

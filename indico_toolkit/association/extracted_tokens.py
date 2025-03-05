@@ -1,7 +1,8 @@
-from typing import List, Union
 from copy import deepcopy
-from .association import sequences_overlap, Association, _check_if_token_match_found
-from indico_toolkit.types import Extractions
+from typing import List, Union
+
+from ..types import Extractions
+from .association import Association, _check_if_token_match_found, sequences_overlap
 
 # TODO: add test that 'errored_predictions' actually works with ValueErrors
 
@@ -11,9 +12,7 @@ class ExtractedTokens(Association):
     Class to collect all extracted tokens, e.g. to enable highlighting of source document
     """
 
-    def __init__(
-        self, predictions: Union[List[dict], Extractions],
-    ):
+    def __init__(self, predictions: Union[List[dict], Extractions]):
         super().__init__(predictions)
 
     def match_pred_to_token(self, pred: dict, ocr_tokens: List[dict], pred_index: int):
@@ -46,9 +45,7 @@ class ExtractedTokens(Association):
         _check_if_token_match_found(pred, no_match)
         return match_token_index
 
-    def collect_tokens(
-        self, ocr_tokens: List[dict], raise_for_no_match: bool = True,
-    ):
+    def collect_tokens(self, ocr_tokens: List[dict], raise_for_no_match: bool = True):
         """
         Collect all extracted tokens and with pred text and label added to dictionaries
         Args:
@@ -60,7 +57,9 @@ class ExtractedTokens(Association):
         match_index = 0
         for pred_ind, pred in enumerate(self._predictions):
             try:
-                match_index = self.match_pred_to_token(pred, ocr_tokens[match_index:], pred_ind)
+                match_index = self.match_pred_to_token(
+                    pred, ocr_tokens[match_index:], pred_ind
+                )
             except ValueError as e:
                 if raise_for_no_match:
                     raise ValueError(e)

@@ -1,21 +1,22 @@
-import time
 import dataclasses
+import time
 from json import loads
 from os import PathLike
 from pathlib import Path
-from typing import List, Dict, Tuple, Union
+from typing import Dict, List, Tuple, Union
+
 from indico import IndicoClient
-from indico.types import Workflow
 from indico.queries import (
     CreateExport,
     DownloadExport,
     GetDataset,
-    GetWorkflow,
     GetModelGroup,
+    GetWorkflow,
 )
-from indico_toolkit.errors import ToolkitPopulationError
-from indico_toolkit.structure.create_structure import Structure
+from indico.types import Workflow
 
+from ..errors import ToolkitPopulationError
+from ..structure.create_structure import Structure
 from .types import *
 
 
@@ -134,7 +135,7 @@ class AutoPopulator:
         workflow_name: str,
         data_column: str = "document",
         rename_labels: Dict[str, str] = None,
-        remove_labels: List[str] = None
+        remove_labels: List[str] = None,
     ) -> Workflow:
         """
         Create duplicate teach task in same Indico platform.
@@ -144,7 +145,7 @@ class AutoPopulator:
             teach_task_id (int): The teach task id of the corresponding teach task to the dataset
             workflow_name (string): The name of the newly created workflow
             data_column_id (str, optional): The datacolumn id of the corresponding dataset. Defaults to 'document'
-            rename_labels (dict, optional): Dictionary in format {old_label_name : new_label_name} 
+            rename_labels (dict, optional): Dictionary in format {old_label_name : new_label_name}
             remove_labels (list, optional): List of labels to remove from old teach task
         Returns:
             Workflow: a Workflow object representation of the newly created workflow
@@ -198,13 +199,15 @@ class AutoPopulator:
             old_example_id = row[0]
             old_examples = self._get_example_list(old_model_group_id)
             targets_list = loads(row[2])["targets"]
-            file_to_targets[old_examples.get_example(old_example_id).data_file_name] = targets_list
+            file_to_targets[old_examples.get_example(old_example_id).data_file_name] = (
+                targets_list
+            )
         labels = self.get_labels_by_filename(
             new_model_group_id,
             file_to_targets,
             new_target_name_map,
             rename_labels,
-            remove_labels
+            remove_labels,
         )
         # Label new teach task
         result = self.structure.label_teach_task(
@@ -222,7 +225,7 @@ class AutoPopulator:
         teach_task_id: int,
         file_to_targets: dict,
         rename_labels: Dict[str, str] = None,
-        remove_labels: List[str] = None
+        remove_labels: List[str] = None,
     ):
         """
         Add label data into existing teach task
@@ -230,8 +233,8 @@ class AutoPopulator:
         Args:
             workflow_id (int): Id of the workflow you wish to add labels to
             teach_task_id (int): Id of the corresponding teach task to the workflow
-            file_to_targets (dict): mapping of filenames to target label data 
-            rename_labels (dict, optional): Dictionary in format {old_label_name : new_label_name} 
+            file_to_targets (dict): mapping of filenames to target label data
+            rename_labels (dict, optional): Dictionary in format {old_label_name : new_label_name}
             remove_labels (list, optional): List of labels to remove from old teach task
         """
         workflow = GetWorkflow(workflow_id)
@@ -239,15 +242,13 @@ class AutoPopulator:
             labelset_id,
             model_group_id,
             target_name_map,
-        ) = self._get_teach_task_details(
-            teach_task_id
-        )
+        ) = self._get_teach_task_details(teach_task_id)
         labels = self.get_labels_by_filename(
             model_group_id,
             file_to_targets,
             target_name_map,
             rename_labels,
-            remove_labels
+            remove_labels,
         )
         # Label new teach task
         result = self.structure.label_teach_task(
@@ -257,24 +258,24 @@ class AutoPopulator:
         )
         if result["submitLabelsV2"]["success"] == False:
             raise ToolkitPopulationError("Error: Failed to submit labels")
-    
+
     def get_labels_by_filename(
         self,
         model_group_id: int,
         file_to_targets: dict,
         target_name_map: dict,
         rename_labels: Dict[str, str] = None,
-        remove_labels: List[str] = None
+        remove_labels: List[str] = None,
     ) -> List[LabelInput]:
         """
         Args:
             model_group_id (int): ID of the model group to be labeled
             file_to_targets (dict): mapping in the format {filename : targets_list}
             target_name_map (dict): mapping of field name to corresponding target ID
-            rename_labels (dict, optional): Dictionary in format {old_label_name : new_label_name} 
+            rename_labels (dict, optional): Dictionary in format {old_label_name : new_label_name}
             remove_labels (list, optional): List of labels to remove from old teach task
         Returns:
-            A list of LabelInput to be ingested by the platform via submitLabelsV2 
+            A list of LabelInput to be ingested by the platform via submitLabelsV2
         """
         labels = []
         # Retrieve examples and match against filename
@@ -285,16 +286,17 @@ class AutoPopulator:
                 targets_list = self._edit_labels(
                     targets_list, rename_labels, remove_labels
                 )
-            targets_list = self._convert_label(
-                targets_list, target_name_map
-            )
+            targets_list = self._convert_label(targets_list, target_name_map)
             example_id = examples.get_example_id(filename)
             if example_id:
                 labels.append(LabelInput(example_id, targets_list))
         return labels
 
     def _edit_labels(
-        self, targets_list: List[dict], rename_labels: Dict[str, str], remove_labels: List[str]
+        self,
+        targets_list: List[dict],
+        rename_labels: Dict[str, str],
+        remove_labels: List[str],
     ):
         new_targets_list = []
         for target in targets_list:
@@ -303,7 +305,7 @@ class AutoPopulator:
                     target["label"] = rename_labels[target["label"]]
                 new_targets_list.append(target)
         return new_targets_list
-    
+
     def _convert_label(
         self, targets_list: List[dict], target_name_map: dict
     ) -> List[LabelInst]:
@@ -312,9 +314,7 @@ class AutoPopulator:
             updated_label = LabelInst(target_name_map[target["label"]])
             if target.get("spans"):
                 updated_spans = [
-                    TokenSpanInput(
-                        span["start"], span["end"], span["page_num"]
-                    )
+                    TokenSpanInput(span["start"], span["end"], span["page_num"])
                     for span in target["spans"]
                 ]
                 updated_label.spans = updated_spans
@@ -334,7 +334,7 @@ class AutoPopulator:
         for target in target_names:
             target_name_map[target["name"]] = target["id"]
         return labelset_id, model_group_id, target_name_map
-    
+
     def _get_example_list(self, model_group_id: int, limit=1000):
         examples = self.structure.get_example_ids(
             model_group_id=model_group_id, limit=limit

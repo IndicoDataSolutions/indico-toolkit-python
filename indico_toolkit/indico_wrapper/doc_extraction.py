@@ -1,8 +1,10 @@
 from typing import List, Union
+
 from indico import IndicoClient
 from indico.queries import DocumentExtraction, Job
-from indico_toolkit.indico_wrapper import IndicoWrapper
-from indico_toolkit.ocr import OnDoc, StandardOcr, CustomOcr
+
+from ..ocr import CustomOcr, OnDoc, StandardOcr
+from .indico_wrapper import IndicoWrapper
 
 
 class DocExtraction(IndicoWrapper):
@@ -63,7 +65,10 @@ class DocExtraction(IndicoWrapper):
     ) -> Union[StandardOcr, OnDoc, CustomOcr]:
         if self.json_config == {"preset_config": "ondocument"}:
             return OnDoc(extracted_data)
-        elif self.json_config == {"preset_config": "standard"} or self.json_config is None:
+        elif (
+            self.json_config == {"preset_config": "standard"}
+            or self.json_config is None
+        ):
             return StandardOcr(extracted_data)
         else:
             return CustomOcr(extracted_data)

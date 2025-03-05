@@ -1,5 +1,5 @@
-from copy import deepcopy
 import tempfile
+from copy import deepcopy
 
 import pytest
 

@@ -1,6 +1,7 @@
 import pytest
-from indico_toolkit.indico_wrapper import Reviewer, Workflow
 from indico.queries import GetSubmission
+
+from indico_toolkit.indico_wrapper import Reviewer, Workflow
 
 
 @pytest.fixture(scope="module")
@@ -24,6 +25,7 @@ def get_change_formatted_predictions(workflow_result):
     """
     return {workflow_result.model_name: workflow_result.get_predictions.to_list()}
 
+
 @pytest.mark.skip(reason="broken on indico-client>=6.1.0")
 def test_accept_review(submissions_awaiting_review, indico_client, workflow_id):
     reviewer_wrapper = Reviewer(indico_client, workflow_id)
@@ -36,6 +38,7 @@ def test_accept_review(submissions_awaiting_review, indico_client, workflow_id):
     submission = reviewer_wrapper.get_submission_object(id_in_review)
     assert submission.status == "COMPLETE"
 
+
 @pytest.mark.skip(reason="flaky, depends on submission processing time")
 def test_reject_from_review(submissions_awaiting_review, indico_client, workflow_id):
     reviewer_wrapper = Reviewer(indico_client, workflow_id)
@@ -43,6 +46,7 @@ def test_reject_from_review(submissions_awaiting_review, indico_client, workflow
     reviewer_wrapper.reject_submission(id_in_review)
     submission = reviewer_wrapper.get_submission_object(id_in_review)
     assert submission.status == "PENDING_ADMIN_REVIEW"
+
 
 @pytest.mark.skip(reason="flaky, depends on submission processing time")
 def test_reject_from_admin_review(

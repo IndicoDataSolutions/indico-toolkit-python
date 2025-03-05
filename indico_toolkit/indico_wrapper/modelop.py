@@ -1,8 +1,9 @@
-from indico import IndicoClient
-from indico.queries import GraphQLRequest
 import json
 import string
 from typing import Iterator
+
+from indico import IndicoClient
+from indico.queries import GraphQLRequest
 
 # valid model option parameters
 TEXT_EXTRACTION_PARAMS = {

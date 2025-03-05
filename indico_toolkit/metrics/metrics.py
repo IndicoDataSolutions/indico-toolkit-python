@@ -1,13 +1,15 @@
 import json
-from typing import List, Dict
+from typing import Dict, List
+
 from indico import IndicoClient
 
-from indico_toolkit.indico_wrapper import IndicoWrapper
-from indico_toolkit import ToolkitInputError
+from ..errors import ToolkitInputError
+from ..indico_wrapper import IndicoWrapper
 from .plotting import Plotting
 
 try:
     import pandas as pd
+
     _PANDAS_INSTALLED = True
 except ImportError as error:
     _PANDAS_INSTALLED = False
@@ -35,6 +37,7 @@ class ExtractionMetrics(IndicoWrapper):
     # get an interactive bar plot to visualize model improvement over time
     metrics.bar_plot("./my_bar_plot.html")
     """
+
     def __init__(self, client: IndicoClient):
         self.client = client
         self.raw_metrics: List[dict] = None
@@ -121,8 +124,14 @@ class ExtractionMetrics(IndicoWrapper):
         if ids_to_exclude:
             df = df.drop(df.loc[df["model_id"].isin(ids_to_exclude)].index)
         model_ids = sorted(list(df["model_id"].unique()))
-        field_order = df.loc[df["model_id"] == model_ids[-1]].sort_values(by=metric)["field_name"].tolist()
-        df["field_name"] = df["field_name"].astype("category").cat.set_categories(field_order)
+        field_order = (
+            df.loc[df["model_id"] == model_ids[-1]]
+            .sort_values(by=metric)["field_name"]
+            .tolist()
+        )
+        df["field_name"] = (
+            df["field_name"].astype("category").cat.set_categories(field_order)
+        )
         plotting = Plotting()
         for model_id in model_ids:
             sub_df = df.loc[df["model_id"] == model_id].copy()
@@ -201,7 +210,6 @@ class ExtractionMetrics(IndicoWrapper):
         df.to_csv(output_path, index=False)
 
 
-
 class UnbundlingMetrics(ExtractionMetrics):
     """
     Example Usage:
@@ -211,6 +219,7 @@ class UnbundlingMetrics(ExtractionMetrics):
     um.line_plot("./my_metric_plot.html", metric="recall", title="Insurance Model Recall Improvement")
 
     """
+
     def get_metrics(self, model_group_id: int):
         """
         Collect all metrics available based on a Model Group ID for an Unbundling model
@@ -228,16 +237,21 @@ class UnbundlingMetrics(ExtractionMetrics):
         labeled_samples = []
         for r in results:
             model_info = json.loads(r["modelInfo"])
-            if "total_number_of_examples" not in model_info or "metrics" not in model_info:
-                # some dictionaries don't come back with required fields... 
+            if (
+                "total_number_of_examples" not in model_info
+                or "metrics" not in model_info
+            ):
+                # some dictionaries don't come back with required fields...
                 continue
             labeled_samples.append(model_info["total_number_of_examples"])
             included_models.append(r["id"])
             raw_metrics.append(model_info["metrics"]["per_class_metrics"])
         self.raw_metrics = raw_metrics
         self.included_models = included_models
-        self.number_of_samples = {model_id:samples for model_id, samples in zip(included_models, labeled_samples)}
-
+        self.number_of_samples = {
+            model_id: samples
+            for model_id, samples in zip(included_models, labeled_samples)
+        }
 
     def get_metrics_df(self) -> "pd.DataFrame":
         if not _PANDAS_INSTALLED:
@@ -256,7 +270,6 @@ class UnbundlingMetrics(ExtractionMetrics):
                 cleaned_metrics.append(scores)
         df = pd.DataFrame(cleaned_metrics)
         return df.sort_values(by=["field_name", "model_id"], ascending=False)
-
 
     def line_plot(
         self,
@@ -307,7 +320,9 @@ class UnbundlingMetrics(ExtractionMetrics):
         plotting.plot(output_path)
 
     def bar_plot(self):
-        raise NotImplementedError("Bar Plot is not currently implemented for unbundling")
+        raise NotImplementedError(
+            "Bar Plot is not currently implemented for unbundling"
+        )
 
     def get_extraction_metrics(self, model_group_id: int):
         raise NotImplementedError("Not available for unbundling class")

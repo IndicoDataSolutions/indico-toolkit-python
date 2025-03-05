@@ -24,7 +24,7 @@ dataset = structure.create_dataset(
     files_to_upload=["./path_to_file"],
     read_api=True,
     single_column=False,
-    **optional_ocr_options
+    **optional_ocr_options,
 )
 
 # creates workflow

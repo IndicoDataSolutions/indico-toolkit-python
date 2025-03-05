@@ -97,7 +97,8 @@ predictions.apply()  # Apply a function to all predictions
 predictions.groupby()  # Group predictions into a dictionary by some attribute (e.g. label)
 predictions.orderby()  # Sort predictions by some attribute (e.g. confidence)
 predictions.where()  # Filter predictions by some predicate (e.g. model, label, confidence)
-predictions.to_changes(result)  # Get this list of predictions as changes for `SubmitReview`
+# Get this list of predictions as changes for `SubmitReview`
+predictions.to_changes(result)
 
 predictions.extractions.accept()  # Accept all extractions in this list (e.g. after filtering)
 predictions.extractions.reject()  # Reject all extractions in this list (e.g. after filtering)

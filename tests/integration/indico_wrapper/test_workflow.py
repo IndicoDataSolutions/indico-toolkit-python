@@ -1,18 +1,16 @@
 import pytest
-
-from indico_toolkit.types.extractions import Extractions
 from indico import IndicoClient
-from indico.types import Submission, Job
+from indico.types import Job, Submission
+
 from indico_toolkit.indico_wrapper import Workflow
 from indico_toolkit.ocr import OnDoc
-from indico_toolkit.types import WorkflowResult, Predictions
+from indico_toolkit.types import Predictions, WorkflowResult
+from indico_toolkit.types.extractions import Extractions
 
 
 def test_submit_documents_to_workflow(indico_client, pdf_file, workflow_id):
     wflow = Workflow(indico_client)
-    sub_ids = wflow.submit_documents_to_workflow(
-        workflow_id, files=[pdf_file]
-    )
+    sub_ids = wflow.submit_documents_to_workflow(workflow_id, files=[pdf_file])
     assert len(sub_ids) == 1
     assert isinstance(sub_ids[0], int)
 

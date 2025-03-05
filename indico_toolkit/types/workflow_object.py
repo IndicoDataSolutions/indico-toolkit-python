@@ -1,7 +1,6 @@
 from typing import List
 
-from indico_toolkit import ToolkitInputError
-
+from ..errors import ToolkitInputError
 from .predictions import Predictions
 
 

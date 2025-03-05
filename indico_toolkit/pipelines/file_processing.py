@@ -1,15 +1,17 @@
-import os
 import json
-from os.path import isfile, isdir
-from pathlib import Path
-from typing import List, Tuple, Union, Iterable
+import os
 import shutil
 import tempfile
+from os.path import isdir, isfile
+from pathlib import Path
+from typing import Iterable, List, Tuple, Union
+
 
 class FileProcessing:
     """
     Class to support common file processing operations
     """
+
     def __init__(self, file_paths: List[str] = None):
         if file_paths is None:
             file_paths = []
@@ -47,7 +49,7 @@ class FileProcessing:
         )
 
     def move_all_file_paths(
-        self, 
+        self,
         origin_dir: str,
         destination_dir: str,
         accepted_types: Tuple[str],
@@ -62,12 +64,10 @@ class FileProcessing:
                 new_path_name = destination_dir / file_to_be_moved
                 if copy_files == False:
                     initial_filepath.rename(new_path_name)
-                else: 
-                    shutil.copyfile(initial_filepath, new_path_name) 
+                else:
+                    shutil.copyfile(initial_filepath, new_path_name)
         else:
-            raise Exception(
-                f'{destination_dir} is not a valid directory'
-            )
+            raise Exception(f"{destination_dir} is not a valid directory")
 
     def batch_files(self, batch_size: int = 20) -> List[str]:
         for i in range(0, len(self.file_paths), batch_size):
@@ -83,7 +83,9 @@ class FileProcessing:
         for filepath in self.file_paths:
             if self.file_name_from_path(filepath) not in processed_files:
                 unprocessed_filepaths.append(filepath)
-        print(f"Removing {len(self.file_paths) - len(unprocessed_filepaths)} files from file_paths")
+        print(
+            f"Removing {len(self.file_paths) - len(unprocessed_filepaths)} files from file_paths"
+        )
         self.file_paths = unprocessed_filepaths
 
     @staticmethod
@@ -100,7 +102,7 @@ class FileProcessing:
         return [Path(i).parent.name for i in self.file_paths]
 
     @staticmethod
-    def join_paths(start_path:str, end_path: str) -> str:
+    def join_paths(start_path: str, end_path: str) -> str:
         return os.path.join(start_path, end_path)
 
     @staticmethod
@@ -114,7 +116,7 @@ class FileProcessing:
     @staticmethod
     def file_name_from_path(filepath: str) -> str:
         return Path(filepath).name
-    
+
     @staticmethod
     def get_parent_path(filepath: str) -> str:
         return str(Path(filepath).parent)

@@ -1,6 +1,8 @@
 import json
-import pytest
 from collections import defaultdict
+
+import pytest
+
 from indico_toolkit.association import ExtractedTokens
 
 

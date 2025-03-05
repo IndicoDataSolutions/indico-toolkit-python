@@ -35,14 +35,14 @@ requests-mock = "^1.12.1"
 ruff = "^0.9.6"
 
 [tool.poe.tasks]
-black = "black indico_toolkit tests"
-black-check = "black --check indico_toolkit tests"
+black = "black indico_toolkit examples tests"
+black-check = "black --check indico_toolkit examples tests"
 coverage = "coverage html"
 mypy = "mypy indico_toolkit tests"
 pytest = "pytest tests --cov=indico_toolkit"
 pytest-unit = "pytest tests --ignore tests/integration --cov=indico_toolkit"
-ruff = "ruff check --fix-only --exit-zero indico_toolkit tests"
-ruff-check = "ruff check indico_toolkit tests"
+ruff = "ruff check --fix-only --exit-zero indico_toolkit examples tests"
+ruff-check = "ruff check indico_toolkit examples tests"
 test-integration = "pytest tests/integration --cov=indico_toolkit"
 
 format = ["ruff", "black"]

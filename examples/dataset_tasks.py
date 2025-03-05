@@ -1,6 +1,6 @@
+from indico_toolkit import create_client
 from indico_toolkit.indico_wrapper import Datasets, Download
 from indico_toolkit.pipelines import FileProcessing
-from indico_toolkit import create_client
 
 DATASET_ID = 1234
 HOST = "app.indico.io"
@@ -23,4 +23,3 @@ fp.get_file_paths_from_dir("./datasets/disclosures/")
 for paths in fp.batch_files(batch_size=2):
     datasets.add_files_to_dataset(paths)
     print(f"Uploaded {len(paths)} files")
-

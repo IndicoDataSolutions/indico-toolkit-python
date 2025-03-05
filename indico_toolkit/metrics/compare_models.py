@@ -1,13 +1,15 @@
-from typing import List, Tuple, Set
 from collections import namedtuple
+from typing import List, Set, Tuple
+
 from indico import IndicoClient
 
-from .plotting import Plotting
+from ..errors import ToolkitInputError
 from .metrics import ExtractionMetrics
-from indico_toolkit import ToolkitInputError
+from .plotting import Plotting
 
 try:
     import pandas as pd
+
     _PANDAS_INSTALLED = True
 except ImportError as error:
     _PANDAS_INSTALLED = False

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from indico_toolkit import create_client, ToolkitAuthError
+from indico_toolkit import ToolkitAuthError, create_client
 
 
 def test_client_creation(host, token):

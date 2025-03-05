@@ -1,19 +1,20 @@
 from typing import List, Union
-from indico.queries import (
-    RetrieveStorageObject,
-    GraphQLRequest,
-    JobStatus,
-    AddModelGroupComponent,
-    ModelGroupPredict,
-    CreateStorageURLs
-)
-from indico.types import Dataset, ModelGroup, Workflow
+
 from indico import IndicoClient
 from indico.errors import IndicoRequestError
+from indico.queries import (
+    AddModelGroupComponent,
+    CreateStorageURLs,
+    GraphQLRequest,
+    JobStatus,
+    ModelGroupPredict,
+    RetrieveStorageObject,
+)
+from indico.types import Dataset, ModelGroup, Workflow
 
-from indico_toolkit import ToolkitInputError
-from indico_toolkit.retry import retry
-from indico_toolkit.types import Predictions
+from ..errors import ToolkitInputError
+from ..retry import retry
+from ..types import Predictions
 
 
 class IndicoWrapper:
@@ -40,7 +41,7 @@ class IndicoWrapper:
         after_component_id: int = None,
     ) -> ModelGroup:
         """
-        Train an Indico model 
+        Train an Indico model
         Args:
             dataset (Dataset): A dataset object (should represent an uploaded CSV dataset)
             workflow (Workflow): A workflow object to the corresponding dataset
@@ -100,7 +101,7 @@ class IndicoWrapper:
             options (dict, optional): Model Prediction options. Defaults to None.
             wait (bool, optional): Wait for predictions to finish. Defaults to True.
 
-        Returns: if wait is False, returns the job ID, else returns a list of Predictions where each 
+        Returns: if wait is False, returns the job ID, else returns a list of Predictions where each
         Predictions is either type Classifications or Extractions depending on your model.
         """
         job = self.client.call(ModelGroupPredict(model_id, samples, load, options))
@@ -112,4 +113,3 @@ class IndicoWrapper:
                 f"Predictions Failed, {status.status}: {status.result}"
             )
         return [Predictions.get_obj(i) for i in status.result]
-

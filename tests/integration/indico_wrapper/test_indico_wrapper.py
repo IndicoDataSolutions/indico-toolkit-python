@@ -41,7 +41,9 @@ def test_graphQL_request(indico_wrapper, dataset):
 
 def test_get_predictions_with_model_id(indico_wrapper, extraction_model_id):
     sample_text = ["Some random sample text written by Scott Levin from Indico"]
-    result = indico_wrapper.get_predictions_with_model_id(extraction_model_id, sample_text)
+    result = indico_wrapper.get_predictions_with_model_id(
+        extraction_model_id, sample_text
+    )
     assert isinstance(result, list)
     assert len(result) == 1
     assert isinstance(result[0], Extractions)

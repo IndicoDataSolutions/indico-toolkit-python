@@ -1,5 +1,5 @@
-from indico_toolkit.ocr import StandardOcr, OnDoc
 from indico_toolkit.indico_wrapper import DocExtraction
+from indico_toolkit.ocr import OnDoc, StandardOcr
 
 
 def test_run_ocr_ondoc(indico_client, pdf_file):
@@ -30,14 +30,48 @@ def test_run_ocr_standard_page_texts(doc_extraction_standard, pdf_file):
 
 
 def test_run_ocr_custom_full_text(indico_client, pdf_file):
-    doc_extraction_custom = DocExtraction(indico_client, custom_config={
-        "top_level": "page",
-        "nest": False,
-        "reblocking": ["style", "list", "inline-header"],
-        "pages": ["text", "size", "dpi", "doc_offset", "page_num", "image", "thumbnail"],
-        "blocks": ["text", "doc_offset", "page_offset", "position", "block_type", "page_num"],
-        "tokens": ["text", "doc_offset", "page_offset", "block_offset", "position", "page_num", "style"],
-        "chars": ["text", "doc_index", "block_index", "page_index", "page_num", "position"]})
+    doc_extraction_custom = DocExtraction(
+        indico_client,
+        custom_config={
+            "top_level": "page",
+            "nest": False,
+            "reblocking": ["style", "list", "inline-header"],
+            "pages": [
+                "text",
+                "size",
+                "dpi",
+                "doc_offset",
+                "page_num",
+                "image",
+                "thumbnail",
+            ],
+            "blocks": [
+                "text",
+                "doc_offset",
+                "page_offset",
+                "position",
+                "block_type",
+                "page_num",
+            ],
+            "tokens": [
+                "text",
+                "doc_offset",
+                "page_offset",
+                "block_offset",
+                "position",
+                "page_num",
+                "style",
+            ],
+            "chars": [
+                "text",
+                "doc_index",
+                "block_index",
+                "page_index",
+                "page_num",
+                "position",
+            ],
+        },
+    )
     full_text_result = doc_extraction_custom.run_ocr(
         filepaths=[pdf_file], text_setting="full_text"
     )
@@ -45,14 +79,48 @@ def test_run_ocr_custom_full_text(indico_client, pdf_file):
 
 
 def test_run_ocr_custom_page_texts(indico_client, pdf_file):
-    doc_extraction_custom = DocExtraction(indico_client, custom_config={
-        "top_level": "page",
-        "nest": False,
-        "reblocking": ["style", "list", "inline-header"],
-        "pages": ["text", "size", "dpi", "doc_offset", "page_num", "image", "thumbnail"],
-        "blocks": ["text", "doc_offset", "page_offset", "position", "block_type", "page_num"],
-        "tokens": ["text", "doc_offset", "page_offset", "block_offset", "position", "page_num", "style"],
-        "chars": ["text", "doc_index", "block_index", "page_index", "page_num", "position"]})
+    doc_extraction_custom = DocExtraction(
+        indico_client,
+        custom_config={
+            "top_level": "page",
+            "nest": False,
+            "reblocking": ["style", "list", "inline-header"],
+            "pages": [
+                "text",
+                "size",
+                "dpi",
+                "doc_offset",
+                "page_num",
+                "image",
+                "thumbnail",
+            ],
+            "blocks": [
+                "text",
+                "doc_offset",
+                "page_offset",
+                "position",
+                "block_type",
+                "page_num",
+            ],
+            "tokens": [
+                "text",
+                "doc_offset",
+                "page_offset",
+                "block_offset",
+                "position",
+                "page_num",
+                "style",
+            ],
+            "chars": [
+                "text",
+                "doc_index",
+                "block_index",
+                "page_index",
+                "page_num",
+                "position",
+            ],
+        },
+    )
     page_texts_result = doc_extraction_custom.run_ocr(
         filepaths=[pdf_file], text_setting="page_texts"
     )

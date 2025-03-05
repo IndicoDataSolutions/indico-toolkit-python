@@ -1,4 +1,5 @@
 import pytest
+
 from indico_toolkit.indico_wrapper import DocExtraction
 
 

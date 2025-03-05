@@ -1,7 +1,8 @@
 from typing import List
-from indico_toolkit.association.association import sequences_overlap, sequences_exact
-from indico_toolkit.types.extractions import Extractions
-from indico_toolkit.errors import ToolkitInputError
+
+from ..association.association import sequences_exact, sequences_overlap
+from ..errors import ToolkitInputError
+from ..types.extractions import Extractions
 
 
 class CompareGroundTruth:

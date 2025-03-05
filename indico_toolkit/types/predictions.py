@@ -1,14 +1,15 @@
-from typing import List, Dict, Set
+from typing import Dict, List, Set
 
-from indico_toolkit.errors import ToolkitInputError
-from .extractions import Extractions
+from ..errors import ToolkitInputError
 from .classification import Classification, ClassificationMGP
+from .extractions import Extractions
 
 
 class Predictions:
     """
     Factory class for predictions
     """
+
     @staticmethod
     def get_obj(predictions):
         """
@@ -23,4 +24,6 @@ class Predictions:
             else:
                 return ClassificationMGP(predictions)
         else:
-            raise ToolkitInputError(f"Unable to process predictions with type {type(predictions)}. Predictions: {predictions}")
+            raise ToolkitInputError(
+                f"Unable to process predictions with type {type(predictions)}. Predictions: {predictions}"
+            )

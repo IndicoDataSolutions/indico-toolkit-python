@@ -1,18 +1,21 @@
 import os
 from io import StringIO
-from indico.types.export import Export
+
 from indico import IndicoClient, IndicoRequestError
-from indico_toolkit import ToolkitInputError
-from indico_toolkit.retry import retry
 from indico.queries import (
-    RetrieveStorageObject,
-    DownloadExport,
     CreateExport,
+    DownloadExport,
     GraphQLRequest,
+    RetrieveStorageObject,
 )
+from indico.types.export import Export
+
+from ..errors import ToolkitInputError
+from ..retry import retry
 
 try:
     import pandas as pd
+
     _PANDAS_INSTALLED = True
 except ImportError as error:
     _PANDAS_INSTALLED = False
@@ -179,7 +182,8 @@ class Download:
             }
         """
         result = self.client.call(GraphQLRequest(query, {"id": dataset_id}))
-        for file in result["dataset"]["files"]: # loop through in case there are other file types uploaded to dataset
+        # loop through in case there are other file types uploaded to dataset
+        for file in result["dataset"]["files"]:
             if file["fileType"] == "CSV":
                 return file["rainbowUrl"]
         raise ToolkitInputError(f"There are no CSVs uploaded to {dataset_id}")

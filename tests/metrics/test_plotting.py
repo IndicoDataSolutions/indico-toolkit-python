@@ -1,4 +1,5 @@
 import pytest
+
 from indico_toolkit.metrics import Plotting
 
 go = pytest.importorskip("plotly.graph_objects")

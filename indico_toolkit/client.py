@@ -2,8 +2,9 @@ from typing import Any
 
 from indico import IndicoClient, IndicoConfig
 from indico.errors import IndicoAuthenticationFailed, IndicoRequestError
-from indico_toolkit.errors import ToolkitAuthError
-from indico_toolkit.retry import retry
+
+from .errors import ToolkitAuthError
+from .retry import retry
 
 
 @retry(IndicoRequestError, ConnectionError)
@@ -15,7 +16,7 @@ def create_client(
     **kwargs: Any,
 ) -> IndicoClient:
     """
-    Instantiate your Indico API client. 
+    Instantiate your Indico API client.
     Specify either the path to your token or the token string itself.
     """
     config = IndicoConfig(

@@ -80,7 +80,9 @@ def extraction_model_id(workflow):
 @pytest.fixture(scope="function")
 def function_submission_ids(workflow_id, indico_client, pdf_file):
     workflow_wrapper = Workflow(indico_client)
-    sub_ids = workflow_wrapper.submit_documents_to_workflow(workflow_id, files=[pdf_file])
+    sub_ids = workflow_wrapper.submit_documents_to_workflow(
+        workflow_id, files=[pdf_file]
+    )
     workflow_wrapper.wait_for_submissions_to_process(sub_ids)
     return sub_ids
 
@@ -93,7 +95,9 @@ def model_name(workflow):
 @pytest.fixture(scope="module")
 def module_submission_ids(workflow_id, indico_client, pdf_file):
     workflow_wrapper = Workflow(indico_client)
-    sub_ids = workflow_wrapper.submit_documents_to_workflow(workflow_id, files=[pdf_file])
+    sub_ids = workflow_wrapper.submit_documents_to_workflow(
+        workflow_id, files=[pdf_file]
+    )
     workflow_wrapper.wait_for_submissions_to_process(sub_ids)
     return sub_ids
 
@@ -124,9 +128,7 @@ def populator_snapshot_file(tests_folder: Path) -> Path:
 def standard_ocr_object(indico_client, pdf_file):
     # TODO: this can be static-- probably should be "ondoc" as well
     job = indico_client.call(
-        DocumentExtraction(
-            files=[pdf_file], json_config={"preset_config": "standard"}
-        )
+        DocumentExtraction(files=[pdf_file], json_config={"preset_config": "standard"})
     )
     job = indico_client.call(JobStatus(id=job[0].id, wait=True))
     extracted_data = indico_client.call(RetrieveStorageObject(job.result))
@@ -167,9 +169,7 @@ def workflow(indico_client, dataset):
 
     while True:
         training = indico_client.call(
-            GetTrainingModelWithProgress(
-                workflow.components[-1].model_group.id
-            )
+            GetTrainingModelWithProgress(workflow.components[-1].model_group.id)
         )
 
         if training.status not in ("CREATED", "TRAINING"):
@@ -198,7 +198,7 @@ def workflow(indico_client, dataset):
                 "component": '{"component_type": "default_output", "config": {}}',
                 "workflowId": workflow.id,
                 "afterComponentId": workflow.components[1].id,
-            }
+            },
         )
     )
 

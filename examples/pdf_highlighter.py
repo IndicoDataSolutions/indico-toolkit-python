@@ -1,9 +1,10 @@
 """
 Highlight Indico Extraction Predictions on the source PDF
 """
-from indico_toolkit.indico_wrapper import Workflow
-from indico_toolkit.highlighter import Highlighter
+
 from indico_toolkit import create_client
+from indico_toolkit.highlighter import Highlighter
+from indico_toolkit.indico_wrapper import Workflow
 
 WORKFLOW_ID = 1418
 HOST = "app.indico.io"
@@ -21,9 +22,7 @@ ocr_object = wflow.get_ondoc_ocr_from_etl_url(submission_result.etl_url)
 # Highlight Predictions onto source document and write it to disc
 highlighter = Highlighter(submission_result.predictions, PATH_TO_DOCUMENT)
 highlighter.collect_tokens(ocr_object.token_objects)
-highlighter.highlight_pdf(
-    "./highlighted_doc.pdf", ocr_object.page_heights_and_widths
-)
+highlighter.highlight_pdf("./highlighted_doc.pdf", ocr_object.page_heights_and_widths)
 
 # You can also have unique color highlights for each label group, write the label above the highlight,
 # and add bookmarks of what labels appear on which pages
@@ -34,4 +33,3 @@ highlighter.highlight_pdf(
     add_label_annotations=True,
     add_bookmarks=True,
 )
-

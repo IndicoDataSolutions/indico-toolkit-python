@@ -1,6 +1,6 @@
 from indico_toolkit import create_client
-from indico_toolkit.snapshots import Snapshot
 from indico_toolkit.indico_wrapper import Datasets
+from indico_toolkit.snapshots import Snapshot
 
 HOST = "app.indico.io"
 API_TOKEN_PATH = "./indico_api_token.txt"
@@ -18,7 +18,8 @@ snap_to_merge = Snapshot(PATH_TO_SNAPSHOT_2)
 main_snap.standardize_column_names()
 snap_to_merge.standardize_column_names()
 main_snap.merge_by_file_name(snap_to_merge, ensure_identical_text=True)
-print(main_snap.get_all_labeled_text("Company Name")) # see what text was captured for any label
+# see what text was captured for any label
+print(main_snap.get_all_labeled_text("Company Name"))
 main_snap.to_csv(OUTPUT_PATH, only_keep_key_columns=True)
 
 """
@@ -32,7 +33,8 @@ snap_to_append = Snapshot(PATH_TO_SNAPSHOT_2)
 main_snap.standardize_column_names()
 snap_to_append.standardize_column_names()
 main_snap.append(snap_to_append)
-print(main_snap.number_of_samples) # will now include all of the samples from snap_to_append as well
+# will now include all of the samples from snap_to_append as well
+print(main_snap.number_of_samples)
 main_snap.to_csv(OUTPUT_PATH)
 
 """

@@ -1,26 +1,25 @@
-import tempfile
 import json
-import shutil
 import os
+import shutil
+import tempfile
 from typing import List
 
 from indico.queries import (
+    AddModelGroupComponent,
     CreateDataset,
     CreateWorkflow,
-    NewLabelsetArguments,
-    AddModelGroupComponent,
-    GetWorkflow,
     GetDataset,
+    GetWorkflow,
+    NewLabelsetArguments,
 )
 from indico.types import (
-    OcrEngine,
     Dataset,
-    Workflow,
+    OcrEngine,
     TableReadOrder,
+    Workflow,
 )
-from indico.types import Workflow
-from indico_toolkit.errors import ToolkitInputError
 
+from ..errors import ToolkitInputError
 from .queries import *
 from .utils import ModelTaskType
 

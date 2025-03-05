@@ -11,9 +11,9 @@ import sys
 
 from indico import IndicoConfig
 
-from indico_toolkit.polling import AutoReviewPoller, AutoReviewed
 from indico_toolkit.etloutput import EtlOutput
-from indico_toolkit.results import Result, Document
+from indico_toolkit.polling import AutoReviewed, AutoReviewPoller
+from indico_toolkit.results import Document, Result
 
 
 async def auto_review(

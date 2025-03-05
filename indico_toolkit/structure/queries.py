@@ -1,5 +1,6 @@
 from indico.queries import GraphQLRequest
 
+
 class GetTeachDetails(GraphQLRequest):
     GET_TEACH_DETAILS = """
         query getCrowdlabelQuestionnaire($teach_task_id: Int!) {
@@ -32,6 +33,7 @@ class GetTeachDetails(GraphQLRequest):
 
     def process_response(self, response):
         return super().process_response(response)
+
 
 class GetExampleIds(GraphQLRequest):
     GET_EXAMPLES = """
@@ -67,6 +69,7 @@ class GetExampleIds(GraphQLRequest):
 
     def process_response(self, response):
         return super().process_response(response)
+
 
 class LabelTeachTask(GraphQLRequest):
     LABEL_TASK = """

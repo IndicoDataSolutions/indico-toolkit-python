@@ -1,8 +1,9 @@
 """
 Get extraction field metrics for all Model IDs in a Model Group
 """
-from indico_toolkit.metrics import ExtractionMetrics, CompareModels
+
 from indico_toolkit import create_client
+from indico_toolkit.metrics import CompareModels, ExtractionMetrics
 
 MODEL_GROUP_ID = 73
 HOST = "app.indico.io"

@@ -1,7 +1,9 @@
 import json
 import time
+
 from indico import IndicoClient
-from indico_toolkit.indico_wrapper import Workflow
+
+from .indico_wrapper import Workflow
 
 
 class Reviewer(Workflow):
@@ -55,6 +57,7 @@ class Reviewer(Workflow):
         return self.graphQL_request(
             SUBMIT_REVIEW, {"rejected": True, "submissionId": submission_id}
         )
+
 
 SUBMIT_REVIEW = """
 mutation submitStandardQueue($changes: JSONString, $rejected: Boolean, $submissionId: Int!, $notes: String) {

@@ -1,10 +1,11 @@
-from typing import Dict
 from operator import itemgetter
+from typing import Dict
 
-from indico_toolkit.pipelines import FileProcessing
+from ..pipelines import FileProcessing
 
 try:
     import pandas as pd
+
     _PANDAS_INSTALLED = True
 except ImportError as error:
     _PANDAS_INSTALLED = False

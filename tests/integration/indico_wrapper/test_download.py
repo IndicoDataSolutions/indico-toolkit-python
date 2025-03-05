@@ -1,8 +1,10 @@
-import pytest
-import tempfile
 import os
+import tempfile
+
+import pytest
 from indico.types import Dataset
-from indico_toolkit.indico_wrapper import Download, Datasets
+
+from indico_toolkit.indico_wrapper import Datasets, Download
 
 pd = pytest.importorskip("pandas")
 

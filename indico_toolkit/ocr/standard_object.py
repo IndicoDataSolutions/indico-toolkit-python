@@ -39,7 +39,11 @@ class StandardOcr:
         """
         Return list of block-level text
         """
-        return [block["text"] for page in self.standardocr["pages"] for block in page["blocks"]]
+        return [
+            block["text"]
+            for page in self.standardocr["pages"]
+            for block in page["blocks"]
+        ]
 
     @property
     def total_pages(self) -> int:

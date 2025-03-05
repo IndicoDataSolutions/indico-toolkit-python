@@ -1,14 +1,16 @@
-from __future__ import (
-    annotations,
-)  # from 3.10, don't need for same class reference in class method
-from typing import List, Union, Tuple
-import os
+# from 3.10, don't need for same class reference in class method
+from __future__ import annotations
+
 import json
+import os
 from json import JSONDecodeError
-from indico_toolkit import ToolkitInstantiationError, ToolkitInputError
+from typing import List, Tuple, Union
+
+from ..errors import ToolkitInputError, ToolkitInstantiationError
 
 try:
     import pandas as pd
+
     _PANDAS_INSTALLED = True
 except ImportError as error:
     _PANDAS_INSTALLED = False

@@ -1,6 +1,8 @@
 import tempfile
 from copy import deepcopy
+
 import pytest
+
 from indico_toolkit.types import Extractions
 
 pd = pytest.importorskip("pandas")

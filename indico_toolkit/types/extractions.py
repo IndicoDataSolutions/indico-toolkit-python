@@ -1,11 +1,13 @@
-from typing import List, Dict, Set, Iterable, Union
-from collections import defaultdict, Counter
+from collections import Counter, defaultdict
 from copy import deepcopy
-from indico_toolkit.pipelines import FileProcessing
-from indico_toolkit import ToolkitInputError
+from typing import Dict, Iterable, List, Set, Union
+
+from ..errors import ToolkitInputError
+from ..pipelines import FileProcessing
 
 try:
     import pandas as pd
+
     _PANDAS_INSTALLED = True
 except ImportError as error:
     _PANDAS_INSTALLED = False
@@ -166,7 +168,7 @@ class Extractions:
 
     def get_most_common_text_value(self, label: str) -> Union[str, None]:
         """
-        Return the most common text value. If there is a tie- returns None. 
+        Return the most common text value. If there is a tie- returns None.
         """
         if label not in self.label_set:
             raise ToolkitInputError(f"There are no predictions for: '{label}'")

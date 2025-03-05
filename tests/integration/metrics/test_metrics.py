@@ -1,5 +1,6 @@
-import pytest
 import tempfile
+
+import pytest
 
 from indico_toolkit.metrics import ExtractionMetrics
 
