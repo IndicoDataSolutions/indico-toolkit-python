@@ -1,6 +1,5 @@
 import time
 import dataclasses
-import pandas as pd
 from json import loads
 from os import PathLike
 from pathlib import Path

@@ -1,9 +1,10 @@
 import pytest
-import pandas as pd
 import tempfile
 import os
 from indico.types import Dataset
 from indico_toolkit.indico_wrapper import Download, Datasets
+
+pd = pytest.importorskip("pandas")
 
 
 @pytest.fixture(scope="module")

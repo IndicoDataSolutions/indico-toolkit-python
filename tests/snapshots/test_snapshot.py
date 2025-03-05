@@ -2,9 +2,13 @@ import pytest
 import os
 import tempfile
 from copy import deepcopy
-import pandas as pd
+
+import pytest
+
 from indico_toolkit import ToolkitInputError
 from indico_toolkit.snapshots import Snapshot
+
+pd = pytest.importorskip("pandas")
 
 # TODO: tests for exception handling
 

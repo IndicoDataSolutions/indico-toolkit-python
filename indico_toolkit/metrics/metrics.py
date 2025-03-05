@@ -1,11 +1,17 @@
 import json
-import pandas as pd
 from typing import List, Dict
 from indico import IndicoClient
 
 from indico_toolkit.indico_wrapper import IndicoWrapper
 from indico_toolkit import ToolkitInputError
 from .plotting import Plotting
+
+try:
+    import pandas as pd
+    _PANDAS_INSTALLED = True
+except ImportError as error:
+    _PANDAS_INSTALLED = False
+    _IMPORT_ERROR = error
 
 
 class ExtractionMetrics(IndicoWrapper):
@@ -55,13 +61,19 @@ class ExtractionMetrics(IndicoWrapper):
 
     def get_metrics_df(
         self, span_type: str = "overlap", select_model_id: int = None
-    ) -> pd.DataFrame:
+    ) -> "pd.DataFrame":
         """
         Get a dataframe of model metrics for a particular span type
         Args:
             span_type (str): options include 'superset', 'exact', 'overlap' or 'token'
             select_model_id (int): only return metrics for a particular model
         """
+        if not _PANDAS_INSTALLED:
+            raise RuntimeError(
+                "getting a metrics datafram requires additional dependencies: "
+                "`pip install indico-toolkit[metrics]`"
+            ) from _IMPORT_ERROR
+
         if select_model_id:
             if select_model_id not in self.included_models:
                 raise ToolkitInputError(
@@ -227,7 +239,13 @@ class UnbundlingMetrics(ExtractionMetrics):
         self.number_of_samples = {model_id:samples for model_id, samples in zip(included_models, labeled_samples)}
 
 
-    def get_metrics_df(self) -> pd.DataFrame:
+    def get_metrics_df(self) -> "pd.DataFrame":
+        if not _PANDAS_INSTALLED:
+            raise RuntimeError(
+                "getting a metrics dataframe requires additional dependencies: "
+                "`pip install indico-toolkit[metrics]`"
+            ) from _IMPORT_ERROR
+
         cleaned_metrics = []
         for model_id, metrics in zip(self.included_models, self.raw_metrics):
             for class_name in metrics:

@@ -1,6 +1,5 @@
 import os
 from io import StringIO
-import pandas as pd
 from indico.types.export import Export
 from indico import IndicoClient, IndicoRequestError
 from indico_toolkit import ToolkitInputError
@@ -11,6 +10,13 @@ from indico.queries import (
     CreateExport,
     GraphQLRequest,
 )
+
+try:
+    import pandas as pd
+    _PANDAS_INSTALLED = True
+except ImportError as error:
+    _PANDAS_INSTALLED = False
+    _IMPORT_ERROR = error
 
 
 class Download:
@@ -55,7 +61,7 @@ class Download:
         )
         return num_files_downloaded
 
-    def get_uploaded_csv_dataframe(self, dataset_id: int) -> pd.DataFrame:
+    def get_uploaded_csv_dataframe(self, dataset_id: int) -> "pd.DataFrame":
         """
         Get a dataframe from a CSV that has been uploaded to the platform
         Args:
@@ -63,13 +69,19 @@ class Download:
         Returns:
             pd.DataFrame: a dataframe representation of the CSV you uploaded
         """
+        if not _PANDAS_INSTALLED:
+            raise RuntimeError(
+                "getting an uploaded CSV dataframe requires additional dependencies: "
+                "`pip install indico-toolkit[downloads]`"
+            ) from _IMPORT_ERROR
+
         url = self._get_csv_download_url(dataset_id)
         string_df = self._retrieve_storage_object(url)
         return pd.read_csv(StringIO(string_df))
 
     def get_snapshot_dataframe(
         self, dataset_id: int, labelset_id: int, file_info: bool = True, **kwargs
-    ) -> pd.DataFrame:
+    ) -> "pd.DataFrame":
         """Download a snapshot. For additional arguments,
         see documentation for CreateExport in the Python SDK.
 
@@ -88,7 +100,7 @@ class Download:
 
     def _download_pdfs_from_export(
         self,
-        export_df: pd.DataFrame,
+        export_df: "pd.DataFrame",
         output_dir: str,
         file_name_col: str,
         file_url_col: str,
@@ -112,7 +124,7 @@ class Download:
         return export_df.shape[0]
 
     @retry(IndicoRequestError, ConnectionError)
-    def _download_export(self, export_id: int) -> pd.DataFrame:
+    def _download_export(self, export_id: int) -> "pd.DataFrame":
         """
         Download a dataframe representation of your dataset export
         """

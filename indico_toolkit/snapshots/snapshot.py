@@ -2,11 +2,17 @@ from __future__ import (
     annotations,
 )  # from 3.10, don't need for same class reference in class method
 from typing import List, Union, Tuple
-import pandas as pd
 import os
 import json
 from json import JSONDecodeError
 from indico_toolkit import ToolkitInstantiationError, ToolkitInputError
+
+try:
+    import pandas as pd
+    _PANDAS_INSTALLED = True
+except ImportError as error:
+    _PANDAS_INSTALLED = False
+    _IMPORT_ERROR = error
 
 # TODO: add functionality for classification snapshots
 
@@ -28,6 +34,12 @@ class Snapshot:
             label_col (str, optional): Column with labels, will be inferred if not provided. Defaults to None.
             file_name_col (str, optional): Column with file names, will be inferred if not provided. Defaults to None.
         """
+        if not _PANDAS_INSTALLED:
+            raise RuntimeError(
+                "snapshots require additional dependencies: "
+                "`pip install indico-toolkit[snapshots]`"
+            ) from _IMPORT_ERROR
+
         self.path_to_snapshot = path_to_snapshot
         self.df: pd.DataFrame = pd.read_csv(path_to_snapshot)
         self.label_col = label_col

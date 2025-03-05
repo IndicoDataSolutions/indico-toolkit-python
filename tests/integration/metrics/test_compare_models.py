@@ -1,8 +1,9 @@
 import pytest
 import tempfile
-import pandas as pd
 
 from indico_toolkit.metrics import CompareModels
+
+pd = pytest.importorskip("pandas")
 
 
 def test_get_data_df(extraction_model_group_id, extraction_model_id, indico_client):

@@ -1,8 +1,11 @@
 from copy import deepcopy
 import tempfile
-import pandas as pd
+
+import pytest
 
 from indico_toolkit.types import Classification, ClassificationMGP
+
+pd = pytest.importorskip("pandas")
 
 
 def test_init(static_class_preds):

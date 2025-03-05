@@ -2,11 +2,12 @@ import os
 import pytest
 import time
 import json
-import pandas as pd
 from indico.queries import GetWorkflow
 from indico.types import Workflow
 from indico_toolkit.auto_populate.types import LabelInput, LabelInst
 from indico_toolkit.auto_populate import AutoPopulator
+
+pd = pytest.importorskip("pandas")
 
 
 @pytest.fixture(scope="function")

@@ -1,8 +1,14 @@
 from typing import Dict
-import pandas as pd
 from operator import itemgetter
 
 from indico_toolkit.pipelines import FileProcessing
+
+try:
+    import pandas as pd
+    _PANDAS_INSTALLED = True
+except ImportError as error:
+    _PANDAS_INSTALLED = False
+    _IMPORT_ERROR = error
 
 
 class Classification:
@@ -38,6 +44,12 @@ class Classification:
     def to_csv(
         self, save_path, filename: str = "", append_if_exists: bool = True
     ) -> None:
+        if not _PANDAS_INSTALLED:
+            raise RuntimeError(
+                "saving predictions to CSV requires additional dependencies: "
+                "`pip install indico-toolkit[predictions]`"
+            ) from _IMPORT_ERROR
+
         results = {filename: self._pred}
         df = pd.DataFrame(results).transpose()
         df["filename"] = filename

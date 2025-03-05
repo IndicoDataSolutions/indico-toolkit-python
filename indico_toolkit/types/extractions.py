@@ -1,9 +1,15 @@
 from typing import List, Dict, Set, Iterable, Union
 from collections import defaultdict, Counter
-import pandas as pd
 from copy import deepcopy
 from indico_toolkit.pipelines import FileProcessing
 from indico_toolkit import ToolkitInputError
+
+try:
+    import pandas as pd
+    _PANDAS_INSTALLED = True
+except ImportError as error:
+    _PANDAS_INSTALLED = False
+    _IMPORT_ERROR = error
 
 
 class Extractions:
@@ -196,6 +202,12 @@ class Extractions:
             append_if_exists (bool): if path exists, append to that CSV
             filename (str, optional): the file where the preds were derived from. Defaults to "".
         """
+        if not _PANDAS_INSTALLED:
+            raise RuntimeError(
+                "saving predictions to CSV requires additional dependencies: "
+                "`pip install indico-toolkit[predictions]`"
+            ) from _IMPORT_ERROR
+
         preds = self.set_confidence_key_to_max_value(inplace=False)
         df = pd.DataFrame(preds)
         if not include_start_end:

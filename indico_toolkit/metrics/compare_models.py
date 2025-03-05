@@ -1,13 +1,17 @@
 from typing import List, Tuple, Set
 from collections import namedtuple
 from indico import IndicoClient
-import pandas as pd
-
 
 from .plotting import Plotting
 from .metrics import ExtractionMetrics
 from indico_toolkit import ToolkitInputError
 
+try:
+    import pandas as pd
+    _PANDAS_INSTALLED = True
+except ImportError as error:
+    _PANDAS_INSTALLED = False
+    _IMPORT_ERROR = error
 
 ModelIds = namedtuple("ModelIds", "group_id id")
 
@@ -31,6 +35,12 @@ class CompareModels(ExtractionMetrics):
             model_group_2 (int): model group of second model
             model_id_2 (int): id of second model
         """
+        if not _PANDAS_INSTALLED:
+            raise RuntimeError(
+                "comparing metrics requires additional dependencies: "
+                "`pip install indico-toolkit[metrics]`"
+            ) from _IMPORT_ERROR
+
         self.client = client
         self.models = [
             ModelIds(model_group_1, model_id_1),
@@ -40,7 +50,7 @@ class CompareModels(ExtractionMetrics):
         self.overlapping_fields: Set[str] = None
         self.df: pd.DataFrame = None
 
-    def get_data(self, span_type: str = "overlap") -> pd.DataFrame:
+    def get_data(self, span_type: str = "overlap") -> "pd.DataFrame":
         """
         Gathers metrics for both models into a dataframe, setting it to self.df
         Args:
@@ -153,7 +163,7 @@ class CompareModels(ExtractionMetrics):
     def _model_suffixes(self):
         return f"_{self.models[0].id}", f"_{self.models[1].id}"
 
-    def _set_labelset_info(self, df_list: List[pd.DataFrame]) -> Tuple[set]:
+    def _set_labelset_info(self, df_list: "List[pd.DataFrame]") -> Tuple[set]:
         labelsets = [set(i["field_name"]) for i in df_list]
         self.overlapping_fields = self.labelsets_overlap(labelsets[0], labelsets[1])
         self.non_overlapping_fields = self.labelset_differences(
