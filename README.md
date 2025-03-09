@@ -36,6 +36,7 @@ pip install indico-toolkit
 Some functionality requires optional dependencies that can be installed with extras.
 
 ```bash
+pip install 'indico-toolkit[all]'
 pip install 'indico-toolkit[downloads]'
 pip install 'indico-toolkit[examples]'
 pip install 'indico-toolkit[metrics]'
