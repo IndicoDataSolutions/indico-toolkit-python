@@ -1,4 +1,4 @@
-"""A package to support Indico IPA development"""
+"""Classes, functions, and abstractions for Indico IPA"""
 
 from .client import create_client
 from .errors import (

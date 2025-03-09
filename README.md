@@ -1,84 +1,108 @@
-# Indico-Toolkit
+# Indico Toolkit
 
-A library to assist Indico IPA development
+**This repository contains software that is not officially supported by Indico. It may
+  be outdated or contain bugs. The operations it performs are potentially destructive.
+  Use at your own risk.**
 
-### Available Functionality
+Classes, functions, and abstractions for building workflows using the Indico IPA
+(Intelligent Process Automation) platform.
 
-The indico-toolkit provides classes and functions to help achieve the following:
+- [Polling Classes](https://github.com/IndicoDataSolutions/indico-toolkit-python/tree/main/indico_toolkit/polling/__init__.py)
+  that implement best-practices polling behavior for Auto Review and Downstream
+  processes. Easily plug in business logic without the boilerplate.
+- [Result File](https://github.com/IndicoDataSolutions/indico-toolkit-python/blob/main/indico_toolkit/results/__init__.py)
+  and [Etl Output](https://github.com/IndicoDataSolutions/indico-toolkit-python/blob/main/indico_toolkit/etloutput/__init__.py)
+  Data Classes that parse standard IPA JSON output into idiomatic, type-safe Python dataclasses.
+- [Metrics Classes](https://github.com/IndicoDataSolutions/indico-toolkit-python/blob/main/indico_toolkit/metrics/__init__.py)
+  to compare model performance, evaluate ground truth, and plot statistics.
+- [Snapshot Classes](https://github.com/IndicoDataSolutions/indico-toolkit-python/blob/main/indico_toolkit/snapshots/snapshot.py)
+  to concatenate, merge, filter, and manipulate snapshot CSVs.
 
-* Easy batch workflow submission and retrieval.
-* Classes that simplify dataset/doc-extraction functionality.
-* Tools to assist with positioning, e.g. row association, distance between preds, relative position validation.
-* Tools to assist with creating and copying workflow structures.
-* Get metrics for all model IDs in a model group to see how well fields are performing after more labeling.
-* Compare two models via bar plot and data tables.
-* Train a document classification model without labeling.
-* An AutoReview class to assist with automated acceptance/rejection of model predictions.
-* Common manipulation of prediction/workflow results.
-* Objects to simplify parsing OCR responses.
-* Snapshot merging and manipulation
+...and more in the [Examples](https://github.com/IndicoDataSolutions/indico-toolkit-python/tree/main/examples) folder.
 
-### Installation
 
+## Installation
+
+**Indico Toolkit does not use semantic versioning.**
+
+Indico Toolkit versions match the minimum IPA version required to use its functionality.
+E.g. `indico-toolkit==6.14.0` makes use of functionality introduced in IPA 6.14, and
+some functionality requires IPA 6.14 or later to use.
+
+```bash
+pip install indico-toolkit
 ```
-pip install indico_toolkit
+
+Some functionality requires optional dependencies that can be installed with extras.
+
+```bash
+pip install 'indico-toolkit[downloads]'
+pip install 'indico-toolkit[examples]'
+pip install 'indico-toolkit[metrics]'
+pip install 'indico-toolkit[predictions]'
+pip install 'indico-toolkit[snapshots]'
 ```
 
-* Note: if you are on Indico 6.X, install an indico_toolkit 6.X version. If you're on 5.X install a 2.X version.
-* Note: If you are on a version of the Indico IPA platform pre-5.1, then install indico-toolkit==1.2.3.
 
-### Example Useage
+## Contributing
 
-For scripted examples on how to use the toolkit, see the [examples directory](https://github.com/IndicoDataSolutions/Indico-Solutions-Toolkit/tree/main/examples)
+Indico Toolkit uses Poetry 2.X for package and dependency management.
+
+
+### Setup
+
+Clone the source repository with Git.
+
+```bash
+git clone git@github.com:IndicoDataSolutions/indico-toolkit-python.git
+```
+
+Install dependencies with Poetry.
+
+```bash
+poetry install
+```
+
+Formatting, linting, type checking, and tests are defined as
+[Poe](https://poethepoet.natn.io/) tasks in `pyproject.toml`.
+
+```bash
+poetry run poe {format,check,test,all}
+```
+
+Code changes or additions should pass `poetry run poe all` before opening a PR.
+
 
 ### Tests
 
-To run the test suite you will need to set the following environment variables: HOST_URL, API_TOKEN_PATH.
-You can also set WORKFLOW_ID (workflow w/ single extraction model), MODEL_NAME (extraction model name)
-and DATASET_ID (uploaded dataset). If you don't set these 3 env variables, test configuration will
-upload a dataset and create a workflow.
+Indico Toolkit has three test suits: required unit tests, extra unit tests, and
+integration tests.
 
-```
-pytest
-```
+By default, only required unit tests are executed. Extra unit tests and integration
+tests are skipped.
 
-### Example
-
-How to get prediction results and write the results to CSV
-
-```
-from indico_toolkit.indico_wrapper import Workflow
-from indico_toolkit.pipelines import FileProcessing
-from indico_toolkit import create_client
-
-WORKFLOW_ID = 1418
-HOST = "app.indico.io"
-API_TOKEN_PATH = "./indico_api_token.txt"
-
-# Instantiate the workflow class
-client = create_client(HOST, API_TOKEN_PATH)
-wflow = Workflow(client)
-
-# Collect files to submit
-fp = FileProcessing()
-fp.get_file_paths_from_dir("./datasets/disclosures/")
-
-# Submit documents, await the results and write the results to CSV in batches of 10
-for paths in fp.batch_files(batch_size=10):
-    submission_ids = wflow.submit_documents_to_workflow(WORKFLOW_ID, paths)
-    submission_results = wflow.get_submission_results_from_ids(submission_ids)
-    for filename, result in zip(paths, submission_results):
-        result.predictions.to_csv("./results.csv", filename=filename, append_if_exists=True)
-
+```bash
+poetry run poe {test,all}
 ```
 
-### Contributing
+Extra unit tests are skipped when their dependencies are not installed. To execute extra
+unit tests, install one or more extras and run the tests.
 
-If you are adding new features to Indico Toolkit, make sure to:
+```bash
+poetry install --all-extras
+poetry run poe {test,all}
+```
 
-* Add robust integration and unit tests.
-* Add a sample usage script to the 'examples/' directory.
-* Add a bullet point for what the feature does to the list at the top of this README.md.
-* Ensure the full test suite is passing locally before creating a pull request.
-* Add doc strings for methods where usage is non-obvious.
-* If you are using new pip installed libraries, make sure they are added to the setup.py and pyproject.toml.
+Integration tests make API calls to an IPA environment and require a host and API token
+to execute. These tests create datasets, setup workflows, and train models. **Expect
+them to take tens of minutes to run.**
+
+```bash
+poetry run poe test-integration \
+    --host try.indico.io \
+    --token indico_api_token.txt
+```
+
+Make liberal use of pytest's `--last-failed` and `--failed-first`
+[flags](https://docs.pytest.org/en/stable/how-to/cache.html) to speed up integration
+test execution when writing code.
