@@ -43,7 +43,7 @@ jobs:
       run: poetry run poe mypy
 
     - name: Run Pytest
-      run: poetry run poe pytest
+      run: poetry run poe test
 
     - name: Install Extra Dependencies
       run: |
@@ -51,4 +51,4 @@ jobs:
         poetry install --all-extras
 
     - name: Run Pytest on Extras
-      run: poetry run poe pytest
+      run: poetry run poe test
