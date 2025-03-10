@@ -141,9 +141,15 @@ This is the first major version release tested to work on Indico 6.X.
 
 * Small but important fix to add original filename to the workflow result object
 
-
 ## 6.1.0 5/6/24
 
 ### Removed
 
 * Removed staggered loop support and removed highlighting support.
+
+## 6.14.0 3/10/25
+
+* Added `results` module.
+* Added `etloutput` module.
+* Refactored `retry` decorator with asyncio support.
+* Switched to Poetry for packaging and dependency management.
