@@ -76,7 +76,7 @@ Code changes or additions should pass `poetry run poe all` before opening a PR.
 
 ### Tests
 
-Indico Toolkit has three test suits: required unit tests, extra unit tests, and
+Indico Toolkit has three test suites: required unit tests, extra unit tests, and
 integration tests.
 
 By default, only required unit tests are executed. Extra unit tests and integration
