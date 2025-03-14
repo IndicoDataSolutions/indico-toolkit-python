@@ -1,7 +1,7 @@
-import os
 import json
-import pytest
+import os
 
+import pytest
 
 FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 

@@ -1,7 +1,8 @@
 import json
-import time
+
 from indico import IndicoClient
-from indico_toolkit.indico_wrapper import Workflow
+
+from .indico_wrapper import Workflow
 
 
 class Reviewer(Workflow):
@@ -22,7 +23,8 @@ class Reviewer(Workflow):
         Accept a submission in the review queue
         Args:
             submission_id (int): submission ID
-            changes (dict): accepted predictions with format like, e.g. {"model_name": [{"label"...}]}
+            changes (dict): accepted predictions with format like,
+                e.g. {"model_name": [{"label"...}]}
         """
         self.graphQL_request(
             SUBMIT_REVIEW,
@@ -39,8 +41,8 @@ class Reviewer(Workflow):
         )
         try:
             return response["randomSubmission"]["id"]
-        except:
-            raise Exception("The review queue is empty")
+        except Exception:
+            raise RuntimeError("The review queue is empty")
 
     def get_random_exception_id(self):
         response = self.graphQL_request(
@@ -48,17 +50,28 @@ class Reviewer(Workflow):
         )
         try:
             return response["randomSubmission"]["id"]
-        except:
-            raise Exception("The exception queue is empty")
+        except Exception:
+            raise RuntimeError("The exception queue is empty")
 
     def reject_submission(self, submission_id):
         return self.graphQL_request(
             SUBMIT_REVIEW, {"rejected": True, "submissionId": submission_id}
         )
 
+
 SUBMIT_REVIEW = """
-mutation submitStandardQueue($changes: JSONString, $rejected: Boolean, $submissionId: Int!, $notes: String) {
-  submitReview(changes: $changes, rejected: $rejected, submissionId: $submissionId, notes: $notes) {
+mutation submitStandardQueue(
+    $changes: JSONString,
+    $rejected: Boolean,
+    $submissionId: Int!,
+    $notes: String
+) {
+  submitReview(
+    changes: $changes,
+    rejected: $rejected,
+    submissionId: $submissionId,
+    notes: $notes
+) {
     id
     __typename
   }

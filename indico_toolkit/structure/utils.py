@@ -1,7 +1,11 @@
 from enum import Enum
 
+
 class ModelTaskType(Enum):
-    """Issues with SDK 7/15/22-- need to hard code this here, new SDK release with fix is imminent"""
+    """
+    Issues with SDK 7/15/22-- need to hard code this here, new SDK release with fix is
+    imminent
+    """
 
     CLASSIFICATION = 1
     FORM_EXTRACTION = 2

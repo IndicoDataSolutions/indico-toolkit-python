@@ -1,17 +1,18 @@
+import statistics
 from typing import List
-import numpy as np
 
 
 class OnDoc:
     """
-    OnDoc is a helper class for the raw "ondocument" preset confid OCR result. Enables easy extraction
-    of common datapoints into usable objects. "ondocument" is the default extraction config on the
-    Indico platform.
+    OnDoc is a helper class for the raw "ondocument" preset confid OCR result. Enables
+    easy extraction of common datapoints into usable objects. "ondocument" is the
+    default extraction config on the Indico platform.
     """
 
     def __init__(self, ondoc: List[dict]):
         """
-        ondoc {List[dict]}: ondocument result object from indico.queries.DocumentExtraction
+        ondoc {List[dict]}: ondocument result object from
+        indico.queries.DocumentExtraction
         """
         self.ondoc = ondoc
 
@@ -73,12 +74,12 @@ class OnDoc:
         metric {str}: options are "mean" or "median"
         """
         if metric not in ("mean", "median"):
-            raise Exception(
+            raise RuntimeError(
                 f"Metric value must be either mean or median, not '{metric}'"
             )
 
         if "confidence" not in self.ondoc[0]["chars"][0].keys():
-            raise Exception(
+            raise RuntimeError(
                 "You are likely using an old SDK version, confidence is not included"
             )
 
@@ -88,5 +89,5 @@ class OnDoc:
             for character in page["chars"]
         ]
         if metric == "mean":
-            return np.mean(confidence)
-        return np.median(confidence)
+            return statistics.mean(confidence)
+        return statistics.median(confidence)

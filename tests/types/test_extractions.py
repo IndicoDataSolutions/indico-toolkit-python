@@ -1,8 +1,11 @@
 import tempfile
-import pandas as pd
 from copy import deepcopy
+
 import pytest
+
 from indico_toolkit.types import Extractions
+
+pd = pytest.importorskip("pandas")
 
 
 def test_init(static_extract_preds):
@@ -120,15 +123,15 @@ def test_remove_all_by_label(test_extraction_preds):
 
 def test_exist_multiple_vals_for_label(test_extraction_preds):
     extract = Extractions(test_extraction_preds)
-    assert extract.exist_multiple_vals_for_label("Paydown Amount") == True
+    assert extract.exist_multiple_vals_for_label("Paydown Amount")
     extract.remove_except_max_confidence(["Paydown Amount"])
-    assert extract.exist_multiple_vals_for_label("Paydown Amount") == False
+    assert not extract.exist_multiple_vals_for_label("Paydown Amount")
 
 
 def test_get_most_common_text_value(test_extraction_preds):
     extract = Extractions(test_extraction_preds)
     rez = extract.get_most_common_text_value("Paydown Amount")
-    assert rez == None
+    assert rez is None
     extract._preds.append({"label": "Paydown Amount", "text": "a"})
     rez = extract.get_most_common_text_value("Paydown Amount")
     assert rez == "a"

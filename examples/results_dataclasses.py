@@ -93,16 +93,25 @@ predictions.extractions  # List of all document extraction predictions
 predictions.form_extractions  # List of all form extraction predictions
 predictions.unbundlings  # List of all unbundling predictions
 
-predictions.apply()  # Apply a function to all predictions
-predictions.groupby()  # Group predictions into a dictionary by some attribute (e.g. label)
-predictions.orderby()  # Sort predictions by some attribute (e.g. confidence)
-predictions.where()  # Filter predictions by some predicate (e.g. model, label, confidence)
-predictions.to_changes(result)  # Get this list of predictions as changes for `SubmitReview`
+# Apply a function to all predictions
+predictions.apply()
+# Group predictions into a dictionary by some attribute (e.g. label)
+predictions.groupby()
+# Sort predictions by some attribute (e.g. confidence)
+predictions.orderby()
+# Filter predictions by some predicate (e.g. model, label, confidence)
+predictions.where()
+# Get this list of predictions as changes for `SubmitReview`
+predictions.to_changes(result)
 
-predictions.extractions.accept()  # Accept all extractions in this list (e.g. after filtering)
-predictions.extractions.reject()  # Reject all extractions in this list (e.g. after filtering)
-predictions.extractions.unaccept()  # Unaccept all extractions in this list (e.g. after filtering)
-predictions.extractions.unreject()  # Unreject all extractions in this list (e.g. after filtering)
+# Accept all extractions in this list (e.g. after filtering)
+predictions.extractions.accept()
+# Reject all extractions in this list (e.g. after filtering)
+predictions.extractions.reject()
+# Unaccept all extractions in this list (e.g. after filtering)
+predictions.extractions.unaccept()
+# Unreject all extractions in this list (e.g. after filtering)
+predictions.extractions.unreject()
 
 
 # Prediction Dataclass
@@ -112,7 +121,8 @@ prediction.model
 prediction.label
 prediction.confidence  # Confidence of the predicted label
 prediction.confidences  # Confidences of all labels
-prediction.extras  # Other attributes from the result file prediction dict that are not explicitly parsed
+# Other attributes from the result file prediction dict that are not explicitly parsed
+prediction.extras
 
 
 # Extraction Dataclass (Subclass of Prediction)

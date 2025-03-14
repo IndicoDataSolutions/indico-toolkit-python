@@ -1,28 +1,28 @@
-import time
 import io
 from os import PathLike
-from typing import List, Union, Dict
-from indico import IndicoClient, IndicoRequestError
+from typing import Dict, List, Union
+
+from indico import IndicoClient
 from indico.queries import (
-    Submission,
-    SubmissionFilter,
-    ListSubmissions,
-    UpdateSubmission,
     GetSubmission,
     GetWorkflow,
-    WorkflowSubmission,
-    SubmitReview,
-    WaitForSubmissions,
-    UpdateWorkflowSettings,
     JobStatus,
+    ListSubmissions,
+    Submission,
+    SubmissionFilter,
+    SubmitReview,
+    UpdateSubmission,
+    UpdateWorkflowSettings,
+    WaitForSubmissions,
+    WorkflowSubmission,
 )
-from indico.types import Workflow
 from indico.queries.submission import SubmissionResult
-from .indico_wrapper import IndicoWrapper
-from indico_toolkit import ToolkitStatusError
-from indico_toolkit.ocr import OnDoc
-from indico_toolkit.types import WorkflowResult
+from indico.types import Workflow
 
+from ..errors import ToolkitStatusError
+from ..ocr import OnDoc
+from ..types import WorkflowResult
+from .indico_wrapper import IndicoWrapper
 
 COMPLETE_FILTER = SubmissionFilter(status="COMPLETE", retrieved=False)
 PENDING_REVIEW_FILTER = SubmissionFilter(status="PENDING_REVIEW", retrieved=False)
@@ -54,15 +54,13 @@ class Workflow(IndicoWrapper):
         Args:
             workflow_id (int): Workflow to submit to
             pdf_filepaths (List[str]): Path to local documents you would like to submit
-            streams (Dict[str, io.BufferedIOBase]): List of filename keys mapped to streams
-            for upload.
+            streams (Dict[str, io.BufferedIOBase]): List of filename keys mapped to
+            streams for upload.
         Returns:
             List[int]: List of unique and persistent identifier for each submission.
         """
         return self.client.call(
-            WorkflowSubmission(
-                workflow_id=workflow_id, files=files, streams=streams
-            )
+            WorkflowSubmission(workflow_id=workflow_id, files=files, streams=streams)
         )
 
     def get_ondoc_ocr_from_etl_url(self, etl_url: str) -> OnDoc:
@@ -125,14 +123,16 @@ class Workflow(IndicoWrapper):
         ignore_deleted_submissions: bool = False,
     ) -> List[WorkflowResult]:
         """
-        Wait for submission to pass through workflow models and get result. If Review is enabled,
-        result may be retrieved prior to human review.
+        Wait for submission to pass through workflow models and get result. If Review is
+        enabled, result may be retrieved prior to human review.
 
         Args:
             submission_ids (List[int]): Ids of submission predictions to retrieve
             timeout (int): seconds permitted for each submission prior to timing out
-            return_raw_json: (bool) = If True return raw json result, otherwise return WorkflowResult object.
-            raise_exception_for_failed (bool): if True, ToolkitStatusError raised for failed submissions
+            return_raw_json: (bool) = If True return raw json result, otherwise return
+                WorkflowResult object.
+            raise_exception_for_failed (bool): if True, ToolkitStatusError raised for
+                failed submissions
             return_failed_results (bool): if True, return objects for failed submissions
             ignore_deleted_submissions (bool): if True, ignore deleted submissions
 
@@ -205,8 +205,8 @@ class Workflow(IndicoWrapper):
         self, submission_ids: List[int], timeout_seconds: int = 180
     ) -> None:
         """
-        Wait for submissions to reach a terminal status of "COMPLETE", "PENDING_AUTO_REVIEW",
-        "FAILED", or "PENDING_REVIEW"
+        Wait for submissions to reach a terminal status of "COMPLETE",
+        "PENDING_AUTO_REVIEW", "FAILED", or "PENDING_REVIEW"
         """
         self.client.call(WaitForSubmissions(submission_ids, timeout_seconds))
 
@@ -228,4 +228,4 @@ class Workflow(IndicoWrapper):
         if ignore_exceptions:
             print(f"Ignoring exception and continuing: {message}")
         else:
-            raise Exception(message)
+            raise RuntimeError(message)

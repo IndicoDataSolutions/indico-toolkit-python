@@ -1,6 +1,6 @@
+from indico_toolkit import create_client
 from indico_toolkit.indico_wrapper import Workflow
 from indico_toolkit.pipelines import FileProcessing
-from indico_toolkit import create_client
 
 WORKFLOW_ID = 1418
 HOST = "app.indico.io"
@@ -19,4 +19,6 @@ for paths in fp.batch_files(batch_size=10):
     submission_ids = wflow.submit_documents_to_workflow(WORKFLOW_ID, paths)
     submission_results = wflow.get_submission_results_from_ids(submission_ids)
     for filename, result in zip(paths, submission_results):
-        result.predictions.to_csv("./results.csv", filename=filename, append_if_exists=True)
+        result.predictions.to_csv(
+            "./results.csv", filename=filename, append_if_exists=True
+        )

@@ -1,12 +1,14 @@
 from typing import List
-from indico_toolkit.association.association import sequences_overlap, sequences_exact
-from indico_toolkit.types.extractions import Extractions
-from indico_toolkit.errors import ToolkitInputError
+
+from ..association.association import sequences_exact, sequences_overlap
+from ..errors import ToolkitInputError
+from ..types.extractions import Extractions
 
 
 class CompareGroundTruth:
     """
-    Compare a set of ground truths against a set of model predictions on a per document basis.
+    Compare a set of ground truths against a set of model predictions on a per document
+    basis.
     """
 
     def __init__(self, ground_truth: List[dict], predictions: List[dict]):
@@ -20,7 +22,8 @@ class CompareGroundTruth:
 
     def set_all_label_metrics(self, span_type: str = "overlap") -> None:
         """
-        The "all_label_metrics" dict includes each label as a key and each label's metrics as the corresponding value.
+        The "all_label_metrics" dict includes each label as a key and each label's
+        metrics as the corresponding value.
         """
         if span_type in ["exact", "overlap"]:
             self.all_label_metrics = {
@@ -31,7 +34,8 @@ class CompareGroundTruth:
 
     def set_overall_metrics(self) -> None:
         """
-        The "overall_metrics" dict includes the metrics for the entire document. (Key: metric type; value: metric value)
+        The "overall_metrics" dict includes the metrics for the entire document.
+        (Key: metric type; value: metric value)
         """
         if self.all_label_metrics is None:
             self.set_all_label_metrics()
@@ -81,16 +85,17 @@ class CompareGroundTruth:
         each overlap with a single ground truth, each pred is counted as a true
         positive. (i.e. There isn't a break out of the loop once a TP is found.)
         """
-        # TODO potentially build in choice on the "multiple true positives" per ground truth prediction by adding conditional
+        # TODO potentially build in choice on the "multiple true positives" per ground
+        # truth prediction by adding conditional
         true_pos = 0
         false_neg = 0
         false_pos = 0
         span_types = {"overlap": sequences_overlap, "exact": sequences_exact}
         span_type_func = span_types[span_type]
 
-        if not label in self.preds_by_label:
+        if label not in self.preds_by_label:
             false_neg = len(self.gt_by_label[label])
-        elif not label in self.gt_by_label:
+        elif label not in self.gt_by_label:
             false_pos = len(self.preds_by_label[label])
         else:
             for model_pred in self.preds_by_label[label]:

@@ -1,9 +1,17 @@
-from typing import List, Dict, Set, Iterable, Union
-from collections import defaultdict, Counter
-import pandas as pd
+from collections import Counter, defaultdict
 from copy import deepcopy
-from indico_toolkit.pipelines import FileProcessing
-from indico_toolkit import ToolkitInputError
+from typing import Dict, Iterable, List, Set, Union
+
+from ..errors import ToolkitInputError
+from ..pipelines import FileProcessing
+
+try:
+    import pandas as pd
+
+    _PANDAS_INSTALLED = True
+except ImportError as error:
+    _PANDAS_INSTALLED = False
+    _IMPORT_ERROR = error
 
 
 class Extractions:
@@ -18,7 +26,8 @@ class Extractions:
     @property
     def to_dict_by_label(self) -> Dict[str, list]:
         """
-        Generate a dictionary where key is label string and value is list of all predictions of that label
+        Generate a dictionary where key is label string and value is list of all
+        predictions of that label
         """
         prediction_label_map = defaultdict(list)
         for pred in self._preds:
@@ -34,7 +43,8 @@ class Extractions:
         Remove predictions that are less than given confidence
         Args:
             confidence (float, optional): confidence theshold. Defaults to 0.95.
-            labels (List[str], optional): Labels where this applies, if None applies to all. Defaults to None.
+            labels (List[str], optional): Labels where this applies,
+                if None applies to all. Defaults to None.
         """
         high_conf_preds = []
         for pred in self._preds:
@@ -49,7 +59,8 @@ class Extractions:
 
     def remove_except_max_confidence(self, labels: List[str]):
         """
-        Removes all predictions except the highest confidence within each specified class
+        Removes all predictions except the highest confidence within each specified
+        class
         """
         label_set = self.label_set
         for label in labels:
@@ -62,7 +73,8 @@ class Extractions:
 
     def set_confidence_key_to_max_value(self, inplace: bool = True):
         """
-        Overwite confidence dictionary to just max confidence float to make preds more readable.
+        Overwite confidence dictionary to just max confidence float to make preds more
+        readable.
         """
         if inplace:
             self._set_confidence_key_to_max_value(self._preds)
@@ -97,7 +109,8 @@ class Extractions:
 
     def remove_human_added_predictions(self):
         """
-        Remove predictions that were not added by the model (i.e. added by scripted or human review)
+        Remove predictions that were not added by the model (i.e. added by scripted or
+        human review)
         """
         self._preds = [
             i for i in self._preds if not self.is_manually_added_prediction(i)
@@ -160,7 +173,7 @@ class Extractions:
 
     def get_most_common_text_value(self, label: str) -> Union[str, None]:
         """
-        Return the most common text value. If there is a tie- returns None. 
+        Return the most common text value. If there is a tie- returns None.
         """
         if label not in self.label_set:
             raise ToolkitInputError(f"There are no predictions for: '{label}'")
@@ -194,8 +207,15 @@ class Extractions:
             save_path (str): path to write CSV
             include_start_end (bool): include columns for start/end indexes
             append_if_exists (bool): if path exists, append to that CSV
-            filename (str, optional): the file where the preds were derived from. Defaults to "".
+            filename (str, optional): the file where the preds were derived from.
+                Defaults to "".
         """
+        if not _PANDAS_INSTALLED:
+            raise RuntimeError(
+                "saving predictions to CSV requires additional dependencies: "
+                "`pip install indico-toolkit[predictions]`"
+            ) from _IMPORT_ERROR
+
         preds = self.set_confidence_key_to_max_value(inplace=False)
         df = pd.DataFrame(preds)
         if not include_start_end:

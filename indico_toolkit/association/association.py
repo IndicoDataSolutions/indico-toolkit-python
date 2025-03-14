@@ -1,7 +1,8 @@
-from typing import Union, List, Dict
-from collections import defaultdict
 from abc import ABC, abstractmethod
-from indico_toolkit.types import Extractions
+from collections import defaultdict
+from typing import Dict, List, Union
+
+from ..types import Extractions
 
 
 class Association(ABC):

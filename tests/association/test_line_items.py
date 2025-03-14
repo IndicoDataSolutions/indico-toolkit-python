@@ -1,5 +1,5 @@
 import pytest
-from collections import defaultdict
+
 from indico_toolkit.association import LineItems
 
 
@@ -82,13 +82,13 @@ def test_prediction_reordering(three_row_invoice_preds, three_row_invoice_tokens
 
 def test_empty_line_items_init(three_row_invoice_preds, three_row_invoice_tokens):
     with pytest.raises(TypeError):
-        LineItems(three_row_invoice_preds,)
+        LineItems(three_row_invoice_preds)
 
 
 def test_mapped_positions_by_page(three_row_invoice_preds, three_row_invoice_tokens):
     litems = LineItems(
         three_row_invoice_preds,
-        ("work_order_number", "line_date", "work_order_tonnage")
+        ("work_order_number", "line_date", "work_order_tonnage"),
     )
     litems.get_bounding_boxes(three_row_invoice_tokens)
     assert isinstance(litems.mapped_positions_by_page, dict)
@@ -102,8 +102,8 @@ def test_predictions_sorted_by_bbtop(
 ):
     litems = LineItems(
         two_row_bank_statement_preds,
-        ["Deposit Date", "Withdrawal Amount", "Deposit Amount", "Withdrawal Date"]
-        )
+        ["Deposit Date", "Withdrawal Amount", "Deposit Amount", "Withdrawal Date"],
+    )
     litems.get_bounding_boxes(two_row_bank_statement_tokens, raise_for_no_match=False)
     litems.assign_row_number()
     for row in litems.grouped_line_items:

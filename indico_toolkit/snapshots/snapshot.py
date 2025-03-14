@@ -1,12 +1,17 @@
-from __future__ import (
-    annotations,
-)  # from 3.10, don't need for same class reference in class method
-from typing import List, Union, Tuple
-import pandas as pd
-import os
 import json
+import os
 from json import JSONDecodeError
-from indico_toolkit import ToolkitInstantiationError, ToolkitInputError
+from typing import List, Tuple, Union
+
+from ..errors import ToolkitInputError, ToolkitInstantiationError
+
+try:
+    import pandas as pd
+
+    _PANDAS_INSTALLED = True
+except ImportError as error:
+    _PANDAS_INSTALLED = False
+    _IMPORT_ERROR = error
 
 # TODO: add functionality for classification snapshots
 
@@ -24,10 +29,19 @@ class Snapshot:
 
         Args:
             path_to_snapshot (str): path to Snapshot CSV
-            text_col (str, optional): Column with text, will be inferred if not provided. Defaults to None.
-            label_col (str, optional): Column with labels, will be inferred if not provided. Defaults to None.
-            file_name_col (str, optional): Column with file names, will be inferred if not provided. Defaults to None.
+            text_col (str, optional): Column with text, will be inferred if not
+                provided. Defaults to None.
+            label_col (str, optional): Column with labels, will be inferred if not
+                provided. Defaults to None.
+            file_name_col (str, optional): Column with file names, will be inferred if
+                not provided. Defaults to None.
         """
+        if not _PANDAS_INSTALLED:
+            raise RuntimeError(
+                "snapshots require additional dependencies: "
+                "`pip install indico-toolkit[snapshots]`"
+            ) from _IMPORT_ERROR
+
         self.path_to_snapshot = path_to_snapshot
         self.df: pd.DataFrame = pd.read_csv(path_to_snapshot)
         self.label_col = label_col
@@ -86,16 +100,19 @@ class Snapshot:
 
     def drop_unneeded_columns(self, columns_to_drop: List[str] = None):
         """
-        Keep only text, labels, and file name columns or specify columns to drop by passing them in as a list.
+        Keep only text, labels, and file name columns or specify columns to drop by
+        passing them in as a list.
         """
         if columns_to_drop:
             self.df.drop(labels=columns_to_drop, axis=1, inplace=True)
         else:
             self.df = self.df[[self.label_col, self.text_col, self.file_name_col]]
 
-    def append(self, snap_to_add: Snapshot):
+    def append(self, snap_to_add: "Snapshot"):
         """
-        Append the rows from another Snapshot to this snapshot. Ensure column names are standardized beforehand.
+        Append the rows from another Snapshot to this snapshot. Ensure column names are
+        standardized beforehand.
+
         Args:
             snap_to_add (Snapshot): Snapshot to add
         """
@@ -115,16 +132,17 @@ class Snapshot:
 
     def merge_by_file_name(
         self,
-        snap_to_merge: Snapshot,
+        snap_to_merge: "Snapshot",
         ensure_identical_text: bool = True,
     ):
         """
-        Merge extraction labels for identical files. Merge is 'left' and file names / rows only present
-        in 'snap_to_merge' are excluded.
+        Merge extraction labels for identical files. Merge is 'left' and file names /
+        rows only present in 'snap_to_merge' are excluded.
+
         Args:
             snap_to_merge (Snapshot): Snapshot you want to merge
-            ensure_identical_text (bool, optional): Require document text to be identical for common file name.
-                                                    Defaults to True.
+            ensure_identical_text (bool, optional): Require document text to be
+                identical for common file name. Defaults to True.
         """
         self._assert_key_column_names_match(snap_to_merge)
         suffix = "_to_merge"
@@ -177,8 +195,8 @@ class Snapshot:
         Get all of the text that was tagged for a given label
         Args:
             label_name (str): name of the label
-            return_per_document (bool, optional): return a list per document or one list with everything.
-                                                  Defaults to False.
+            return_per_document (bool, optional): return a list per document or one list
+                with everything. Defaults to False.
         """
         available_labels = self.get_extraction_label_names()
         if label_name not in available_labels:
@@ -202,13 +220,15 @@ class Snapshot:
         self, output_dir: str, num_splits: int = 5, output_base_name: str = "split_num"
     ) -> None:
         """
-        For large files that may face memory constraints, split the file into multiple CSVs and write
-        to disk.
+        For large files that may face memory constraints, split the file into multiple
+        CSVs and write to disk.
+
         Args:
             output_dir (str): Location where split files will be written.
             num_splits (int, optional): The number of splits of the CSV. Defaults to 5.
-            output_base_name (str, optional): The base name of the split CSVs: Defaults to "split_num".
-                                              So files would be "split_num_1.csv", "split_num_2.csv", etc.
+            output_base_name (str, optional): The base name of the split CSVs:
+                Defaults to "split_num". So files would be "split_num_1.csv",
+                "split_num_2.csv", etc.
         """
         split_length = self.number_of_samples // num_splits
         rows_taken = 0
@@ -226,9 +246,10 @@ class Snapshot:
         """
         Modifies label column to updated format with spans.
         Args:
-            task_type (str): Task type to specifiy df as (annotation = extraction, classification = classification)
+            task_type (str): Task type to specifiy df as
+                (annotation = extraction, classification = classification)
 
-        NOTE: page_num in the span is currently set to None.
+        Note: page_num in the span is currently set to None.
         """
         updated_column = []
         for label_set in self.df[self.label_col]:
@@ -245,7 +266,7 @@ class Snapshot:
             updated_column.append({"task_type": task_type, "targets": updated_targets})
         self.df[self.label_col] = updated_column
 
-    def __eq__(self, other: Snapshot):
+    def __eq__(self, other: "Snapshot"):
         """
         Check if two snapshots can be merged based on common column names
         """
@@ -265,7 +286,7 @@ class Snapshot:
                 f"{self.label_col} doesn't contain valid extraction labels"
             )
 
-    def _assert_key_column_names_match(self, snapshot: Snapshot):
+    def _assert_key_column_names_match(self, snapshot: "Snapshot"):
         try:
             assert self == snapshot
         except AssertionError:

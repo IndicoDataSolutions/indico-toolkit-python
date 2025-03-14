@@ -1,6 +1,6 @@
+from indico_toolkit import create_client
 from indico_toolkit.indico_wrapper import DocExtraction
 from indico_toolkit.pipelines import FileProcessing
-from indico_toolkit import create_client
 
 """
 Retrieves a list of raw full document texts for all files in a folder

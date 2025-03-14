@@ -3,13 +3,14 @@ from typing import List, Union
 
 class CustomOcr:
     """
-    CustomOcr is a helper class for the raw preset config OCR results. Enables easy extraction
-    of full text and page-level text.
+    CustomOcr is a helper class for the raw preset config OCR results. Enables easy
+    extraction of full text and page-level text.
     """
 
     def __init__(self, customocr: Union[List[dict], dict]):
         """
-        customocr Union[List[dict], dict]: result object from indico.queries.DocumentExtraction
+        customocr Union[List[dict], dict]: result object from
+        indico.queries.DocumentExtraction
         """
         self.customocr = customocr
 
@@ -26,7 +27,7 @@ class CustomOcr:
         elif isinstance(self.customocr, list) and "pages" in self.customocr[0]:
             if "text" in self.customocr[0]["pages"][0]:
                 return "\n".join(page["pages"][0]["text"] for page in self.customocr)
-        raise Exception(f"JSON configuration setting does not have full text.")
+        raise RuntimeError("JSON configuration setting does not have full text.")
 
     @property
     def page_texts(self) -> List[str]:
@@ -38,4 +39,4 @@ class CustomOcr:
         elif isinstance(self.customocr, list) and "pages" in self.customocr[0]:
             if "text" in self.customocr[0]["pages"][0]:
                 return [page["pages"][0]["text"] for page in self.customocr]
-        raise Exception(f"JSON configuration setting does not have page-level text.")
+        raise RuntimeError("JSON configuration setting does not have page-level text.")

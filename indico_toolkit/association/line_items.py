@@ -1,14 +1,17 @@
 """Associate row items"""
-from typing import List, Union, Iterable, Dict
+
 from collections import defaultdict
 from copy import deepcopy
-from indico_toolkit.types import Extractions
-from .association import sequences_overlap, Association, _check_if_token_match_found
+from typing import Iterable, List, Union
+
+from ..types import Extractions
+from .association import Association, _check_if_token_match_found, sequences_overlap
 
 
 class LineItems(Association):
     """
-    Class for associating line items given extraction predictions and ondocument OCR tokens
+    Class for associating line items given extraction predictions and ondocument OCR
+    tokens
 
     Example Usage:
 
@@ -31,8 +34,8 @@ class LineItems(Association):
         """
         Args:
         predictions (List[dict]): List of extraction predictions
-        line_item_fields (Iterable[str]): Fields/labels to include as line item values, other values
-                                      will not be assigned a row_number.
+        line_item_fields (Iterable[str]): Fields/labels to include as line item values,
+            other values will not be assigned a row_number.
         """
         self.predictions = self.validate_prediction_formatting(predictions)
         self.line_item_fields: Iterable[str] = line_item_fields
@@ -78,13 +81,16 @@ class LineItems(Association):
         return match_token_index
 
     def get_bounding_boxes(
-        self, ocr_tokens: List[dict], raise_for_no_match: bool = True,
+        self, ocr_tokens: List[dict], raise_for_no_match: bool = True
     ):
         """
-        Adds keys for bounding box top/bottom/left/right and page number to line item predictions
+        Adds keys for bounding box top/bottom/left/right and page number to line item
+        predictions
+
         Args:
         ocr_tokens (List[dict]): Tokens from 'ondocument' OCR config output
-        raise_for_no_match (bool): raise exception if a matching token isn't found for a prediction
+        raise_for_no_match (bool): raise exception if a matching token isn't found for a
+            prediction
         """
         predictions = deepcopy(self.predictions)
         predictions = self._remove_unneeded_predictions(predictions)
@@ -117,7 +123,8 @@ class LineItems(Association):
         page_number = starting_pred["page_num"]
         row_number = 1
         for pred in self._mapped_positions:
-            # if the top of one box equals the bottom of another, we still want a new line
+            # if the top of one box equals the bottom of another, we still want a new
+            # line
             if pred["bbTop"] >= max_bot or pred["page_num"] != page_number:
                 row_number += 1
                 page_number = pred["page_num"]
@@ -129,8 +136,8 @@ class LineItems(Association):
     @property
     def grouped_line_items(self) -> List[List[dict]]:
         """
-        After row number has been assigned to predictions, returns line item predictions as a
-        list of lists where each list is a row.
+        After row number has been assigned to predictions, returns line item predictions
+        as a list of lists where each list is a row.
         """
         rows = defaultdict(list)
         for pred in self._mapped_positions:
@@ -139,7 +146,8 @@ class LineItems(Association):
 
     def _remove_unneeded_predictions(self, predictions: List[dict]) -> List[dict]:
         """
-        Remove predictions that are not line item fields or don't have valid start/end index data
+        Remove predictions that are not line item fields or don't have valid start/end
+        index data
         """
         valid_line_item_preds = []
         for pred in predictions:
@@ -159,8 +167,9 @@ class LineItems(Association):
 
     def _get_first_valid_line_item_pred(self) -> dict:
         if len(self._mapped_positions) == 0:
-            raise Exception(
-                "Whoops! You have no line_item_fields predictions. Did you run get_bounding_boxes?"
+            raise RuntimeError(
+                "Whoops! You have no line_item_fields predictions. "
+                "Did you run get_bounding_boxes?"
             )
         return self._mapped_positions[0]
 

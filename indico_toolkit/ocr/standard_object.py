@@ -3,8 +3,8 @@ from typing import List
 
 class StandardOcr:
     """
-    StandardOcr is a helper class for the raw "standard" preset config OCR result. Enables easy extraction
-    of common datapoints into usable objects.
+    StandardOcr is a helper class for the raw "standard" preset config OCR result.
+    Enables easy extraction of common datapoints into usable objects.
     """
 
     def __init__(self, standardocr: dict):
@@ -39,7 +39,11 @@ class StandardOcr:
         """
         Return list of block-level text
         """
-        return [block["text"] for page in self.standardocr["pages"] for block in page["blocks"]]
+        return [
+            block["text"]
+            for page in self.standardocr["pages"]
+            for block in page["blocks"]
+        ]
 
     @property
     def total_pages(self) -> int:

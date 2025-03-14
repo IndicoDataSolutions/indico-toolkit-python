@@ -1,8 +1,10 @@
 from typing import List, Union
+
 from indico import IndicoClient
 from indico.queries import DocumentExtraction, Job
-from indico_toolkit.indico_wrapper import IndicoWrapper
-from indico_toolkit.ocr import OnDoc, StandardOcr, CustomOcr
+
+from ..ocr import CustomOcr, OnDoc, StandardOcr
+from .indico_wrapper import IndicoWrapper
 
 
 class DocExtraction(IndicoWrapper):
@@ -18,7 +20,8 @@ class DocExtraction(IndicoWrapper):
     ):
         """
         Args:
-            preset_config (str): Options are simple, legacy, detailed, ondocument, and standard.
+            preset_config (str): Options are simple, legacy, detailed, ondocument, and
+                standard.
         """
         self._preset_config = preset_config
         self.client = client
@@ -31,11 +34,13 @@ class DocExtraction(IndicoWrapper):
     ) -> List[Union[StandardOcr, OnDoc, CustomOcr, str]]:
         """
         Args:
-            filepaths (List[str]): List of paths to local documents you would like to submit for extraction
+            filepaths (List[str]): List of paths to local documents you would like to
+                submit for extraction
             text_setting (str): Options are full_text and page_texts.
 
         Returns:
-            extracted_data (List[Union[StandardOcr, OnDoc, CustomOcr, str]]): data from DocumentExtraction converted to OCR objects or string text
+            extracted_data (List[Union[StandardOcr, OnDoc, CustomOcr, str]]): data from
+                DocumentExtraction converted to OCR objects or string text
         """
         jobs = self._submit_to_ocr(filepaths)
         extracted_data = []
@@ -50,7 +55,9 @@ class DocExtraction(IndicoWrapper):
                 else:
                     extracted_data.append(self._convert_ocr_objects(result))
             else:
-                raise Exception(f"{filepaths[ind]} {status.status}: {status.result}.")
+                raise RuntimeError(
+                    f"{filepaths[ind]} {status.status}: {status.result}."
+                )
         return extracted_data
 
     def _submit_to_ocr(self, filepaths: List[str]) -> List[Job]:
@@ -63,7 +70,10 @@ class DocExtraction(IndicoWrapper):
     ) -> Union[StandardOcr, OnDoc, CustomOcr]:
         if self.json_config == {"preset_config": "ondocument"}:
             return OnDoc(extracted_data)
-        elif self.json_config == {"preset_config": "standard"} or self.json_config is None:
+        elif (
+            self.json_config == {"preset_config": "standard"}
+            or self.json_config is None
+        ):
             return StandardOcr(extracted_data)
         else:
             return CustomOcr(extracted_data)

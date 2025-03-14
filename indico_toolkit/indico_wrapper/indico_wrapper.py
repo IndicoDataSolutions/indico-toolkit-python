@@ -1,19 +1,20 @@
 from typing import List, Union
-from indico.queries import (
-    RetrieveStorageObject,
-    GraphQLRequest,
-    JobStatus,
-    CreateModelGroup,
-    ModelGroupPredict,
-    CreateStorageURLs
-)
-from indico.types import Dataset, ModelGroup, Workflow
+
 from indico import IndicoClient
 from indico.errors import IndicoRequestError
+from indico.queries import (
+    AddModelGroupComponent,
+    CreateStorageURLs,
+    GraphQLRequest,
+    JobStatus,
+    ModelGroupPredict,
+    RetrieveStorageObject,
+)
+from indico.types import Dataset, ModelGroup, Workflow
 
-from indico_toolkit import ToolkitInputError
-from indico_toolkit.retry import retry
-from indico_toolkit.types import Predictions
+from ..errors import ToolkitStatusError
+from ..retry import retry
+from ..types import Predictions
 
 
 class IndicoWrapper:
@@ -38,19 +39,21 @@ class IndicoWrapper:
         source_col: str,
         target_col: str,
         after_component_id: int = None,
-        wait: bool = False,
     ) -> ModelGroup:
         """
-        Train an Indico model 
+        Train an Indico model
         Args:
-            dataset (Dataset): A dataset object (should represent an uploaded CSV dataset)
+            dataset (Dataset): A dataset object (should represent an uploaded CSV
+                dataset)
             workflow (Workflow): A workflow object to the corresponding dataset
             model_name (str): the name for your model
             source_col (str): the csv column that contained the text
             target_col (str): the csv column that contained the labels
-            after_component_id (int, optional): The workflow component that precedes this model group. If None, will be set
-                                                programmatically to the id of the Input OCR Extraction component. Defaults to None.
-            wait (bool, optional): Wait for the model to finish training. Defaults to False.
+            after_component_id (int, optional): The workflow component that precedes
+                this model group. If None, will be set programmatically to the id of the
+                Input OCR Extraction component. Defaults to None.
+            wait (bool, optional): Wait for the model to finish training.
+                Defaults to False.
 
         Returns:
             ModelGroup: Model group object
@@ -58,14 +61,13 @@ class IndicoWrapper:
         if not after_component_id:
             after_component_id = workflow.component_by_type("INPUT_OCR_EXTRACTION").id
         return self.client.call(
-            CreateModelGroup(
+            AddModelGroupComponent(
                 name=model_name,
                 dataset_id=dataset.id,
                 source_column_id=dataset.datacolumn_by_name(source_col).id,
-                labelset_id=dataset.labelset_by_name(target_col).id,
+                labelset_column_id=dataset.labelset_by_name(target_col).id,
                 workflow_id=workflow.id,
                 after_component_id=after_component_id,
-                wait=wait,
             )
         )
 
@@ -102,11 +104,12 @@ class IndicoWrapper:
             options (dict, optional): Model Prediction options. Defaults to None.
             wait (bool, optional): Wait for predictions to finish. Defaults to True.
 
-        Returns: if wait is False, returns the job ID, else returns a list of Predictions where each 
-        Predictions is either type Classifications or Extractions depending on your model.
+        Returns: if wait is False, returns the job ID, else returns a list of
+            Predictions where each Predictions is either type Classifications or
+            Extractions depending on your model.
         """
         job = self.client.call(ModelGroupPredict(model_id, samples, load, options))
-        if wait == False:
+        if not wait:
             return job.id
         status = self.get_job_status(job.id, wait=True)
         if status.status != "SUCCESS":
@@ -114,4 +117,3 @@ class IndicoWrapper:
                 f"Predictions Failed, {status.status}: {status.result}"
             )
         return [Predictions.get_obj(i) for i in status.result]
-

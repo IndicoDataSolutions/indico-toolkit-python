@@ -1,15 +1,17 @@
 from typing import List
+
 from indico import IndicoClient
-from indico.types import Dataset, Workflow, OcrEngine
 from indico.queries import (
-    GetDataset,
-    CreateDataset,
-    AddFiles,
-    DeleteDataset,
-    CreateEmptyDataset,
     AddDataToWorkflow,
+    AddFiles,
+    CreateDataset,
+    CreateEmptyDataset,
+    DeleteDataset,
+    GetDataset,
 )
-from indico_toolkit.indico_wrapper import IndicoWrapper
+from indico.types import Dataset, OcrEngine, Workflow
+
+from .indico_wrapper import IndicoWrapper
 
 
 class Datasets(IndicoWrapper):
@@ -24,13 +26,17 @@ class Datasets(IndicoWrapper):
         Upload documents to an existing dataset and wait for them to OCR
         """
         dataset = self.client.call(
-            AddFiles(dataset_id=dataset_id, files=filepaths, autoprocess=True, wait=True)
+            AddFiles(
+                dataset_id=dataset_id, files=filepaths, autoprocess=True, wait=True
+            )
         )
         return dataset
 
     def add_new_files_to_task(self, workflow_id: id, wait: bool = True) -> Workflow:
         """
-        Add newly uploaded documents to an existing teach task given the task's associated workflow ID
+        Add newly uploaded documents to an existing teach task given the task's
+        associated workflow ID
+
         Args:
             workflow_id (id): workflow ID associated with teach task
             wait (bool, optional): wait for data to be added. Defaults to True.
@@ -41,17 +47,28 @@ class Datasets(IndicoWrapper):
         return workflow
 
     def create_empty_dataset(
-        self, dataset_name: str, dataset_type: str = "DOCUMENT", ocr_engine: OcrEngine = OcrEngine.READAPI
+        self,
+        dataset_name: str,
+        dataset_type: str = "DOCUMENT",
+        ocr_engine: OcrEngine = OcrEngine.READAPI,
     ) -> Dataset:
         """
         Create an empty dataset
         Args:
             name (str): Name of the dataset
-            dataset_type (str, optional): TEXT, IMAGE, or DOCUMENT. Defaults to "DOCUMENT".
+            dataset_type (str, optional): TEXT, IMAGE, or DOCUMENT.
+                Defaults to "DOCUMENT".
         """
-        return self.client.call(CreateEmptyDataset(dataset_name, dataset_type, ocr_engine))
+        return self.client.call(
+            CreateEmptyDataset(dataset_name, dataset_type, ocr_engine)
+        )
 
-    def create_dataset(self, filepaths: List[str], dataset_name: str, ocr_engine: OcrEngine = OcrEngine.READAPI) -> Dataset:
+    def create_dataset(
+        self,
+        filepaths: List[str],
+        dataset_name: str,
+        ocr_engine: OcrEngine = OcrEngine.READAPI,
+    ) -> Dataset:
         dataset = self.client.call(
             CreateDataset(
                 name=dataset_name,
@@ -61,7 +78,7 @@ class Datasets(IndicoWrapper):
         )
         self.dataset_id = dataset.id
         return dataset
-      
+
     def delete_dataset(self, dataset_id: int) -> bool:
         """
         Returns True if operation is succesful
@@ -70,7 +87,8 @@ class Datasets(IndicoWrapper):
 
     def get_dataset_metadata(self, dataset_id: int) -> List[dict]:
         """
-        Get list of dataset files with information like file name, status, and number of pages
+        Get list of dataset files with information like file name, status, and number of
+        pages
         """
         query = """
             query GetDataset($id: Int) {

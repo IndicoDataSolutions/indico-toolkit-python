@@ -1,6 +1,6 @@
 import pytest
 
-from indico_toolkit.retry import retry, MaxRetriesExceeded
+from indico_toolkit.retry import retry
 
 
 def test_no_errors() -> None:
@@ -20,7 +20,7 @@ def test_raises_errors() -> None:
         calls += 1
         raise RuntimeError()
 
-    with pytest.raises(MaxRetriesExceeded):
+    with pytest.raises(RuntimeError):
         raises_errors()
 
     assert calls == 5
@@ -51,7 +51,7 @@ async def test_raises_errors_async() -> None:
         calls += 1
         raise RuntimeError()
 
-    with pytest.raises(MaxRetriesExceeded):
+    with pytest.raises(RuntimeError):
         await raises_errors()
 
     assert calls == 5

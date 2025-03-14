@@ -16,5 +16,5 @@ auto_populator = AutoPopulator(client)
 new_workflow = auto_populator.copy_teach_task(
     dataset_id=DATASET_ID,
     teach_task_id=TEACH_TASK_ID,
-    workflow_name=f"Copied Workflow",
+    workflow_name="Copied Workflow",
 )

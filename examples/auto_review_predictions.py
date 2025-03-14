@@ -1,17 +1,14 @@
 """
 Submit documents to a workflow, auto review them and submit them for human review
 """
-from indico_toolkit.auto_review import (
-    AutoReviewFunction,
-    AutoReviewer,
-)
+
+from indico_toolkit import create_client
+from indico_toolkit.auto_review import AutoReviewer, AutoReviewFunction
 from indico_toolkit.auto_review.auto_review_functions import (
+    accept_by_confidence,
     remove_by_confidence,
-    accept_by_confidence
 )
 from indico_toolkit.indico_wrapper import Workflow
-from indico_toolkit import create_client
-
 
 WORKFLOW_ID = 1234
 HOST = "app.indico.io"
@@ -29,6 +26,7 @@ submission_ids = wflow.submit_documents_to_workflow(
 wf_results = wflow.get_submission_results_from_ids(submission_ids)
 predictions = wf_results[0].predictions.to_list()
 
+
 # Set up custom review function
 def custom_function(predictions, labels: list = None, match_text: str = ""):
     for pred in predictions:
@@ -39,9 +37,13 @@ def custom_function(predictions, labels: list = None, match_text: str = ""):
 
 # Set up review functions and review predictions
 functions = [
-    AutoReviewFunction(remove_by_confidence, kwargs={"conf_threshold": 0.90}), # will default to all labels if labels is not provided
+    AutoReviewFunction(
+        remove_by_confidence, kwargs={"conf_threshold": 0.90}
+    ),  # will default to all labels if labels is not provided
     AutoReviewFunction(accept_by_confidence, labels=["Name", "Amount"]),
-    AutoReviewFunction(custom_function, kwargs={"match_text": "text to match"}) # call custom auto review function 
+    AutoReviewFunction(
+        custom_function, kwargs={"match_text": "text to match"}
+    ),  # call custom auto review function
 ]
 auto_reviewer = AutoReviewer(predictions, functions)
 auto_reviewer.apply_reviews()
@@ -50,4 +52,3 @@ auto_reviewer.apply_reviews()
 wflow.submit_submission_review(
     submission_ids[0], {MODEL_NAME: auto_reviewer.updated_predictions}
 )
-

@@ -1,8 +1,9 @@
 """
 Test Model Ops class methods
 """
+
 import pytest
-import json
+
 from indico_toolkit.indico_wrapper.modelop import ModelOp
 
 
@@ -58,7 +59,7 @@ def test_invalid_parameter(extraction_model_group_id, modelop, params):
         _ = modelop.update_model_settings(
             model_group_id=extraction_model_group_id,
             model_type="text_extraction",
-            **params
+            **params,
         )
 
 

@@ -1,27 +1,26 @@
-import tempfile
 import json
-import shutil
 import os
+import shutil
+import tempfile
 from typing import List
 
 from indico.queries import (
+    AddModelGroupComponent,
     CreateDataset,
     CreateWorkflow,
-    NewLabelsetArguments,
-    AddModelGroupComponent,
-    GetWorkflow,
     GetDataset,
+    GetWorkflow,
+    NewLabelsetArguments,
 )
 from indico.types import (
-    OcrEngine,
     Dataset,
-    Workflow,
+    OcrEngine,
     TableReadOrder,
+    Workflow,
 )
-from indico.types import Workflow
-from indico_toolkit.errors import ToolkitInputError
 
-from .queries import *
+from ..errors import ToolkitInputError
+from .queries import GetExampleIds, GetTeachDetails, LabelTeachTask
 from .utils import ModelTaskType
 
 
@@ -42,7 +41,8 @@ class Structure:
         Args:
             name_of_dataset (str): Name of the created dataset
             file_path (str): Path of the file to copy.
-            read_api (bool, optional): OCR Engine used for the dataset. Defaults to True=READ_API / False=OMNIPAGE
+            read_api (bool, optional): OCR Engine used for the dataset.
+                Defaults to True=READ_API / False=OMNIPAGE
         Kwargs:
             Advanced OCR settings
         """
@@ -65,7 +65,8 @@ class Structure:
             else:
                 if arg == "table_read_order" and kwargs[arg] not in ["row", "column"]:
                     raise ToolkitInputError(
-                        f"Keyword argument {arg} got an unexpected value of {kwargs[arg]}, expected value of either 'row' or 'column'"
+                        f"Keyword argument {arg} got an unexpected value of "
+                        f"{kwargs[arg]}, expected value of either 'row' or 'column'"
                     )
                 omnipage_settings.update({arg: kwargs[arg]})
 
@@ -101,13 +102,16 @@ class Structure:
         **kwargs,
     ) -> Dataset:
         """
-        Creates a dataset w/ duplicate instances of 1 file, historically used to create a spoofed demo.
+        Creates a dataset w/ duplicate instances of 1 file, historically used to create
+        a spoofed demo.
 
         Args:
             file_path (str): Path of the file to copy.
             name_of_dataset (str): Name of the created dataset
-            times_to_copy_files (int, optional): Amount of times to copy the file. Defaults to 55.
-            read_api (bool, optional): OCR Engine used for the dataset. Defaults to True=READ_API / False=OMNIPAGE
+            times_to_copy_files (int, optional): Amount of times to copy the file.
+                Defaults to 55.
+            read_api (bool, optional): OCR Engine used for the dataset.
+                Defaults to True=READ_API / False=OMNIPAGE
         Kwargs:
             Advanced OCR settings
         """
@@ -180,7 +184,8 @@ class Structure:
         }
         if model_type not in model_map.keys():
             raise ToolkitInputError(
-                f"{model_type} not found. Available options include {[model for model in model_map.keys()]}"
+                f"{model_type} not found. Available options "
+                f"include {[model for model in model_map.keys()]}"
             )
         workflow = self.client.call(GetWorkflow(workflow_id))
         if not prev_comp_id:
@@ -206,7 +211,8 @@ class Structure:
             )
         )
         print(
-            f"Newly created teach task with teach_id: {workflow.components[-1].model_group.questionnaire_id}"
+            "Newly created teach task with teach_id: "
+            f"{workflow.components[-1].model_group.questionnaire_id}"
         )
         return workflow
 

@@ -1,15 +1,18 @@
+import pytest
+
 from indico_toolkit.association import LineItems
 from indico_toolkit.indico_wrapper import Workflow
-from tests.conftest import MODEL_NAME
 
 
-def test_workflow_submit_and_get_rows(indico_client, workflow_id, pdf_filepath):
+@pytest.mark.skip(reason="broken on indico-client>=6.1.0")
+def test_workflow_submit_and_get_rows(indico_client, workflow_id, pdf_file):
     """
-    Submit a document to workflow, get results and ocr object, then association line items
+    Submit a document to workflow, get results and ocr object, then association line
+    items
     """
     wflow = Workflow(indico_client)
     sub_ids = wflow.submit_documents_to_workflow(
-        workflow_id=workflow_id, pdf_filepaths=[pdf_filepath]
+        workflow_id=workflow_id, files=[pdf_file]
     )
     wflow.wait_for_submissions_to_process(sub_ids)
     sub_result = wflow.get_submission_results_from_ids([sub_ids[0]])[0]

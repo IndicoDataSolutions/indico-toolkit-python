@@ -1,5 +1,6 @@
 from indico.queries import GraphQLRequest
 
+
 class GetTeachDetails(GraphQLRequest):
     GET_TEACH_DETAILS = """
         query getCrowdlabelQuestionnaire($teach_task_id: Int!) {
@@ -33,12 +34,31 @@ class GetTeachDetails(GraphQLRequest):
     def process_response(self, response):
         return super().process_response(response)
 
+
 class GetExampleIds(GraphQLRequest):
     GET_EXAMPLES = """
-        query getExamplesList($modelGroupId: Int!, $filters: ExampleFilter, $skip: Int, $before: Int, $after: Int, $limit: Int, $desc: Boolean, $orderBy: ExampleOrder) {
+        query getExamplesList(
+            $modelGroupId: Int!,
+            $filters: ExampleFilter,
+            $skip: Int,
+            $before: Int,
+            $after: Int,
+            $limit: Int,
+            $desc: Boolean,
+            $orderBy: ExampleOrder
+        ) {
           modelGroup(modelGroupId: $modelGroupId) {
             id
-            pagedExamples(filters: $filters, skip: $skip, before: $before, after: $after, limit: $limit, desc: $desc, orderBy: $orderBy) {
+            pagedExamples(
+                filters: $filters,
+                skip: $skip,
+                before: $before,
+                after: $after,
+                limit: $limit,
+                desc: $desc,
+                orderBy:
+                $orderBy
+            ) {
               examples {
                 id
                 datarowId
@@ -67,6 +87,7 @@ class GetExampleIds(GraphQLRequest):
 
     def process_response(self, response):
         return super().process_response(response)
+
 
 class LabelTeachTask(GraphQLRequest):
     LABEL_TASK = """

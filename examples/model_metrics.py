@@ -1,8 +1,9 @@
 """
 Get extraction field metrics for all Model IDs in a Model Group
 """
-from indico_toolkit.metrics import ExtractionMetrics, CompareModels
+
 from indico_toolkit import create_client
+from indico_toolkit.metrics import CompareModels, ExtractionMetrics
 
 MODEL_GROUP_ID = 73
 HOST = "app.indico.io"
@@ -11,8 +12,8 @@ API_TOKEN_PATH = "./indico_api_token.txt"
 client = create_client(HOST, API_TOKEN_PATH)
 
 """
-Example 1: Explore and compare performance for all models in a Model Group to, for example, see improvement
-over time.
+Example 1: Explore and compare performance for all models in a Model Group to, for
+example, see improvement over time.
 """
 metrics = ExtractionMetrics(client)
 metrics.get_metrics(MODEL_GROUP_ID)

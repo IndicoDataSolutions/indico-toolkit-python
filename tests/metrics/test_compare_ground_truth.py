@@ -1,4 +1,5 @@
 import pytest
+
 from indico_toolkit.metrics.compare_ground_truth import CompareGroundTruth
 
 

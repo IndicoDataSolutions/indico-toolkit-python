@@ -1,17 +1,25 @@
 import os
 from io import StringIO
-import pandas as pd
-from indico.types.export import Export
+
 from indico import IndicoClient, IndicoRequestError
-from indico_toolkit import ToolkitInputError
-from indico_toolkit.retry import retry
 from indico.queries import (
-    RetrieveStorageObject,
-    DownloadExport,
     CreateExport,
+    DownloadExport,
     GraphQLRequest,
+    RetrieveStorageObject,
 )
-import tqdm
+from indico.types.export import Export
+
+from ..errors import ToolkitInputError
+from ..retry import retry
+
+try:
+    import pandas as pd
+
+    _PANDAS_INSTALLED = True
+except ImportError as error:
+    _PANDAS_INSTALLED = False
+    _IMPORT_ERROR = error
 
 
 class Download:
@@ -35,7 +43,8 @@ class Download:
             dataset_id (int): Dataset ID to download from
             labelset_id (int): ID of your labelset (from teach task)
             output_dir (str): Path to directory to write PDFs
-            max_files_to_download (int): = Max number of files to download (default: None = download all)
+            max_files_to_download (int): = Max number of files to download
+                (default: None = download all)
 
         Raises:
             ToolkitInputError: Exception if invalid directory path
@@ -56,7 +65,7 @@ class Download:
         )
         return num_files_downloaded
 
-    def get_uploaded_csv_dataframe(self, dataset_id: int) -> pd.DataFrame:
+    def get_uploaded_csv_dataframe(self, dataset_id: int) -> "pd.DataFrame":
         """
         Get a dataframe from a CSV that has been uploaded to the platform
         Args:
@@ -64,20 +73,27 @@ class Download:
         Returns:
             pd.DataFrame: a dataframe representation of the CSV you uploaded
         """
+        if not _PANDAS_INSTALLED:
+            raise RuntimeError(
+                "getting an uploaded CSV dataframe requires additional dependencies: "
+                "`pip install indico-toolkit[downloads]`"
+            ) from _IMPORT_ERROR
+
         url = self._get_csv_download_url(dataset_id)
         string_df = self._retrieve_storage_object(url)
         return pd.read_csv(StringIO(string_df))
 
     def get_snapshot_dataframe(
         self, dataset_id: int, labelset_id: int, file_info: bool = True, **kwargs
-    ) -> pd.DataFrame:
+    ) -> "pd.DataFrame":
         """Download a snapshot. For additional arguments,
         see documentation for CreateExport in the Python SDK.
 
         Args:
             dataset_id (int): dataset ID you're interested in
             labelset_id (int): ID of your labelset (from teach task)
-            file_info (bool, optional): Include additional file level metadata. Defaults to True.
+            file_info (bool, optional): Include additional file level metadata.
+                Defaults to True.
 
         Returns:
             pd.DataFrame: DataFrame with full document text and additional metadata
@@ -89,12 +105,20 @@ class Download:
 
     def _download_pdfs_from_export(
         self,
-        export_df: pd.DataFrame,
+        export_df: "pd.DataFrame",
         output_dir: str,
         file_name_col: str,
         file_url_col: str,
         max_files_to_download: int = None,
     ) -> int:
+        try:
+            import tqdm
+        except ImportError as error:
+            raise RuntimeError(
+                "downloading pdfs requires additional dependencies: "
+                "`pip install indico-toolkit[downloads]`"
+            ) from error
+
         for i, row in tqdm.tqdm(export_df.iterrows()):
             basename = os.path.basename(row[file_name_col])
             pdf_bytes = self._retrieve_storage_object(row[file_url_col])
@@ -105,7 +129,7 @@ class Download:
         return export_df.shape[0]
 
     @retry(IndicoRequestError, ConnectionError)
-    def _download_export(self, export_id: int) -> pd.DataFrame:
+    def _download_export(self, export_id: int) -> "pd.DataFrame":
         """
         Download a dataframe representation of your dataset export
         """
@@ -127,11 +151,13 @@ class Download:
         Args:
             dataset_id (int): ID of your dataset
             labelset_id (int): ID of your labelset (from teach task)
-            file_info (bool, optional): whether to include additional file metadata. Defaults to True.
+            file_info (bool, optional): whether to include additional file metadata.
+                Defaults to True.
             wait (bool, optional): wait for export to be created. Defaults to True.
 
         Returns:
-            Export: Description of dataset assets. See Python SDK for full object description
+            Export: Description of dataset assets. See Python SDK for full object
+                description
         """
         return self.client.call(
             CreateExport(
@@ -160,7 +186,8 @@ class Download:
             }
         """
         result = self.client.call(GraphQLRequest(query, {"id": dataset_id}))
-        for file in result["dataset"]["files"]: # loop through in case there are other file types uploaded to dataset
+        # loop through in case there are other file types uploaded to dataset
+        for file in result["dataset"]["files"]:
             if file["fileType"] == "CSV":
                 return file["rainbowUrl"]
         raise ToolkitInputError(f"There are no CSVs uploaded to {dataset_id}")

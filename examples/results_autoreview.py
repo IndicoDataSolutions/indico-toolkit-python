@@ -1,6 +1,7 @@
 """
 Minimal auto review example for single-document submissions.
 """
+
 from operator import attrgetter
 from typing import Any
 

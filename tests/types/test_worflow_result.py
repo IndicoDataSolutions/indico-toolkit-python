@@ -1,7 +1,7 @@
 import pytest
 
+from indico_toolkit import ToolkitInputError
 from indico_toolkit.types import Extractions, WorkflowResult
-from indico_toolkit import ToolkitInputError, ToolkitStatusError
 from indico_toolkit.types.classification import Classification
 
 
@@ -19,7 +19,10 @@ def test_bad_model_name(wf_result_obj):
 
 def test_no_final_preds():
     wf_result = WorkflowResult(
-        {"submission_id": 12, "results": {"document": {"results": {"model_v1": {"pre_review": []}}}}},
+        {
+            "submission_id": 12,
+            "results": {"document": {"results": {"model_v1": {"pre_review": []}}}},
+        },
         "model_v1",
     )
     assert wf_result.final_predictions._preds == []
@@ -27,7 +30,10 @@ def test_no_final_preds():
 
 def test_predictions_no_pre_review():
     wf_result = WorkflowResult(
-        {"submission_id": 12, "results": {"document": {"results": {"model_v1": {"pre_review": []}}}}},
+        {
+            "submission_id": 12,
+            "results": {"document": {"results": {"model_v1": {"pre_review": []}}}},
+        },
         "model_v1",
     )
     assert isinstance(wf_result.get_predictions, Extractions)
@@ -35,7 +41,10 @@ def test_predictions_no_pre_review():
 
 def test_classification_predictions():
     wf_result = WorkflowResult(
-        {"submission_id": 12, "results": {"document": {"results": {"model_v1": {"pre_review": {}}}}}},
+        {
+            "submission_id": 12,
+            "results": {"document": {"results": {"model_v1": {"pre_review": {}}}}},
+        },
         "model_v1",
     )
     assert isinstance(wf_result.get_predictions, Classification)

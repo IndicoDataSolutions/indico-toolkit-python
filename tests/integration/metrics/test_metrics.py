@@ -1,8 +1,10 @@
-import pytest
 import tempfile
-import pandas as pd
+
+import pytest
 
 from indico_toolkit.metrics import ExtractionMetrics
+
+pd = pytest.importorskip("pandas")
 
 
 def test_get_metrics(extraction_model_group_id, indico_client):
