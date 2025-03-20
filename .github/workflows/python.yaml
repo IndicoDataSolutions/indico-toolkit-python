@@ -34,16 +34,16 @@ jobs:
         poetry install
 
     - name: Run Black
-      run: poetry run poe black-check
+      run: poetry poe black-check
 
     - name: Run Ruff
-      run: poetry run poe ruff-check
+      run: poetry poe ruff-check
 
     - name: Run Mypy
-      run: poetry run poe mypy
+      run: poetry poe mypy
 
     - name: Run Pytest
-      run: poetry run poe test
+      run: poetry poe test
 
     - name: Install Extra Dependencies
       run: |
@@ -51,4 +51,4 @@ jobs:
         poetry install --all-extras
 
     - name: Run Pytest on Extras
-      run: poetry run poe test
+      run: poetry poe test
