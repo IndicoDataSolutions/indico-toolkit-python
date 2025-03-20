@@ -46,9 +46,7 @@ jobs:
       run: poetry poe test
 
     - name: Install Extra Dependencies
-      run: |
-        poetry env use ${{ matrix.python-version }}
-        poetry install --all-extras
+      run: poetry install --all-extras
 
     - name: Run Pytest on Extras
       run: poetry poe test
