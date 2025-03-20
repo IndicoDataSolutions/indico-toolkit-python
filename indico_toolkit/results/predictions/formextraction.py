@@ -3,7 +3,7 @@ from enum import Enum
 from typing import TYPE_CHECKING
 
 from ..review import Review
-from ..utilities import get, has, omit
+from ..utils import get, has, omit
 from .box import Box
 from .extraction import Extraction
 

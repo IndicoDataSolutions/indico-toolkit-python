@@ -10,7 +10,7 @@ from .normalization import normalize_v1_result, normalize_v3_result
 from .predictionlist import PredictionList
 from .predictions import Prediction
 from .review import Review, ReviewType
-from .utilities import get
+from .utils import get
 
 if TYPE_CHECKING:
     from typing import Any

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from operator import attrgetter
 
 from ..results import Box
-from ..results.utilities import get
+from ..results.utils import get
 from .cell import Cell
 
 

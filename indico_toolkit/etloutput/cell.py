@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 from ..results import NULL_SPAN, Box, Span
-from ..results.utilities import get
+from ..results.utils import get
 from .range import Range
 
 

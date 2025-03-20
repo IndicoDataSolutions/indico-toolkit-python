@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from ..review import Review
-from ..utilities import get, has, omit
+from ..utils import get, has, omit
 from .extraction import Extraction
 from .group import Group
 from .span import NULL_SPAN, Span

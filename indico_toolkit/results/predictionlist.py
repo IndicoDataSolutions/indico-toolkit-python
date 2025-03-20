@@ -13,7 +13,7 @@ from .predictions import (
     Unbundling,
 )
 from .review import Review, ReviewType
-from .utilities import nfilter
+from .utils import nfilter
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Collection, Container, Iterable

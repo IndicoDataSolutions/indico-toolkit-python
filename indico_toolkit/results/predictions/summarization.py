@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from ..review import Review
-from ..utilities import get, has, omit
+from ..utils import get, has, omit
 from .citation import NULL_CITATION, Citation
 from .extraction import Extraction
 
