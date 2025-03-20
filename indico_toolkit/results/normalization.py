@@ -1,7 +1,7 @@
 import re
 from typing import TYPE_CHECKING
 
-from .utilities import get, has
+from .utils import get, has
 
 if TYPE_CHECKING:
     from collections.abc import Iterator

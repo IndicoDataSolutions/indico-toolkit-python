@@ -3,7 +3,7 @@ from enum import Enum
 from typing import TYPE_CHECKING
 
 from ..review import Review
-from ..utilities import get, has, omit
+from ..utils import get, has, omit
 from .box import Box
 from .extraction import Extraction
 
@@ -97,18 +97,23 @@ class FormExtraction(Extraction):
         }
 
         if self.type == FormExtractionType.CHECKBOX:
-            prediction["normalized"]["structured"]["checked"] = self.checked
-            prediction["normalized"]["formatted"] = (
-                "Checked" if self.checked else "Unchecked"
-            )
+            prediction["normalized"]["structured"] = {"checked": self.checked}
+            text = "Checked" if self.checked else "Unchecked"
+            prediction["normalized"]["formatted"] = text
+            prediction["normalized"]["text"] = self.text
+            prediction["text"] = self.text
         elif self.type == FormExtractionType.SIGNATURE:
-            prediction["normalized"]["structured"]["signed"] = self.signed
-            prediction["normalized"]["formatted"] = (
-                "Signed" if self.signed else "Unsigned"
-            )
+            prediction["normalized"]["structured"] = {"signed": self.signed}
+            text = "Signed" if self.signed else "Unsigned"
+            prediction["normalized"]["formatted"] = text
+            # Don't overwrite the text of the signature stored in these attributes.
+            # prediction["normalized"]["text"] = self.text
+            # prediction["text"] = self.text
         elif self.type == FormExtractionType.TEXT:
-            prediction["normalized"]["formatted"] = self.text
-            prediction["text"] = self.text  # 6.10 sometimes reverts to text in review.
+            if self.text != get(prediction, str, "normalized", "formatted"):
+                prediction["normalized"]["formatted"] = self.text
+                prediction["normalized"]["text"] = self.text
+                prediction["text"] = self.text
 
         if self.accepted:
             prediction["accepted"] = True

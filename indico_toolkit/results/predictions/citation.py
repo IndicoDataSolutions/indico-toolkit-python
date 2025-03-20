@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from ..utilities import get
+from ..utils import get
 from .span import NULL_SPAN, Span
 
 if TYPE_CHECKING:

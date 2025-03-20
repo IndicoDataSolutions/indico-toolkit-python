@@ -23,7 +23,7 @@ from .predictions import (
 )
 from .result import Result
 from .review import Review, ReviewType
-from .utilities import get
+from .utils import get
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable

@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from ..results import NULL_BOX, NULL_SPAN, Box, Span
-from ..results.utilities import get, has
+from ..results.utils import get, has
 from .cell import Cell, CellType
 from .errors import EtlOutputError, TableCellNotFoundError, TokenNotFoundError
 from .etloutput import EtlOutput

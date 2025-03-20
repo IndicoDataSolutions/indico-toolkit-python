@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from ..review import Review
-from ..utilities import get, has, omit
+from ..utils import get, has, omit
 from .extraction import Extraction
 from .group import Group
 from .span import NULL_SPAN, Span
@@ -127,8 +127,10 @@ class DocumentExtraction(Extraction):
             "end": self.span.end,
         }
 
-        prediction["normalized"]["formatted"] = self.text
-        prediction["text"] = self.text  # 6.10 sometimes reverts to raw text in review.
+        if self.text != get(prediction, str, "normalized", "formatted"):
+            prediction["normalized"]["formatted"] = self.text
+            prediction["normalized"]["text"] = self.text
+            prediction["text"] = self.text
 
         if self.accepted:
             prediction["accepted"] = True
@@ -149,8 +151,10 @@ class DocumentExtraction(Extraction):
             "spans": [span.to_dict() for span in self.spans],
         }
 
-        prediction["normalized"]["formatted"] = self.text
-        prediction["text"] = self.text  # 6.10 sometimes reverts to raw text in review.
+        if self.text != get(prediction, str, "normalized", "formatted"):
+            prediction["normalized"]["formatted"] = self.text
+            prediction["normalized"]["text"] = self.text
+            prediction["text"] = self.text
 
         if self.accepted:
             prediction["accepted"] = True

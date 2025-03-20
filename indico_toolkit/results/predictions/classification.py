@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from ..review import Review
-from ..utilities import get, omit
+from ..utils import get, omit
 from .prediction import Prediction
 
 if TYPE_CHECKING:
