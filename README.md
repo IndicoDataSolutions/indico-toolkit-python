@@ -68,10 +68,10 @@ Formatting, linting, type checking, and tests are defined as
 [Poe](https://poethepoet.natn.io/) tasks in `pyproject.toml`.
 
 ```bash
-poetry run poe {format,check,test,all}
+poetry poe {format,check,test,all}
 ```
 
-Code changes or additions should pass `poetry run poe all` before opening a PR.
+Code changes or additions should pass `poetry poe all` before opening a PR.
 
 
 ### Tests
@@ -83,7 +83,7 @@ By default, only required unit tests are executed. Extra unit tests and integrat
 tests are skipped.
 
 ```bash
-poetry run poe {test,all}
+poetry poe {test,all}
 ```
 
 Extra unit tests are skipped when their dependencies are not installed. To execute extra
@@ -91,7 +91,7 @@ unit tests, install one or more extras and run the tests.
 
 ```bash
 poetry install --all-extras
-poetry run poe {test,all}
+poetry poe {test,all}
 ```
 
 Integration tests make API calls to an IPA environment and require a host and API token
@@ -99,7 +99,7 @@ to execute. These tests create datasets, setup workflows, and train models. **Ex
 them to take tens of minutes to run.**
 
 ```bash
-poetry run poe test-integration \
+poetry poe test-integration \
     --host try.indico.io \
     --token indico_api_token.txt
 ```
