@@ -1,9 +1,5 @@
-from indico_toolkit import create_client
-from indico_toolkit.indico_wrapper import Datasets
 from indico_toolkit.snapshots import Snapshot
 
-HOST = "app.indico.io"
-API_TOKEN_PATH = "./indico_api_token.txt"
 PATH_TO_SNAPSHOT = "./snapshot_1.csv"
 PATH_TO_SNAPSHOT_2 = "./snapshot_2.csv"
 OUTPUT_PATH = "./merged_snapshot_output.csv"
@@ -34,19 +30,3 @@ main_snap.append(snap_to_append)
 # will now include all of the samples from snap_to_append as well
 print(main_snap.number_of_samples)
 main_snap.to_csv(OUTPUT_PATH)
-
-"""
-With that merged snapshot, you can now use the toolkit to upload and train a model.
-"""
-client = create_client(HOST, API_TOKEN_PATH)
-dataset = Datasets(client)
-uploaded_dataset = dataset.create_dataset([OUTPUT_PATH], dataset_name="my_dataset")
-print(f"My Dataset ID is {uploaded_dataset.id}")
-model = dataset.train_model(
-    uploaded_dataset,
-    model_name="my_model",
-    source_col=main_snap.text_col,
-    target_col=main_snap.label_col,
-    wait=False,
-)
-print(f"My Model Group ID is {model.id}")
