@@ -6,14 +6,11 @@ from indico.queries import (
     AddModelGroupComponent,
     CreateDataset,
     CreateWorkflow,
-    DocumentExtraction,
     GetTrainingModelWithProgress,
     GraphQLRequest,
-    JobStatus,
-    RetrieveStorageObject,
 )
 
-from indico_toolkit.indico_wrapper import DocExtraction, Workflow
+from indico_toolkit.indico_wrapper import Workflow
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:
@@ -63,11 +60,6 @@ def dataset_id(dataset):
 
 
 @pytest.fixture(scope="session")
-def doc_extraction_standard(indico_client):
-    return DocExtraction(indico_client)
-
-
-@pytest.fixture(scope="session")
 def extraction_model_group_id(workflow):
     return workflow.components[-1].model_group.id
 
@@ -103,18 +95,6 @@ def module_submission_ids(workflow_id, indico_client, pdf_file):
 
 
 @pytest.fixture(scope="session")
-def ondoc_ocr_object(indico_client, pdf_file):
-    job = indico_client.call(
-        DocumentExtraction(
-            files=[pdf_file], json_config={"preset_config": "ondocument"}
-        )
-    )
-    job = indico_client.call(JobStatus(id=job[0].id, wait=True))
-    extracted_data = indico_client.call(RetrieveStorageObject(job.result))
-    return extracted_data
-
-
-@pytest.fixture(scope="session")
 def pdf_file(tests_folder: Path) -> Path:
     return tests_folder / "data/samples/fin_disc.pdf"
 
@@ -122,17 +102,6 @@ def pdf_file(tests_folder: Path) -> Path:
 @pytest.fixture(scope="session")
 def populator_snapshot_file(tests_folder: Path) -> Path:
     return tests_folder / "data/snapshots/populator_snapshot.csv"
-
-
-@pytest.fixture(scope="session")
-def standard_ocr_object(indico_client, pdf_file):
-    # TODO: this can be static-- probably should be "ondoc" as well
-    job = indico_client.call(
-        DocumentExtraction(files=[pdf_file], json_config={"preset_config": "standard"})
-    )
-    job = indico_client.call(JobStatus(id=job[0].id, wait=True))
-    extracted_data = indico_client.call(RetrieveStorageObject(job.result))
-    return extracted_data
 
 
 @pytest.fixture(scope="session")
