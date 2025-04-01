@@ -1,12 +1,12 @@
 from typing import TYPE_CHECKING
 
-from indico.queries import GraphQLRequest  # type: ignore[import-untyped]
+from indico.queries import GraphQLRequest
 
 if TYPE_CHECKING:
     from typing import Any
 
 
-class SubmissionIdsPendingAutoReview(GraphQLRequest):  # type: ignore[misc]
+class SubmissionIdsPendingAutoReview(GraphQLRequest):  # type: ignore[misc, no-any-unimported]
     QUERY = """
     query SubmissionIdsPendingAutoReview($workflowIds: [Int]) {
         submissions(
@@ -33,7 +33,7 @@ class SubmissionIdsPendingAutoReview(GraphQLRequest):  # type: ignore[misc]
         }
 
 
-class SubmissionIdsPendingDownstream(GraphQLRequest):  # type: ignore[misc]
+class SubmissionIdsPendingDownstream(GraphQLRequest):  # type: ignore[misc, no-any-unimported]
     QUERY = """
     query SubmissionIdsPendingDownstream($workflowIds: [Int]) {
         submissions(

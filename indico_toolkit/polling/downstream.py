@@ -2,12 +2,12 @@ import asyncio
 import logging
 from typing import TYPE_CHECKING
 
-from indico import AsyncIndicoClient, IndicoConfig  # type: ignore[import-untyped]
-from indico.queries import (  # type: ignore[import-untyped]
+from indico import AsyncIndicoClient, IndicoConfig
+from indico.queries import (
     GetSubmission,
     UpdateSubmission,
 )
-from indico.types import Submission  # type: ignore[import-untyped]
+from indico.types import Submission
 
 from ..retry import retry
 from .queries import SubmissionIdsPendingDownstream
@@ -29,7 +29,7 @@ class DownstreamPoller:
     them concurrently, and marks them as retrieved.
     """
 
-    def __init__(
+    def __init__(  # type: ignore[no-any-unimported]
         self,
         config: IndicoConfig,
         workflow_id: int,

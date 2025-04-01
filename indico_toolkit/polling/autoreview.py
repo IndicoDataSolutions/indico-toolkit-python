@@ -3,8 +3,8 @@ import logging
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from indico import AsyncIndicoClient, IndicoConfig  # type: ignore[import-untyped]
-from indico.queries import (  # type: ignore[import-untyped]
+from indico import AsyncIndicoClient, IndicoConfig
+from indico.queries import (
     GetSubmission,
     JobStatus,
     RetrieveStorageObject,
@@ -41,7 +41,7 @@ class AutoReviewPoller:
     and submits the review results concurrently.
     """
 
-    def __init__(
+    def __init__(  # type: ignore[no-any-unimported]
         self,
         config: IndicoConfig,
         workflow_id: int,
