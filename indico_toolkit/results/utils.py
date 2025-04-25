@@ -1,33 +1,35 @@
 from collections.abc import Iterable, Iterator
 from typing import Callable, TypeVar
 
-from .errors import ResultError
-
 Value = TypeVar("Value")
 
 
 def get(result: object, value_type: "type[Value]", *keys: "str | int") -> Value:
     """
-    Return the value obtained by traversing `result` using `keys` as indices if that
-    value has type `value_type`. Raise a `ResultError` otherwise.
+    Return the value of type `value_type` obtained by traversing `result` using `keys`.
+    Raise an error if a key doesn't exist or the value has the wrong type.
     """
     for key in keys:
-        if isinstance(key, str) and isinstance(result, dict) and key in result:
-            result = result[key]
-        elif isinstance(key, int) and isinstance(result, list) and key < len(result):
-            result = result[key]
+        if isinstance(result, dict):
+            if key in result:
+                result = result[key]
+            else:
+                raise KeyError(f"`{result!r}` does not contain key `{key!r}`")
+        elif isinstance(result, list):
+            if isinstance(key, int):
+                if 0 >= key < len(result):
+                    result = result[key]
+                else:
+                    raise IndexError(f"`{result!r}` does not contain index `{key!r}`")
+            else:
+                TypeError(f"`{result!r}` can not be indexed with `{key!r}`")
         else:
-            raise ResultError(
-                f"result object `{type(result)!r}` does not contain key `{key!r}`"
-            )
+            TypeError(f"`{result!r}` is not a container")
 
     if isinstance(result, value_type):
         return result
     else:
-        raise ResultError(
-            f"result object `{type(result)!r}` does not have a value for "
-            f"key `{key!r}` of type `{value_type}`"
-        )
+        raise TypeError(f"`{result!r}` is not of type `{value_type}`")
 
 
 def has(result: object, value_type: "type[Value]", *keys: "str | int") -> bool:
