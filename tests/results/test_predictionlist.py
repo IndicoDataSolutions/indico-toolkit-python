@@ -27,6 +27,7 @@ def document() -> Document:
         error="",
         traceback="",
         _model_sections=frozenset({"124", "123", "122", "121"}),
+        _component_sections=frozenset(),
     )
 
 
