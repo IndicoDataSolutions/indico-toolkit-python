@@ -5,12 +5,13 @@ from typing import TYPE_CHECKING
 
 from . import predictions as prediction
 from .document import Document
+from .errors import ResultError
 from .model import ModelGroup
 from .normalization import normalize_v1_result, normalize_v3_result
 from .predictionlist import PredictionList
 from .predictions import Prediction
 from .review import Review, ReviewType
-from .utils import get
+from .utils import get, has
 
 if TYPE_CHECKING:
     from typing import Any
@@ -106,15 +107,32 @@ class Result:
         submission_id = get(result, int, "submission_id")
         submission_results = get(result, list, "submission_results")
         modelgroup_metadata = get(result, dict, "modelgroup_metadata")
+        component_metadata = get(result, dict, "component_metadata")
         review_metadata = get(result, dict, "reviews")
-
-        processed_documents = map(Document.from_v3_dict, submission_results)
         errored_files = get(result, dict, "errored_files").values()
-        failed_documents = map(Document.from_v3_errored_file, errored_files)
-        documents = sorted(chain(processed_documents, failed_documents))
-        models = sorted(map(ModelGroup.from_v3_dict, modelgroup_metadata.values()))
-        predictions: "PredictionList[Prediction]" = PredictionList()
+
+        static_model_components = filter(
+            lambda component: (
+                get(component, str, "component_type").casefold() == "static_model"
+            ),
+            component_metadata.values(),
+        )
+
+        documents = sorted(
+            chain(
+                map(Document.from_v3_dict, submission_results),
+                map(Document.from_v3_errored_file, errored_files),
+            )
+        )
+        models = sorted(
+            chain(
+                map(ModelGroup.from_v3_dict, modelgroup_metadata.values()),
+                map(ModelGroup.from_v3_dict, static_model_components),
+            )
+        )
         reviews = sorted(map(Review.from_dict, review_metadata.values()))
+
+        predictions: "PredictionList[Prediction]" = PredictionList()
 
         for document_dict in submission_results:
             document_id = get(document_dict, int, "submissionfile_id")
@@ -124,10 +142,16 @@ class Result:
             reviewed_model_predictions: "list[tuple[Review | None, Any]]" = [
                 (None, get(document_dict, dict, "model_results", "ORIGINAL"))
             ]
+            reviewed_component_predictions: "list[tuple[Review | None, Any]]" = [
+                (None, get(document_dict, dict, "component_results", "ORIGINAL"))
+            ]
 
             if reviews:
                 reviewed_model_predictions.append(
                     (reviews[-1], get(document_dict, dict, "model_results", "FINAL"))
+                )
+                reviewed_component_predictions.append(
+                    (reviews[-1], get(document_dict, dict, "component_results", "FINAL"))  # fmt: skip  # noqa: E501
                 )
 
             for review, model_section in reviewed_model_predictions:
@@ -139,6 +163,33 @@ class Result:
                         map(
                             partial(prediction.from_v3_dict, document, model, review),
                             model_predictions,
+                        )
+                    )
+
+            for review, component_section in reviewed_component_predictions:
+                for component_id, component_predictions in component_section.items():
+                    try:
+                        model = next(
+                            filter(lambda model: model.id == int(component_id), models)
+                        )
+                    except StopIteration:
+                        if has(component_metadata, str, component_id, "component_type"):
+                            component_type = get(
+                                component_metadata, str, component_id, "component_type"
+                            )
+                            raise ResultError(
+                                f"unsupported component type `{component_type!r}` "
+                                f"for component {component_id}"
+                            )
+                        else:
+                            raise ResultError(
+                                f"no component metadata for component {component_id}"
+                            )
+
+                    predictions.extend(
+                        map(
+                            partial(prediction.from_v3_dict, document, model, review),
+                            component_predictions,
                         )
                     )
 
