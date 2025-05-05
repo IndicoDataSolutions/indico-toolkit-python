@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 from ..review import Review
 from ..utils import get, omit
 from .prediction import Prediction
+from .span import Span
 
 if TYPE_CHECKING:
     from typing import Any
@@ -14,7 +15,14 @@ if TYPE_CHECKING:
 
 @dataclass
 class Unbundling(Prediction):
-    pages: "list[int]"
+    spans: "list[Span]"
+
+    @property
+    def pages(self) -> "tuple[int, ...]":
+        """
+        Return the pages covered by `self.spans`.
+        """
+        return tuple(span.page for span in self.spans)
 
     @staticmethod
     def from_v3_dict(
@@ -32,10 +40,7 @@ class Unbundling(Prediction):
             review=review,
             label=get(prediction, str, "label"),
             confidences=get(prediction, dict, "confidence"),
-            pages=[
-                get(span, int, "page_num")
-                for span in get(prediction, list, "spans")  # fmt: skip
-            ],
+            spans=sorted(map(Span.from_dict, get(prediction, list, "spans"))),
             extras=omit(prediction, "confidence", "label", "spans"),
         )
 
@@ -47,5 +52,5 @@ class Unbundling(Prediction):
             **self.extras,
             "label": self.label,
             "confidence": self.confidences,
-            "spans": [{"page_num": page} for page in self.pages],
+            "spans": [span.to_dict() for span in self.spans],
         }

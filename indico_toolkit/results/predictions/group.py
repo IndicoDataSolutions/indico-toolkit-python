@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import TYPE_CHECKING
 
 from ..utils import get
@@ -12,6 +12,14 @@ class Group:
     id: int
     name: str
     index: int
+
+    def __next__(self) -> "Group":
+        """
+        Return the `Group` with the next index.
+
+        Supports `group = next(group)`.
+        """
+        return replace(self, index=self.index + 1)
 
     @staticmethod
     def from_dict(group: object) -> "Group":
