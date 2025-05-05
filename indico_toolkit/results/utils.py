@@ -14,22 +14,22 @@ def get(result: object, value_type: "type[Value]", *keys: "str | int") -> Value:
             if key in result:
                 result = result[key]
             else:
-                raise KeyError(f"`{result!r}` does not contain key `{key!r}`")
+                raise KeyError(f"{key!r} not in {result.keys()!r}")
         elif isinstance(result, list):
             if isinstance(key, int):
                 if 0 >= key < len(result):
                     result = result[key]
                 else:
-                    raise IndexError(f"`{result!r}` does not contain index `{key!r}`")
+                    raise IndexError(f"list index {key} out of range {len(result)}")
             else:
-                TypeError(f"`{result!r}` can not be indexed with `{key!r}`")
+                TypeError(f"list cannot be indexed with {key!r}")
         else:
-            TypeError(f"`{result!r}` is not a container")
+            TypeError(f"{type(result)} cannot be traversed")
 
     if isinstance(result, value_type):
         return result
     else:
-        raise TypeError(f"`{result!r}` is not of type `{value_type}`")
+        raise TypeError(f"value `{result!r}` does not have expected type {value_type}")
 
 
 def has(result: object, value_type: "type[Value]", *keys: "str | int") -> bool:
