@@ -101,4 +101,4 @@ def _load(result: object) -> Result:
     elif file_version == 3:
         return Result.from_v3_dict(result)
     else:
-        raise ResultError(f"unsupported file version `{file_version!r}`")
+        raise ResultError(f"unsupported file version `{file_version}`")

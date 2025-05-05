@@ -337,7 +337,7 @@ class PredictionList(List[PredictionType]):
         elif result.version == 3:
             return self.to_v3_changes(result.documents)
         else:
-            raise ValueError(f"unsupported file version `{result.version!r}`")
+            raise ValueError(f"unsupported file version `{result.version}`")
 
     def to_v1_changes(self, document: "Document") -> "dict[str, Any]":
         """

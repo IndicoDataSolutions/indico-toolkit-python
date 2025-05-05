@@ -62,7 +62,7 @@ def from_v1_dict(
     elif model.type == FORM_EXTRACTION:
         return FormExtraction.from_v1_dict(document, model, review, prediction)
     else:
-        raise ResultError(f"unsupported v1 model type `{model.type!r}`")
+        raise ResultError(f"unsupported v1 model type {model.type!r}")
 
 
 def from_v3_dict(
@@ -85,4 +85,4 @@ def from_v3_dict(
     elif model.type == UNBUNDLING:
         return Unbundling.from_v3_dict(document, model, review, prediction)
     else:
-        raise ResultError(f"unsupported v3 model type `{model.type!r}`")
+        raise ResultError(f"unsupported v3 model type {model.type!r}")

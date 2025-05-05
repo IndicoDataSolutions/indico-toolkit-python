@@ -178,7 +178,7 @@ class Result:
                                 component_metadata, str, component_id, "component_type"
                             )
                             raise ResultError(
-                                f"unsupported component type `{component_type!r}` "
+                                f"unsupported component type {component_type!r} "
                                 f"for component {component_id}"
                             )
                         else:
