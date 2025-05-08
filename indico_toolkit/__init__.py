@@ -21,4 +21,4 @@ __all__ = (
     "ToolkitStaggeredLoopError",
     "ToolkitStatusError",
 )
-__version__ = "6.14.1"
+__version__ = "6.14.2"

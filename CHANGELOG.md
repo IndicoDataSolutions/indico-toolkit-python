@@ -153,3 +153,16 @@ This is the first major version release tested to work on Indico 6.X.
 * Added `etloutput` module.
 * Refactored `retry` decorator with asyncio support.
 * Switched to Poetry for packaging and dependency management.
+
+## 6.14.1 3/20/25
+
+* Improved Poetry and Poe configuration.
+* Update more attributes when prediction text changes to avoid TAK normalization issues.
+
+## 6.14.2 5/8/25
+
+* Fixed Mypy configuration.
+* Removed `AutoPopulator`, `CustomOcr`, `Datasets`, `DocExtraction`, `Reviewer` classes.
+* Added support for imported models using IPA 7.2 `component_metadata` section.
+* Parse and preserve full span information for `Unbundling` predictions.
+* Add `group = next(group)` idiom.

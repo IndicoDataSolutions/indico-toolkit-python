@@ -8,7 +8,7 @@ from .retry import retry
 
 
 @retry(IndicoRequestError, ConnectionError)
-def create_client(
+def create_client(  # type: ignore[no-any-unimported]
     host: str,
     api_token_path: "str | None" = None,
     api_token_string: "str | None" = None,

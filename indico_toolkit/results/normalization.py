@@ -1,4 +1,5 @@
 import re
+from itertools import chain
 from typing import TYPE_CHECKING
 
 from .utils import get, has
@@ -88,12 +89,18 @@ def normalize_v3_result(result: "Any") -> None:
     """
     task_type_by_model_group_id = {
         model_group_id: model_group["task_type"]
-        for model_group_id, model_group in result["modelgroup_metadata"].items()
+        for model_group_id, model_group in chain(
+            result["modelgroup_metadata"].items(),
+            result.get("component_metadata", {}).items(),
+        )
     }
     predictions_with_task_type: "Iterator[tuple[Any, str]]" = (
-        (prediction, task_type_by_model_group_id[model_group_id])
+        (prediction, task_type_by_model_group_id.get(model_group_id, ""))
         for submission_result in get(result, list, "submission_results")
-        for review_result in get(submission_result, dict, "model_results").values()
+        for review_result in chain(
+            get(submission_result, dict, "model_results").values(),
+            get(submission_result, dict, "component_results").values(),
+        )
         for model_group_id, model_results in review_result.items()
         for prediction in model_results
     )
@@ -138,6 +145,10 @@ def normalize_v3_result(result: "Any") -> None:
         # Summarizations may lack citations after review.
         if task_type == "summarization" and "citations" not in prediction:
             prediction["citations"] = []
+
+    # Prior to 7.2, v3 result files don't include a `component_metadata` section.
+    if not has(result, dict, "component_metadata"):
+        result["component_metadata"] = {}
 
     # Prior to 6.8, v3 result files don't include a `reviews` section.
     if not has(result, dict, "reviews"):

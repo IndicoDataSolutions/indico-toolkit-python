@@ -12,13 +12,14 @@ class Document:
     error: str
     traceback: str
 
-    # Auto review changes must reproduce all model sections that were present in the
-    # original result file. This may not be possible from the predictions alone--if a
-    # model had an empty section because it didn't produce predictions or if all of
-    # the predictions were removed to reject them. As such, the models seen when
-    # parsing result files are tracked per-document so that the empty sections can be
-    # reproduced later.
+    # Auto review changes must reproduce all model and component sections that were
+    # present in the original result file. This may not be possible from the
+    # predictions alone--if a model or component had an empty section because it didn't
+    # produce predictions or if all of the predictions for that section were dropped.
+    # As such, the models and components seen when parsing a result file are tracked
+    # per-document so that the empty sections can be reproduced later.
     _model_sections: "frozenset[str]"
+    _component_sections: "frozenset[str]"
 
     @staticmethod
     def from_v1_dict(result: object) -> "Document":
@@ -38,6 +39,7 @@ class Document:
             error="",
             traceback="",
             _model_sections=model_names,
+            _component_sections=frozenset(),
         )
 
     @staticmethod
@@ -46,7 +48,9 @@ class Document:
         Create a `Document` from a v3 document dictionary.
         """
         model_results = get(document, dict, "model_results", "ORIGINAL")
+        component_results = get(document, dict, "component_results", "ORIGINAL")
         model_ids = frozenset(model_results.keys())
+        component_ids = frozenset(component_results.keys())
         etl_output_uri = get(document, str, "etl_output")
 
         return Document(
@@ -57,6 +61,7 @@ class Document:
             error="",
             traceback="",
             _model_sections=model_ids,
+            _component_sections=component_ids,
         )
 
     @staticmethod
@@ -75,4 +80,5 @@ class Document:
             error=error,
             traceback=traceback,
             _model_sections=frozenset(),
+            _component_sections=frozenset(),
         )

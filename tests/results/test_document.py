@@ -40,6 +40,14 @@ def test_empy_v3_sections() -> None:
                     }
                 }
             },
+            "component_metadata": {
+                "456": {
+                    "id": 456,
+                    "component_type": "static_model",
+                    "task_type": "annotation",
+                    "name": "Empty Model Section"
+                }
+            },
             "submission_results": [
                 {
                     "submissionfile_id": 0,
@@ -48,6 +56,11 @@ def test_empy_v3_sections() -> None:
                     "model_results": {
                         "ORIGINAL": {
                             "123": []
+                        }
+                    },
+                    "component_results": {
+                        "ORIGINAL": {
+                            "456": []
                         }
                     }
                 }
@@ -61,6 +74,8 @@ def test_empy_v3_sections() -> None:
             "model_results": {
                 "123": [],
             },
-            "component_results": {},
+            "component_results": {
+                "456": [],
+            },
         }
     ]

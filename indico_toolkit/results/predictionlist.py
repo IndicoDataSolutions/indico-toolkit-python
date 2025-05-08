@@ -337,7 +337,7 @@ class PredictionList(List[PredictionType]):
         elif result.version == 3:
             return self.to_v3_changes(result.documents)
         else:
-            raise ValueError(f"unsupported file version `{result.version!r}`")
+            raise ValueError(f"unsupported file version `{result.version}`")
 
     def to_v1_changes(self, document: "Document") -> "dict[str, Any]":
         """
@@ -370,13 +370,8 @@ class PredictionList(List[PredictionType]):
                 continue
 
             model_results: "dict[str, Any]" = {}
-            changes.append(
-                {
-                    "submissionfile_id": document.id,
-                    "model_results": model_results,
-                    "component_results": {},
-                }
-            )
+            component_results: "dict[str, Any]" = {}
+
             predictions_by_model = self.where(
                 document=document,
             ).groupby(
@@ -384,12 +379,30 @@ class PredictionList(List[PredictionType]):
             )
 
             for model, predictions in predictions_by_model.items():
-                model_results[str(model.id)] = [
+                model_id = str(model.id)
+                prediction_dicts = [
                     prediction.to_v3_dict() for prediction in predictions
                 ]
+
+                if model_id in document._model_sections:
+                    model_results[model_id] = prediction_dicts
+                elif model_id in document._component_sections:
+                    component_results[model_id] = prediction_dicts
 
             for model_id in document._model_sections:
                 if model_id not in model_results:
                     model_results[model_id] = []
+
+            for component_id in document._component_sections:
+                if component_id not in component_results:
+                    component_results[component_id] = []
+
+            changes.append(
+                {
+                    "submissionfile_id": document.id,
+                    "model_results": model_results,
+                    "component_results": component_results,
+                }
+            )
 
         return changes
