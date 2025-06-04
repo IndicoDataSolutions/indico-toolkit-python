@@ -4,7 +4,7 @@ from indico_toolkit.results import Extraction, Prediction
 def test_confidence() -> None:
     prediction = Prediction(
         document=None,  # type: ignore[arg-type]
-        model=None,  # type: ignore[arg-type]
+        task=None,  # type: ignore[arg-type]
         review=None,
         label="Label",
         confidences={"Label": 0.5},
@@ -19,7 +19,7 @@ def test_confidence() -> None:
 def test_accepted() -> None:
     prediction = Extraction(
         document=None,  # type: ignore[arg-type]
-        model=None,  # type: ignore[arg-type]
+        task=None,  # type: ignore[arg-type]
         review=None,
         label="Label",
         confidences={"Label": 0.5},
@@ -39,7 +39,7 @@ def test_accepted() -> None:
 def test_rejected() -> None:
     prediction = Extraction(
         document=None,  # type: ignore[arg-type]
-        model=None,  # type: ignore[arg-type]
+        task=None,  # type: ignore[arg-type]
         review=None,
         label="Label",
         confidences={"Label": 0.5},

@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from typing import Any
 
     from ..document import Document
-    from ..model import ModelGroup
+    from ..task import Task
 
 
 class FormExtractionType(Enum):
@@ -30,7 +30,7 @@ class FormExtraction(Extraction):
     @staticmethod
     def from_dict(
         document: "Document",
-        model: "ModelGroup",
+        task: "Task",
         review: "Review | None",
         prediction: object,
     ) -> "FormExtraction":
@@ -39,7 +39,7 @@ class FormExtraction(Extraction):
         """
         return FormExtraction(
             document=document,
-            model=model,
+            task=task,
             review=review,
             label=get(prediction, str, "label"),
             confidences=get(prediction, dict, "confidence"),

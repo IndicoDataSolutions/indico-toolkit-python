@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from typing import Any
 
     from ..document import Document
-    from ..model import ModelGroup
+    from ..task import Task
 
 
 @dataclass
@@ -27,7 +27,7 @@ class Unbundling(Prediction):
     @staticmethod
     def from_dict(
         document: "Document",
-        model: "ModelGroup",
+        task: "Task",
         review: "Review | None",
         prediction: object,
     ) -> "Unbundling":
@@ -36,7 +36,7 @@ class Unbundling(Prediction):
         """
         return Unbundling(
             document=document,
-            model=model,
+            task=task,
             review=review,
             label=get(prediction, str, "label"),
             confidences=get(prediction, dict, "confidence"),

@@ -6,7 +6,7 @@ def test_rejected() -> None:
         version=None,  # type: ignore[arg-type]
         submission_id=None,  # type: ignore[arg-type]
         documents=None,  # type: ignore[arg-type]
-        models=None,  # type: ignore[arg-type]
+        tasks=None,  # type: ignore[arg-type]
         predictions=None,  # type: ignore[arg-type]
         reviews=[
             Review(
@@ -27,7 +27,7 @@ def test_unrejected() -> None:
         version=None,  # type: ignore[arg-type]
         submission_id=None,  # type: ignore[arg-type]
         documents=None,  # type: ignore[arg-type]
-        models=None,  # type: ignore[arg-type]
+        tasks=None,  # type: ignore[arg-type]
         predictions=None,  # type: ignore[arg-type]
         reviews=[
             Review(

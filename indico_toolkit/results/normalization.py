@@ -1,7 +1,7 @@
 import re
 from typing import TYPE_CHECKING
 
-from .model import ModelGroupType
+from .task import TaskType
 from .utils import get, has
 
 if TYPE_CHECKING:
@@ -32,7 +32,7 @@ def normalize_result_dict(result: "Any") -> None:
             review["review_notes"] = ""
 
 
-def normalize_prediction_dict(task_type: ModelGroupType, prediction: "Any") -> None:
+def normalize_prediction_dict(task_type: TaskType, prediction: "Any") -> None:
     """
     Fix inconsistencies observed in prediction structure.
     """
@@ -43,23 +43,23 @@ def normalize_prediction_dict(task_type: ModelGroupType, prediction: "Any") -> N
 
     # Extractions added in review may lack a `normalized` section.
     if task_type in (
-        ModelGroupType.DOCUMENT_EXTRACTION,
-        ModelGroupType.FORM_EXTRACTION,
-        ModelGroupType.GENAI_EXTRACTION,
+        TaskType.DOCUMENT_EXTRACTION,
+        TaskType.FORM_EXTRACTION,
+        TaskType.GENAI_EXTRACTION,
     ) and not has(prediction, dict, "normalized"):
         prediction["normalized"] = {"formatted": get(prediction, str, "text")}
 
     # Document Extractions added in review may lack a `spans` section.
     # This value will match `NULL_SPAN`.
     if task_type in (
-        ModelGroupType.DOCUMENT_EXTRACTION,
-        ModelGroupType.GENAI_EXTRACTION,
+        TaskType.DOCUMENT_EXTRACTION,
+        TaskType.GENAI_EXTRACTION,
     ) and not has(prediction, list, "spans"):
         prediction["spans"] = []
 
     # Form Extractions added in review may lack bounding box information.
     # These values will match `NULL_BOX`.
-    if task_type == ModelGroupType.FORM_EXTRACTION and not has(prediction, int, "top"):
+    if task_type == TaskType.FORM_EXTRACTION and not has(prediction, int, "top"):
         prediction["page_num"] = 0
         prediction["top"] = 0
         prediction["left"] = 0
@@ -69,14 +69,14 @@ def normalize_prediction_dict(task_type: ModelGroupType, prediction: "Any") -> N
     # Document Extractions that didn't go through a linked labels transformer
     # lack a `groupings` section.
     if task_type in (
-        ModelGroupType.DOCUMENT_EXTRACTION,
-        ModelGroupType.GENAI_EXTRACTION,
+        TaskType.DOCUMENT_EXTRACTION,
+        TaskType.GENAI_EXTRACTION,
     ) and not has(prediction, list, "groupings"):
         prediction["groupings"] = []
 
     # Summarizations added in review may lack a `citations` section.
     # These values will match `NULL_CITATION`.
-    if task_type == ModelGroupType.GENAI_SUMMARIZATION and not has(
+    if task_type == TaskType.GENAI_SUMMARIZATION and not has(
         prediction, list, "citations"
     ):
         prediction["citations"] = []

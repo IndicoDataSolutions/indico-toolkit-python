@@ -7,13 +7,13 @@ if TYPE_CHECKING:
     from typing import Any
 
     from ..document import Document
-    from ..model import ModelGroup
+    from ..task import Task
 
 
 @dataclass
 class Prediction:
     document: "Document"
-    model: "ModelGroup"
+    task: "Task"
     review: "Review | None"
 
     label: str

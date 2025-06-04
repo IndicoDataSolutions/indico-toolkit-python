@@ -2,7 +2,6 @@ from collections import defaultdict
 from operator import attrgetter
 from typing import TYPE_CHECKING, List, TypeVar, overload
 
-from .model import ModelGroupType
 from .predictions import (
     Classification,
     DocumentExtraction,
@@ -13,6 +12,7 @@ from .predictions import (
     Unbundling,
 )
 from .review import Review, ReviewType
+from .task import TaskType
 from .utils import nfilter
 
 if TYPE_CHECKING:
@@ -22,8 +22,8 @@ if TYPE_CHECKING:
     from typing_extensions import Self
 
     from .document import Document
-    from .model import ModelGroup
     from .result import Result
+    from .task import Task
 
 PredictionType = TypeVar("PredictionType", bound=Prediction)
 OfType = TypeVar("OfType", bound=Prediction)
@@ -88,7 +88,7 @@ class PredictionList(List[PredictionType]):
     ) -> "dict[KeyType, Self]":
         """
         Group predictions into a dictionary using `key` to derive each prediction's key.
-        E.g. `key=attrgetter("label")` or `key=attrgetter("model")`.
+        E.g. `key=attrgetter("label")` or `key=attrgetter("task")`.
 
         If a derived key is an unhashable mutable collection (like set),
         it's automatically converted to its hashable immutable variant (like frozenset).
@@ -149,8 +149,8 @@ class PredictionList(List[PredictionType]):
         *,
         document: "Document | None" = None,
         document_in: "Container[Document] | None" = None,
-        model: "ModelGroup | ModelGroupType | str | None" = None,
-        model_in: "Container[ModelGroup | ModelGroupType | str] | None" = None,
+        task: "Task | TaskType | str | None" = None,
+        task_in: "Container[Task | TaskType | str] | None" = None,
         review: "Review | ReviewType | None" = REVIEW_UNSPECIFIED,
         review_in: "Container[Review | ReviewType | None]" = {REVIEW_UNSPECIFIED},
         label: "str | None" = None,
@@ -171,8 +171,8 @@ class PredictionList(List[PredictionType]):
         predicate: predictions for which this function returns True,
         document: predictions from this document,
         document_in: predictions from these documents,
-        model: predictions from this model, task type, or name,
-        model_in: predictions from these models, task types, or names,
+        task: predictions from this task, task type, or task name,
+        task_in: predictions from these models, task types, or names,
         review: predictions from this review or review type,
         review_in: predictions from these reviews or review types,
         label: predictions with this label,
@@ -197,21 +197,21 @@ class PredictionList(List[PredictionType]):
         if document_in is not None:
             predicates.append(lambda prediction: prediction.document in document_in)
 
-        if model is not None:
+        if task is not None:
             predicates.append(
                 lambda prediction: (
-                    prediction.model == model
-                    or prediction.model.type == model
-                    or prediction.model.name == model
+                    prediction.task == task
+                    or prediction.task.type == task
+                    or prediction.task.name == task
                 )
             )
 
-        if model_in is not None:
+        if task_in is not None:
             predicates.append(
                 lambda prediction: (
-                    prediction.model in model_in
-                    or prediction.model.type in model_in
-                    or prediction.model.name in model_in
+                    prediction.task in task_in
+                    or prediction.task.type in task_in
+                    or prediction.task.name in task_in
                 )
             )
 
@@ -341,20 +341,20 @@ class PredictionList(List[PredictionType]):
             model_results: "dict[str, Any]" = {}
             component_results: "dict[str, Any]" = {}
 
-            predictions_by_model = self.where(
+            predictions_by_task = self.where(
                 document=document,
             ).groupby(
-                attrgetter("model"),
+                attrgetter("task"),
             )
 
-            for model, predictions in predictions_by_model.items():
-                model_id = str(model.id)
+            for task, predictions in predictions_by_task.items():
+                task_id = str(task.id)
                 prediction_dicts = [prediction.to_dict() for prediction in predictions]
 
-                if model_id in document._model_ids:
-                    model_results[model_id] = prediction_dicts
-                elif model_id in document._component_ids:
-                    component_results[model_id] = prediction_dicts
+                if task_id in document._model_ids:
+                    model_results[task_id] = prediction_dicts
+                elif task_id in document._component_ids:
+                    component_results[task_id] = prediction_dicts
 
             for model_id in document._model_ids:
                 if model_id not in model_results:

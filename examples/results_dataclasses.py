@@ -40,8 +40,8 @@ invoice_numbers = result.pre_review.extractions.where(label="Invoice Number")
 invoice_number = invoice_numbers.orderby(attrgetter("confidence"), reverse=True)[0]
 invoice_number.text
 
-# Get all auto review predictions grouped by model.
-predictions_by_model = result.auto_review.groupby(attrgetter("model"))
+# Get all auto reviewed predictions grouped by task.
+predictions_by_task = result.auto_review.groupby(attrgetter("task"))
 
 # Get all final extractions on page 5.
 result.final.extractions.where(predicate=lambda pred: pred.page == 5)
@@ -57,12 +57,12 @@ See class definitions for complete reference.
 result.submission_id  # Submission ID
 result.version  # Result file version
 result.documents  # List of documents in this submission
-result.models  # List of documents in this submission
+result.tasks  # List of tasks in this submission
 result.reviews  # List of reviews for this submission
 result.rejected  # Whether this submission was rejected in review
 
-result.predictions  # List of all model predictions
-result.pre_review  # List of raw model predictions
+result.predictions  # List of all predictions
+result.pre_review  # List of raw predictions
 result.auto_review  # List of predictions for auto review
 result.manual_review  # List of predictions for manual review
 result.admin_review  # List of predictions for admin review
@@ -99,7 +99,7 @@ predictions.apply()
 predictions.groupby()
 # Sort predictions by some attribute (e.g. confidence)
 predictions.orderby()
-# Filter predictions by some predicate (e.g. model, label, confidence)
+# Filter predictions by some predicate (e.g. task, label, confidence)
 predictions.where()
 # Get this list of predictions as changes for `SubmitReview`
 predictions.to_changes(result)
@@ -117,7 +117,7 @@ predictions.extractions.unreject()
 # Prediction Dataclass
 prediction = predictions[0]
 prediction.document
-prediction.model
+prediction.task
 prediction.label
 prediction.confidence  # Confidence of the predicted label
 prediction.confidences  # Confidences of all labels

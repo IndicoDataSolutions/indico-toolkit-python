@@ -6,12 +6,12 @@ from typing import TYPE_CHECKING
 from . import predictions as prediction
 from .document import Document
 from .errors import ResultError
-from .model import ModelGroup
 from .normalization import normalize_result_dict
 from .predictionlist import PredictionList
 from .predictions import Prediction
 from .review import Review, ReviewType
-from .utils import get, has
+from .task import Task
+from .utils import get
 
 if TYPE_CHECKING:
     from typing import Any
@@ -22,7 +22,7 @@ class Result:
     version: int
     submission_id: int
     documents: "tuple[Document, ...]"
-    models: "tuple[ModelGroup, ...]"
+    tasks: "tuple[Task, ...]"
     predictions: "PredictionList[Prediction]"
     reviews: "tuple[Review, ...]"
 
@@ -78,10 +78,10 @@ class Result:
                 map(Document.from_errored_file_dict, errored_files),
             )
         )
-        models = sorted(
+        tasks = sorted(
             chain(
-                map(ModelGroup.from_dict, modelgroup_metadata.values()),
-                map(ModelGroup.from_dict, static_model_components),
+                map(Task.from_dict, modelgroup_metadata.values()),
+                map(Task.from_dict, static_model_components),
             )
         )
         reviews = sorted(map(Review.from_dict, review_metadata.values()))
@@ -110,12 +110,10 @@ class Result:
 
             for review, model_section in reviewed_model_predictions:
                 for model_id, model_predictions in model_section.items():
-                    model = next(
-                        filter(lambda model: model.id == int(model_id), models)
-                    )
+                    task = next(filter(lambda task: task.id == int(model_id), tasks))
                     predictions.extend(
                         map(
-                            partial(prediction.from_dict, document, model, review),
+                            partial(prediction.from_dict, document, task, review),
                             model_predictions,
                         )
                     )
@@ -123,8 +121,8 @@ class Result:
             for review, component_section in reviewed_component_predictions:
                 for component_id, component_predictions in component_section.items():
                     try:
-                        model = next(
-                            filter(lambda model: model.id == int(component_id), models)
+                        task = next(
+                            filter(lambda task: task.id == int(component_id), tasks)
                         )
                     except StopIteration:
                         component_type = get(
@@ -137,7 +135,7 @@ class Result:
 
                     predictions.extend(
                         map(
-                            partial(prediction.from_dict, document, model, review),
+                            partial(prediction.from_dict, document, task, review),
                             component_predictions,
                         )
                     )
@@ -146,7 +144,7 @@ class Result:
             version=version,
             submission_id=submission_id,
             documents=tuple(documents),
-            models=tuple(models),
+            tasks=tuple(tasks),
             predictions=predictions,
             reviews=tuple(reviews),
         )

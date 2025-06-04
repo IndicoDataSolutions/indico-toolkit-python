@@ -4,7 +4,7 @@ from enum import Enum
 from .utils import get
 
 
-class ModelGroupType(Enum):
+class TaskType(Enum):
     CLASSIFICATION = "classification"
     DOCUMENT_EXTRACTION = "annotation"
     FORM_EXTRACTION = "form_extraction"
@@ -15,18 +15,18 @@ class ModelGroupType(Enum):
 
 
 @dataclass(frozen=True, order=True)
-class ModelGroup:
+class Task:
     id: int
     name: str
-    type: ModelGroupType
+    type: TaskType
 
     @staticmethod
-    def from_dict(model_group: object) -> "ModelGroup":
+    def from_dict(metadata: object) -> "Task":
         """
-        Create a `ModelGroup` from a model group dictionary.
+        Create a `Task` from a model group or component metadata dictionary.
         """
-        return ModelGroup(
-            id=get(model_group, int, "id"),
-            name=get(model_group, str, "name"),
-            type=ModelGroupType(get(model_group, str, "task_type")),
+        return Task(
+            id=get(metadata, int, "id"),
+            name=get(metadata, str, "name"),
+            type=TaskType(get(metadata, str, "task_type")),
         )
