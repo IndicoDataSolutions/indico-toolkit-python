@@ -16,10 +16,10 @@ class Document:
     # present in the original result file. This may not be possible from the
     # predictions alone--if a model or component had an empty section because it didn't
     # produce predictions or if all of the predictions for that section were dropped.
-    # As such, the models and components seen when parsing a result file are tracked
+    # As such, the model and component IDs seen when parsing a result file are tracked
     # per-document so that the empty sections can be reproduced later.
-    _model_sections: "frozenset[str]"
-    _component_sections: "frozenset[str]"
+    _model_ids: "frozenset[str]"
+    _component_ids: "frozenset[str]"
 
     @staticmethod
     def from_dict(document: object) -> "Document":
@@ -28,8 +28,6 @@ class Document:
         """
         model_results = get(document, dict, "model_results", "ORIGINAL")
         component_results = get(document, dict, "component_results", "ORIGINAL")
-        model_ids = frozenset(model_results.keys())
-        component_ids = frozenset(component_results.keys())
 
         return Document(
             id=get(document, int, "submissionfile_id"),
@@ -38,8 +36,8 @@ class Document:
             failed=False,
             error="",
             traceback="",
-            _model_sections=model_ids,
-            _component_sections=component_ids,
+            _model_ids=frozenset(model_results.keys()),
+            _component_ids=frozenset(component_results.keys()),
         )
 
     @staticmethod
@@ -54,6 +52,6 @@ class Document:
             failed=True,
             error=get(errored_file, str, "error"),
             traceback=get(errored_file, str, "traceback"),
-            _model_sections=frozenset(),
-            _component_sections=frozenset(),
+            _model_ids=frozenset(),
+            _component_ids=frozenset(),
         )

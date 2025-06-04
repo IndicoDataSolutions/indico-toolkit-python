@@ -351,16 +351,16 @@ class PredictionList(List[PredictionType]):
                 model_id = str(model.id)
                 prediction_dicts = [prediction.to_dict() for prediction in predictions]
 
-                if model_id in document._model_sections:
+                if model_id in document._model_ids:
                     model_results[model_id] = prediction_dicts
-                elif model_id in document._component_sections:
+                elif model_id in document._component_ids:
                     component_results[model_id] = prediction_dicts
 
-            for model_id in document._model_sections:
+            for model_id in document._model_ids:
                 if model_id not in model_results:
                     model_results[model_id] = []
 
-            for component_id in document._component_sections:
+            for component_id in document._component_ids:
                 if component_id not in component_results:
                     component_results[component_id] = []
 
