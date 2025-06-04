@@ -42,7 +42,11 @@ def test_empty_sections() -> None:
                         }
                     }
                 }
-            ]
+            ],
+            "reviews": {
+            },
+            "errored_files": {
+            }
         }
         """
     )

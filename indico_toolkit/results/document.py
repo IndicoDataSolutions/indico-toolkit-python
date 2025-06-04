@@ -30,12 +30,11 @@ class Document:
         component_results = get(document, dict, "component_results", "ORIGINAL")
         model_ids = frozenset(model_results.keys())
         component_ids = frozenset(component_results.keys())
-        etl_output_uri = get(document, str, "etl_output")
 
         return Document(
             id=get(document, int, "submissionfile_id"),
             name=get(document, str, "input_filename"),
-            etl_output_uri=etl_output_uri,
+            etl_output_uri=get(document, str, "etl_output"),
             failed=False,
             error="",
             traceback="",
@@ -48,16 +47,13 @@ class Document:
         """
         Create a `Document` from an errored file dictionary.
         """
-        traceback = get(errored_file, str, "error")
-        error = traceback.split("\n")[-1].strip()
-
         return Document(
             id=get(errored_file, int, "submissionfile_id"),
             name=get(errored_file, str, "input_filename"),
             etl_output_uri="",
             failed=True,
-            error=error,
-            traceback=traceback,
+            error=get(errored_file, str, "error"),
+            traceback=get(errored_file, str, "traceback"),
             _model_sections=frozenset(),
             _component_sections=frozenset(),
         )

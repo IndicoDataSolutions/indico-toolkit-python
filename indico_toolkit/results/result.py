@@ -127,18 +127,13 @@ class Result:
                             filter(lambda model: model.id == int(component_id), models)
                         )
                     except StopIteration:
-                        if has(component_metadata, str, component_id, "component_type"):
-                            component_type = get(
-                                component_metadata, str, component_id, "component_type"
-                            )
-                            raise ResultError(
-                                f"unsupported component type {component_type!r} "
-                                f"for component {component_id}"
-                            )
-                        else:
-                            raise ResultError(
-                                f"no component metadata for component {component_id}"
-                            )
+                        component_type = get(
+                            component_metadata, str, component_id, "component_type"
+                        )
+                        raise ResultError(
+                            f"unsupported component type {component_type!r} "
+                            f"for component {component_id}"
+                        )
 
                     predictions.extend(
                         map(

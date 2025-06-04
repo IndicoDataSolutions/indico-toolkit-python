@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from ..model import ModelGroupType
+from ..normalization import normalize_prediction_dict
 from .box import NULL_BOX, Box
 from .citation import NULL_CITATION, Citation
 from .classification import Classification
@@ -55,6 +56,8 @@ def from_dict(
     """
     Create a `Prediction` subclass from a prediction dictionary.
     """
+    normalize_prediction_dict(model.type, prediction)
+
     if model.type in (CLASSIFICATION, GENAI_CLASSIFICATION):
         return Classification.from_dict(document, model, review, prediction)
     elif model.type in (DOCUMENT_EXTRACTION, GENAI_EXTRACTION):
