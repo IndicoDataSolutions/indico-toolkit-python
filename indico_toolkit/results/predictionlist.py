@@ -327,45 +327,14 @@ class PredictionList(List[PredictionType]):
         self.oftype(Extraction).apply(Extraction.unreject)
         return self
 
-    def to_changes(self, result: "Result") -> "Any":
+    def to_changes(self, result: "Result") -> "list[dict[str, Any]]":
         """
-        Create a dict or list for the `changes` argument of `SubmitReview` based on the
-        predictions in this prediction list and the documents and version of `result`.
-        """
-        if result.version == 1:
-            return self.to_v1_changes(result.documents[0])
-        elif result.version == 3:
-            return self.to_v3_changes(result.documents)
-        else:
-            raise ValueError(f"unsupported file version `{result.version}`")
-
-    def to_v1_changes(self, document: "Document") -> "dict[str, Any]":
-        """
-        Create a v1 dict for the `changes` argument of `SubmitReview`.
-        """
-        changes: "dict[str, Any]" = {}
-
-        for model, predictions in self.groupby(attrgetter("model")).items():
-            if model.type == ModelGroupType.CLASSIFICATION:
-                changes[model.name] = predictions[0].to_v1_dict()
-            else:
-                changes[model.name] = [
-                    prediction.to_v1_dict() for prediction in predictions
-                ]
-
-        for model_name in document._model_sections:
-            if model_name not in changes:
-                changes[model_name] = []
-
-        return changes
-
-    def to_v3_changes(self, documents: "Iterable[Document]") -> "list[dict[str, Any]]":
-        """
-        Create a v3 list for the `changes` argument of `SubmitReview`.
+        Create a list for the `changes` argument of `SubmitReview` based on the
+        predictions in this prediction list and the documents in `result`.
         """
         changes: "list[dict[str, Any]]" = []
 
-        for document in documents:
+        for document in result.documents:
             if document.failed:
                 continue
 
@@ -380,9 +349,7 @@ class PredictionList(List[PredictionType]):
 
             for model, predictions in predictions_by_model.items():
                 model_id = str(model.id)
-                prediction_dicts = [
-                    prediction.to_v3_dict() for prediction in predictions
-                ]
+                prediction_dicts = [prediction.to_dict() for prediction in predictions]
 
                 if model_id in document._model_sections:
                     model_results[model_id] = prediction_dicts

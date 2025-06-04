@@ -96,9 +96,7 @@ def _load(result: object) -> Result:
 
     file_version = get(result, int, "file_version")
 
-    if file_version == 1:
-        return Result.from_v1_dict(result)
-    elif file_version == 3:
-        return Result.from_v3_dict(result)
+    if file_version == 3:
+        return Result.from_dict(result)
     else:
         raise ResultError(f"unsupported file version `{file_version}`")

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 
-from .utils import get, has
+from .utils import get
 
 
 class ModelGroupType(Enum):
@@ -21,37 +21,9 @@ class ModelGroup:
     type: ModelGroupType
 
     @staticmethod
-    def from_v1_section(section: "tuple[str, object]") -> "ModelGroup":
+    def from_dict(model_group: object) -> "ModelGroup":
         """
-        Create a `ModelGroup` from a v1 prediction section.
-        Use a heuristic on the first prediction of the model to determine its type.
-        """
-        name, predictions = section
-
-        if has(predictions, dict, "pre_review", 0):
-            prediction = get(predictions, dict, "pre_review", 0)
-
-            if has(prediction, str, "type"):
-                type = ModelGroupType.FORM_EXTRACTION
-            elif has(prediction, str, "text"):
-                type = ModelGroupType.DOCUMENT_EXTRACTION
-            else:
-                type = ModelGroupType.CLASSIFICATION
-        else:
-            # Likely an extraction model that produced no predictions.
-            type = ModelGroupType.DOCUMENT_EXTRACTION
-
-        return ModelGroup(
-            # v1 result files don't include model IDs.
-            id=None,  # type: ignore[arg-type]
-            name=name,
-            type=type,
-        )
-
-    @staticmethod
-    def from_v3_dict(model_group: object) -> "ModelGroup":
-        """
-        Create a `ModelGroup` from a v3 model group dictionary.
+        Create a `ModelGroup` from a model group dictionary.
         """
         return ModelGroup(
             id=get(model_group, int, "id"),

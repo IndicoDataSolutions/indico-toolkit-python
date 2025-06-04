@@ -7,7 +7,7 @@ from . import predictions as prediction
 from .document import Document
 from .errors import ResultError
 from .model import ModelGroup
-from .normalization import normalize_v1_result, normalize_v3_result
+from .normalization import normalize_result_dict
 from .predictionlist import PredictionList
 from .predictions import Prediction
 from .review import Review, ReviewType
@@ -51,57 +51,11 @@ class Result:
         return self.predictions.where(review=self.reviews[-1] if self.reviews else None)
 
     @staticmethod
-    def from_v1_dict(result: object) -> "Result":
+    def from_dict(result: object) -> "Result":
         """
-        Create a `Result` from a v1 result file dictionary.
+        Create a `Result` from a result file dictionary.
         """
-        normalize_v1_result(result)
-
-        version = get(result, int, "file_version")
-        submission_id = get(result, int, "submission_id")
-        submission_results = get(result, dict, "results", "document", "results")
-        review_metadata = get(result, list, "reviews_meta")
-
-        document = Document.from_v1_dict(result)
-        models = sorted(map(ModelGroup.from_v1_section, submission_results.items()))
-        predictions: "PredictionList[Prediction]" = PredictionList()
-        # Reviews must be sorted after parsing predictions, as they match positionally
-        # with prediction lists in `post_reviews`.
-        reviews = list(map(Review.from_dict, review_metadata))
-
-        for model_name, model_predictions in submission_results.items():
-            model = next(filter(lambda model: model.name == model_name, models))
-            reviewed_model_predictions: "list[tuple[Review | None, Any]]" = [
-                (None, get(model_predictions, list, "pre_review")),
-                *filter(
-                    lambda review_predictions: not review_predictions[0].rejected,
-                    zip(reviews, get(model_predictions, list, "post_reviews")),
-                ),
-            ]
-
-            for review, model_predictions in reviewed_model_predictions:
-                predictions.extend(
-                    map(
-                        partial(prediction.from_v1_dict, document, model, review),
-                        model_predictions,
-                    )
-                )
-
-        return Result(
-            version=version,
-            submission_id=submission_id,
-            documents=(document,),
-            models=tuple(models),
-            predictions=predictions,
-            reviews=tuple(sorted(reviews)),
-        )
-
-    @staticmethod
-    def from_v3_dict(result: object) -> "Result":
-        """
-        Create a `Result` from a v3 result file dictionary.
-        """
-        normalize_v3_result(result)
+        normalize_result_dict(result)
 
         version = get(result, int, "file_version")
         submission_id = get(result, int, "submission_id")
@@ -120,14 +74,14 @@ class Result:
 
         documents = sorted(
             chain(
-                map(Document.from_v3_dict, submission_results),
-                map(Document.from_v3_errored_file, errored_files),
+                map(Document.from_dict, submission_results),
+                map(Document.from_errored_file_dict, errored_files),
             )
         )
         models = sorted(
             chain(
-                map(ModelGroup.from_v3_dict, modelgroup_metadata.values()),
-                map(ModelGroup.from_v3_dict, static_model_components),
+                map(ModelGroup.from_dict, modelgroup_metadata.values()),
+                map(ModelGroup.from_dict, static_model_components),
             )
         )
         reviews = sorted(map(Review.from_dict, review_metadata.values()))
@@ -161,7 +115,7 @@ class Result:
                     )
                     predictions.extend(
                         map(
-                            partial(prediction.from_v3_dict, document, model, review),
+                            partial(prediction.from_dict, document, model, review),
                             model_predictions,
                         )
                     )
@@ -188,7 +142,7 @@ class Result:
 
                     predictions.extend(
                         map(
-                            partial(prediction.from_v3_dict, document, model, review),
+                            partial(prediction.from_dict, document, model, review),
                             component_predictions,
                         )
                     )

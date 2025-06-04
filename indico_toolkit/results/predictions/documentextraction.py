@@ -40,52 +40,14 @@ class DocumentExtraction(Extraction):
         self.spans = [span]
 
     @staticmethod
-    def from_v1_dict(
+    def from_dict(
         document: "Document",
         model: "ModelGroup",
         review: "Review | None",
         prediction: object,
     ) -> "DocumentExtraction":
         """
-        Create a `DocumentExtraction` from a v1 prediction dictionary.
-        """
-        return DocumentExtraction(
-            document=document,
-            model=model,
-            review=review,
-            label=get(prediction, str, "label"),
-            confidences=get(prediction, dict, "confidence"),
-            text=get(prediction, str, "normalized", "formatted"),
-            accepted=(
-                has(prediction, bool, "accepted") and get(prediction, bool, "accepted")
-            ),
-            rejected=(
-                has(prediction, bool, "rejected") and get(prediction, bool, "rejected")
-            ),
-            groups=set(map(Group.from_dict, get(prediction, list, "groupings"))),
-            spans=[Span.from_dict(prediction)] if has(prediction, int, "start") else [],
-            extras=omit(
-                prediction,
-                "label",
-                "confidence",
-                "accepted",
-                "rejected",
-                "groupings",
-                "page_num",
-                "start",
-                "end",
-            ),
-        )
-
-    @staticmethod
-    def from_v3_dict(
-        document: "Document",
-        model: "ModelGroup",
-        review: "Review | None",
-        prediction: object,
-    ) -> "DocumentExtraction":
-        """
-        Create a `DocumentExtraction` from a v3 prediction dictionary.
+        Create a `DocumentExtraction` from a prediction dictionary.
         """
         return DocumentExtraction(
             document=document,
@@ -113,35 +75,9 @@ class DocumentExtraction(Extraction):
             ),
         )
 
-    def to_v1_dict(self) -> "dict[str, Any]":
+    def to_dict(self) -> "dict[str, Any]":
         """
-        Create a prediction dictionary for v1 auto review changes.
-        """
-        prediction = {
-            **self.extras,
-            "label": self.label,
-            "confidence": self.confidences,
-            "groupings": [group.to_dict() for group in self.groups],
-            "page_num": self.span.page,
-            "start": self.span.start,
-            "end": self.span.end,
-        }
-
-        if self.text != get(prediction, str, "normalized", "formatted"):
-            prediction["normalized"]["formatted"] = self.text
-            prediction["normalized"]["text"] = self.text
-            prediction["text"] = self.text
-
-        if self.accepted:
-            prediction["accepted"] = True
-        elif self.rejected:
-            prediction["rejected"] = True
-
-        return prediction
-
-    def to_v3_dict(self) -> "dict[str, Any]":
-        """
-        Create a prediction dictionary for v3 auto review changes.
+        Create a prediction dictionary for auto review changes.
         """
         prediction = {
             **self.extras,

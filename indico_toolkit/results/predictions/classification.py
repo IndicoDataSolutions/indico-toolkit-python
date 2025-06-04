@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 @dataclass
 class Classification(Prediction):
     @staticmethod
-    def _from_dict(
+    def from_dict(
         document: "Document",
         model: "ModelGroup",
         review: "Review | None",
@@ -33,10 +33,7 @@ class Classification(Prediction):
             extras=omit(prediction, "label", "confidence"),
         )
 
-    from_v1_dict = _from_dict
-    from_v3_dict = _from_dict
-
-    def _to_dict(self) -> "dict[str, Any]":
+    def to_dict(self) -> "dict[str, Any]":
         """
         Create a prediction dictionary for auto review changes.
         """
@@ -45,6 +42,3 @@ class Classification(Prediction):
             "label": self.label,
             "confidence": self.confidences,
         }
-
-    to_v1_dict = _to_dict
-    to_v3_dict = _to_dict

@@ -47,14 +47,14 @@ class Summarization(Extraction):
         self.citations = [Citation(self.citation.start, self.citation.end, span)]
 
     @staticmethod
-    def from_v3_dict(
+    def from_dict(
         document: "Document",
         model: "ModelGroup",
         review: "Review | None",
         prediction: object,
     ) -> "Summarization":
         """
-        Create a `Summarization` from a v3 prediction dictionary.
+        Create a `Summarization` from a prediction dictionary.
         """
         return Summarization(
             document=document,
@@ -83,9 +83,9 @@ class Summarization(Extraction):
             ),
         )
 
-    def to_v3_dict(self) -> "dict[str, Any]":
+    def to_dict(self) -> "dict[str, Any]":
         """
-        Create a prediction dictionary for v3 auto review changes.
+        Create a prediction dictionary for auto review changes.
         """
         prediction = {
             **self.extras,
