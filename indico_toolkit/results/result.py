@@ -1,20 +1,15 @@
 from dataclasses import dataclass
 from functools import partial
 from itertools import chain
-from typing import TYPE_CHECKING
 
 from . import predictions as prediction
 from .document import Document
-from .errors import ResultError
 from .normalization import normalize_result_dict
 from .predictionlist import PredictionList
 from .predictions import Prediction
 from .review import Review, ReviewType
 from .task import Task
 from .utils import get
-
-if TYPE_CHECKING:
-    from typing import Any
 
 
 @dataclass(frozen=True, order=True)
@@ -23,8 +18,8 @@ class Result:
     submission_id: int
     documents: "tuple[Document, ...]"
     tasks: "tuple[Task, ...]"
-    predictions: "PredictionList[Prediction]"
     reviews: "tuple[Review, ...]"
+    predictions: "PredictionList[Prediction]"
 
     @property
     def rejected(self) -> bool:
@@ -93,50 +88,38 @@ class Result:
             document = next(
                 filter(lambda document: document.id == document_id, documents)
             )
-            reviewed_model_predictions: "list[tuple[Review | None, Any]]" = [
-                (None, get(document_dict, dict, "model_results", "ORIGINAL"))
-            ]
-            reviewed_component_predictions: "list[tuple[Review | None, Any]]" = [
-                (None, get(document_dict, dict, "component_results", "ORIGINAL"))
-            ]
+            model_results = get(document_dict, dict, "model_results")
+            component_results = get(document_dict, dict, "component_results")
 
-            if reviews:
-                reviewed_model_predictions.append(
-                    (reviews[-1], get(document_dict, dict, "model_results", "FINAL"))
-                )
-                reviewed_component_predictions.append(
-                    (reviews[-1], get(document_dict, dict, "component_results", "FINAL"))  # fmt: skip  # noqa: E501
-                )
+            # Parse original predictions (which don't have an associated review).
+            original_results = {
+                **get(model_results, dict, "ORIGINAL"),
+                **get(component_results, dict, "ORIGINAL"),
+            }
 
-            for review, model_section in reviewed_model_predictions:
-                for model_id, model_predictions in model_section.items():
-                    task = next(filter(lambda task: task.id == int(model_id), tasks))
-                    predictions.extend(
-                        map(
-                            partial(prediction.from_dict, document, task, review),
-                            model_predictions,
-                        )
+            for task_id, task_predictions in original_results.items():
+                task = next(filter(lambda task: task.id == int(task_id), tasks))
+                predictions.extend(
+                    map(
+                        partial(prediction.from_dict, document, task, None),
+                        task_predictions,
                     )
+                )
 
-            for review, component_section in reviewed_component_predictions:
-                for component_id, component_predictions in component_section.items():
-                    try:
-                        task = next(
-                            filter(lambda task: task.id == int(component_id), tasks)
-                        )
-                    except StopIteration:
-                        component_type = get(
-                            component_metadata, str, component_id, "component_type"
-                        )
-                        raise ResultError(
-                            f"unsupported component type {component_type!r} "
-                            f"for component {component_id}"
-                        )
+            # Parse final predictions (associated with the most recent review).
+            if reviews:
+                review = reviews[-1]
+                final_results = {
+                    **get(model_results, dict, "FINAL"),
+                    **get(component_results, dict, "FINAL"),
+                }
 
+                for task_id, task_predictions in final_results.items():
+                    task = next(filter(lambda task: task.id == int(task_id), tasks))
                     predictions.extend(
                         map(
                             partial(prediction.from_dict, document, task, review),
-                            component_predictions,
+                            task_predictions,
                         )
                     )
 
@@ -145,6 +128,6 @@ class Result:
             submission_id=submission_id,
             documents=tuple(documents),
             tasks=tuple(tasks),
-            predictions=predictions,
             reviews=tuple(reviews),
+            predictions=predictions,
         )
