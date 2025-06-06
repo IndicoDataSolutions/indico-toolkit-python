@@ -38,7 +38,7 @@ def load(
     reader: "Callable[..., Any]",
     text: bool = True,
     tokens: bool = True,
-    tables: bool = False,
+    tables: bool = True,
 ) -> EtlOutput:
     """
     Load `etl_output_uri` as an ETL Output dataclass. A `reader` function must be
@@ -56,12 +56,24 @@ def load(
     ```
     """
     etl_output = reader(etl_output_uri)
-    tables_uri = etl_output_uri.replace("etl_output.json", "tables.json")
+    pages = get(etl_output, list, "pages")
 
-    if has(etl_output, str, "pages", 0, "page_info"):
-        return _load_v1(etl_output, tables_uri, reader, text, tokens, tables)
+    if text and has(pages, str, 0, "text"):
+        text_by_page = map(lambda page: reader(get(page, str, "text")), pages)
     else:
-        return _load_v3(etl_output, tables_uri, reader, text, tokens, tables)
+        text_by_page = ()  # type: ignore[assignment]
+
+    if tokens and has(pages, str, 0, "tokens"):
+        tokens_by_page = map(lambda page: reader(get(page, str, "tokens")), pages)
+    else:
+        tokens_by_page = ()  # type: ignore[assignment]
+
+    if tables and has(pages, str, 0, "tables"):
+        tables_by_page = map(lambda page: reader(get(page, str, "tables")), pages)
+    else:
+        tables_by_page = ()  # type: ignore[assignment]
+
+    return EtlOutput.from_pages(text_by_page, tokens_by_page, tables_by_page)
 
 
 async def load_async(
@@ -70,7 +82,7 @@ async def load_async(
     reader: "Callable[..., Awaitable[Any]]",
     text: bool = True,
     tokens: bool = True,
-    tables: bool = False,
+    tables: bool = True,
 ) -> EtlOutput:
     """
     Load `etl_output_uri` as an ETL Output dataclass. A `reader` coroutine must be
@@ -88,123 +100,21 @@ async def load_async(
     ```
     """
     etl_output = await reader(etl_output_uri)
-    tables_uri = etl_output_uri.replace("etl_output.json", "tables.json")
-
-    if has(etl_output, str, "pages", 0, "page_info"):
-        return await _load_v1_async(
-            etl_output, tables_uri, reader, text, tokens, tables
-        )
-    else:
-        return await _load_v3_async(
-            etl_output, tables_uri, reader, text, tokens, tables
-        )
-
-
-def _load_v1(
-    etl_output: "Any",
-    tables_uri: str,
-    reader: "Callable[..., Any]",
-    text: bool,
-    tokens: bool,
-    tables: bool,
-) -> EtlOutput:
-    if text or tokens:
-        pages = tuple(
-            reader(get(page, str, "page_info"))
-            for page in get(etl_output, list, "pages")
-        )
-        text_by_page = map(lambda page: get(page, str, "pages", 0, "text"), pages)
-        tokens_by_page = map(lambda page: get(page, list, "tokens"), pages)
-    else:
-        text_by_page = ()  # type: ignore[assignment]
-        tokens_by_page = ()  # type: ignore[assignment]
-
-    if tables:
-        tables_by_page = reader(tables_uri)
-    else:
-        tables_by_page = ()
-
-    return EtlOutput.from_pages(text_by_page, tokens_by_page, tables_by_page)
-
-
-def _load_v3(
-    etl_output: "Any",
-    tables_uri: str,
-    reader: "Callable[..., Any]",
-    text: bool,
-    tokens: bool,
-    tables: bool,
-) -> EtlOutput:
     pages = get(etl_output, list, "pages")
 
-    if text or tokens:
-        text_by_page = map(lambda page: reader(get(page, str, "text")), pages)
-    else:
-        text_by_page = ()  # type: ignore[assignment]
-
-    if tokens:
-        tokens_by_page = map(lambda page: reader(get(page, str, "tokens")), pages)
-    else:
-        tokens_by_page = ()  # type: ignore[assignment]
-
-    if tables:
-        tables_by_page = reader(tables_uri)
-    else:
-        tables_by_page = ()
-
-    return EtlOutput.from_pages(text_by_page, tokens_by_page, tables_by_page)
-
-
-async def _load_v1_async(
-    etl_output: "Any",
-    tables_uri: str,
-    reader: "Callable[..., Awaitable[Any]]",
-    text: bool,
-    tokens: bool,
-    tables: bool,
-) -> EtlOutput:
-    if text or tokens:
-        pages = [
-            await reader(get(page, str, "page_info"))
-            for page in get(etl_output, list, "pages")
-        ]
-        text_by_page = map(lambda page: get(page, str, "pages", 0, "text"), pages)
-        tokens_by_page = map(lambda page: get(page, list, "tokens"), pages)
-    else:
-        text_by_page = ()  # type: ignore[assignment]
-        tokens_by_page = ()  # type: ignore[assignment]
-
-    if tables:
-        tables_by_page = await reader(tables_uri)
-    else:
-        tables_by_page = ()
-
-    return EtlOutput.from_pages(text_by_page, tokens_by_page, tables_by_page)
-
-
-async def _load_v3_async(
-    etl_output: "Any",
-    tables_uri: str,
-    reader: "Callable[..., Awaitable[Any]]",
-    text: bool,
-    tokens: bool,
-    tables: bool,
-) -> EtlOutput:
-    pages = get(etl_output, list, "pages")
-
-    if text or tokens:
+    if text and has(pages, str, 0, "text"):
         text_by_page = [await reader(get(page, str, "text")) for page in pages]
     else:
         text_by_page = ()  # type: ignore[assignment]
 
-    if tokens:
+    if tokens and has(pages, str, 0, "tokens"):
         tokens_by_page = [await reader(get(page, str, "tokens")) for page in pages]
     else:
         tokens_by_page = ()  # type: ignore[assignment]
 
-    if tables:
-        tables_by_page = await reader(tables_uri)
+    if tables and has(pages, str, 0, "tables"):
+        tables_by_page = [await reader(get(page, str, "tables")) for page in pages]
     else:
-        tables_by_page = ()
+        tables_by_page = ()  # type: ignore[assignment]
 
     return EtlOutput.from_pages(text_by_page, tokens_by_page, tables_by_page)
