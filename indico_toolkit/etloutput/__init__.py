@@ -41,7 +41,7 @@ def load(
     tables: bool = True,
 ) -> EtlOutput:
     """
-    Load `etl_output_uri` as an ETL Output dataclass. A `reader` function must be
+    Load `etl_output_uri` as an `EtlOutput` dataclass. A `reader` function must be
     supplied to read JSON files from disk, storage API, or Indico client.
 
     Use `text`, `tokens`, and `tables` to specify what to load.
@@ -85,7 +85,7 @@ async def load_async(
     tables: bool = True,
 ) -> EtlOutput:
     """
-    Load `etl_output_uri` as an ETL Output dataclass. A `reader` coroutine must be
+    Load `etl_output_uri` as an `EtlOutput` dataclass. A `reader` coroutine must be
     supplied to read JSON files from disk, storage API, or Indico client.
 
     Use `text`, `tokens`, and `tables` to specify what to load.

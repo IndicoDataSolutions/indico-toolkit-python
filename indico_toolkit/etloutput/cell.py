@@ -31,7 +31,7 @@ class Cell:
     @staticmethod
     def from_dict(cell: object, page: int) -> "Cell":
         """
-        Create a `Cell` from a v1 or v3 cell dictionary.
+        Create a `Cell` from a cell dictionary.
         """
         get(cell, dict, "position")["page_num"] = page
 

@@ -16,7 +16,7 @@ class Table:
     @staticmethod
     def from_dict(table: object) -> "Table":
         """
-        Create a `Table` from a v1 or v3 table dictionary.
+        Create a `Table` from a table dictionary.
         """
         page = get(table, int, "page_num")
         get(table, dict, "position")["page_num"] = page
