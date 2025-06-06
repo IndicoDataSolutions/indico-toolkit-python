@@ -1,0 +1,60 @@
+HubSpot, Inc.
+2 First Street,
+Boston,
+MA 02141 Tax
+ID: 11-2665791
+indico data solutions, INC
+Credit Card Receipt
+579266
+Date
+06/21/2016
+Bill To:
+186 SOUTH STREET
+SUITE 400
+Boston MA 02111
+US
+Ship To:
+186 SOUTH STREET
+SUITE 400
+Boston MA 02111
+US
+Portal ID
+Currency
+392757
+8
+USD
+Item
+Billing Frequency
+Start Date
+End Date
+Quantity
+Line Total
+HubSpot Enterprise
+Included Contacts
+Enterprise Contacts - Per 1000
+Monthly
+Monthly
+Monthly
+06/21/2016
+06/21/2016
+06/21/2016
+07/20/2016
+1
+$1,200.00
+07/20/2016
+10
+$0.00
+07/20/2016
+5
+$25.00
+Subtotal
+$1,225.00
+Total Tax
+$76.56
+Total
+$1,301.56
+Please contact your Account Manager for any questions related to your contract. For any other general invoicing inquiries, please send
+an email to bill @hubspot.
+net
+1 / 1
+HubSpot
