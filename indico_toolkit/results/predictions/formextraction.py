@@ -106,11 +106,12 @@ class FormExtraction(Extraction):
             # Don't overwrite the text of the signature stored in these attributes.
             # prediction["normalized"]["text"] = self.text
             # prediction["text"] = self.text
-        elif self.type == FormExtractionType.TEXT:
-            if self.text != get(prediction, str, "normalized", "formatted"):
-                prediction["normalized"]["formatted"] = self.text
-                prediction["normalized"]["text"] = self.text
-                prediction["text"] = self.text
+        elif self.type == FormExtractionType.TEXT and self.text != get(
+            prediction, str, "normalized", "formatted"
+        ):
+            prediction["normalized"]["formatted"] = self.text
+            prediction["normalized"]["text"] = self.text
+            prediction["text"] = self.text
 
         if self.accepted:
             prediction["accepted"] = True

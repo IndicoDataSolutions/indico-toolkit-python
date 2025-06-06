@@ -31,9 +31,9 @@ class DocumentExtraction(Extraction):
     @span.setter
     def span(self, span: Span) -> None:
         """
-        Overwrite all `spans` with the one provided.
+        Overwrite all spans with the one provided.
 
-        This is implemented under the assumption that if you're setting the single span,
+        This is implemented under the assumption that if you're setting a single span,
         you want it to be the only one. And if you're working in a context that's
         multiple-span sensetive, you'll set `extraction.spans` instead.
         """
