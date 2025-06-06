@@ -129,6 +129,9 @@ def test_extractions(predictions: "PredictionList[Prediction]") -> None:
 
 
 def test_slice_is_prediction_list(predictions: "PredictionList[Prediction]") -> None:
+    prediction = predictions[0]
+    assert isinstance(prediction, Prediction)
+
     predictions = predictions[1:3]
     assert len(predictions) == 2
     assert isinstance(predictions, PredictionList)
@@ -137,11 +140,18 @@ def test_slice_is_prediction_list(predictions: "PredictionList[Prediction]") -> 
 def test_groupby(
     predictions: "PredictionList[Prediction]", group_alpha: Group, group_bravo: Group
 ) -> None:
-    first_name, last_name = predictions.extractions
+    first_name, last_name = predictions.document_extractions
+
     predictions_by_groups = predictions.extractions.groupby(attrgetter("groups"))
     assert predictions_by_groups == {
         frozenset({group_alpha}): [first_name],
         frozenset({group_alpha, group_bravo}): [last_name],
+    }
+
+    predictions_by_spans = predictions.extractions.groupby(attrgetter("spans"))
+    assert predictions_by_spans == {
+        tuple(first_name.spans): [first_name],
+        tuple(last_name.spans): [last_name],
     }
 
 
