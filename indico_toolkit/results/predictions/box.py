@@ -15,6 +15,9 @@ class Box:
     right: int
     bottom: int
 
+    def __bool__(self) -> bool:
+        return self != NULL_BOX
+
     def __lt__(self, other: "Box") -> bool:
         """
         Bounding boxes are sorted with vertical hysteresis. Those on the same line are
