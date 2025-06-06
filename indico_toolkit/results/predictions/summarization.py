@@ -39,6 +39,13 @@ class Summarization(Extraction):
         self.citations = [citation]
 
     @property
+    def spans(self) -> "tuple[Span, ...]":
+        """
+        Return the spans covered by `self.citations`.
+        """
+        return tuple(citation.span for citation in self.citations)
+
+    @property
     def span(self) -> "Span":
         return self.citation.span
 
