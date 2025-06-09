@@ -97,15 +97,15 @@ class FormExtraction(Extraction):
             prediction["normalized"]["structured"] = {"checked": self.checked}
             text = "Checked" if self.checked else "Unchecked"
             prediction["normalized"]["formatted"] = text
-            prediction["normalized"]["text"] = self.text
-            prediction["text"] = self.text
+            prediction["normalized"]["text"] = text
+            prediction["text"] = text
         elif self.type == FormExtractionType.SIGNATURE:
             prediction["normalized"]["structured"] = {"signed": self.signed}
             text = "Signed" if self.signed else "Unsigned"
             prediction["normalized"]["formatted"] = text
             # Don't overwrite the text of the signature stored in these attributes.
-            # prediction["normalized"]["text"] = self.text
-            # prediction["text"] = self.text
+            # prediction["normalized"]["text"] = text
+            # prediction["text"] = text
         elif self.type == FormExtractionType.TEXT and self.text != get(
             prediction, str, "normalized", "formatted"
         ):
