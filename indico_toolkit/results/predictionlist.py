@@ -7,6 +7,7 @@ from .predictions import (
     DocumentExtraction,
     Extraction,
     FormExtraction,
+    FormExtractionType,
     Prediction,
     Summarization,
     Unbundling,
@@ -287,14 +288,20 @@ class PredictionList(List[PredictionType]):
 
         if checked is not None:
             predicates.append(
-                lambda prediction: isinstance(prediction, FormExtraction)
-                and prediction.checked == checked
+                lambda prediction: (
+                    isinstance(prediction, FormExtraction)
+                    and prediction.type == FormExtractionType.CHECKBOX
+                    and prediction.checked == checked
+                )
             )
 
         if signed is not None:
             predicates.append(
-                lambda prediction: isinstance(prediction, FormExtraction)
-                and prediction.signed == signed
+                lambda prediction: (
+                    isinstance(prediction, FormExtraction)
+                    and prediction.type == FormExtractionType.SIGNATURE
+                    and prediction.signed == signed
+                )
             )
 
         return type(self)(nfilter(predicates, self))
