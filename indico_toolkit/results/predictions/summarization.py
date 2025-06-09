@@ -30,14 +30,14 @@ class Summarization(Extraction):
     @citation.setter
     def citation(self, citation: Citation) -> None:
         """
-        Overwrite all citations with the one provided.
+        Overwrite all citations with the one provided, handling `NULL_CITATION`.
 
         This is implemented under the assumption that if you're setting a single
         citation, you want it to be the only one. And if you're working in a context
         that's multiple-citation sensetive, you'll set `summarization.citations`
         instead.
         """
-        self.citations = [citation]
+        self.citations = [citation] if citation else []
 
     @property
     def spans(self) -> "tuple[Span, ...]":
@@ -58,8 +58,11 @@ class Summarization(Extraction):
     @span.setter
     def span(self, span: "Span") -> None:
         """
-        Overwrite all citations with the first, replacing its span with the one
-        provided.
+        Overwrite all citations with the first,
+        replacing its span with the one provided.
+
+        Using `NULL_SPAN` for a citation is not explicitly handled,
+        and should be considered undefined behavior.
 
         This is implemented under the assumption that if you're setting a single span,
         there's only one citation and you want to update its span. And if you're
