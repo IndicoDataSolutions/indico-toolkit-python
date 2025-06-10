@@ -44,4 +44,4 @@ class Citation:
 # `citation` attribute without having to constantly check for `None`, while still
 # allowing you do a "None check" with `summarization.citation == NULL_CITATION` or
 # `bool(summarization.citation)`.
-NULL_CITATION: "Final" = Citation(span=NULL_SPAN, start=0, end=0)
+NULL_CITATION: "Final" = Citation(start=0, end=0, span=NULL_SPAN)
