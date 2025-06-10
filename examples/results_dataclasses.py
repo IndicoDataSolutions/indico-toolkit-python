@@ -55,7 +55,6 @@ See class definitions for complete reference.
 
 # Result Dataclass
 result.submission_id  # Submission ID
-result.version  # Result file version
 result.documents  # List of documents in this submission
 result.tasks  # List of tasks in this submission
 result.reviews  # List of reviews for this submission

@@ -14,7 +14,6 @@ from .utils import get
 
 @dataclass(frozen=True, order=True)
 class Result:
-    version: int
     submission_id: int
     documents: "tuple[Document, ...]"
     tasks: "tuple[Task, ...]"
@@ -52,7 +51,6 @@ class Result:
         """
         normalize_result_dict(result)
 
-        version = get(result, int, "file_version")
         submission_id = get(result, int, "submission_id")
         submission_results = get(result, list, "submission_results")
         modelgroup_metadata = get(result, dict, "modelgroup_metadata")
@@ -124,7 +122,6 @@ class Result:
                     )
 
         return Result(
-            version=version,
             submission_id=submission_id,
             documents=tuple(documents),
             tasks=tuple(tasks),

@@ -3,7 +3,6 @@ from indico_toolkit.results import Result, Review
 
 def test_rejected() -> None:
     result = Result(
-        version=None,  # type: ignore[arg-type]
         submission_id=None,  # type: ignore[arg-type]
         documents=None,  # type: ignore[arg-type]
         tasks=None,  # type: ignore[arg-type]
@@ -24,7 +23,6 @@ def test_rejected() -> None:
 
 def test_unrejected() -> None:
     result = Result(
-        version=None,  # type: ignore[arg-type]
         submission_id=None,  # type: ignore[arg-type]
         documents=None,  # type: ignore[arg-type]
         tasks=None,  # type: ignore[arg-type]
