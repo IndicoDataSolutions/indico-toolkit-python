@@ -75,7 +75,7 @@ def normalize_prediction_dict(task_type: TaskType, prediction: "Any") -> None:
         prediction["groupings"] = []
 
     # Summarizations added in review may lack a `citations` section.
-    # These values will match `NULL_CITATION`.
+    # This value will match `NULL_CITATION`.
     if task_type == TaskType.GENAI_SUMMARIZATION and not has(
         prediction, list, "citations"
     ):
