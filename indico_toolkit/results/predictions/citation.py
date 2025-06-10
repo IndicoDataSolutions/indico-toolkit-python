@@ -31,11 +31,11 @@ class Citation:
 
     def to_dict(self) -> "dict[str, Any]":
         return {
-            "document": self.span.to_dict(),
             "response": {
                 "start": self.start,
                 "end": self.end,
             },
+            "document": self.span.to_dict(),
         }
 
 
