@@ -95,37 +95,37 @@ class PredictionList(List[PredictionType]):
         it's automatically converted to its hashable immutable variant (like frozenset).
         This makes it easy to group by linked labels or unbundling pages.
         """
-        grouped = defaultdict(type(self))  # type: ignore[var-annotated]
+        grouped_predictions = defaultdict(type(self))  # type: ignore[var-annotated]
 
         for prediction in self:
-            derived_key = key(prediction)
+            group_key = key(prediction)
 
-            if isinstance(derived_key, list):
-                derived_key = tuple(derived_key)  # type: ignore[assignment]
-            elif isinstance(derived_key, set):
-                derived_key = frozenset(derived_key)  # type: ignore[assignment]
+            if isinstance(group_key, list):
+                group_key = tuple(group_key)  # type: ignore[assignment]
+            elif isinstance(group_key, set):
+                group_key = frozenset(group_key)  # type: ignore[assignment]
 
-            grouped[derived_key].append(prediction)
+            grouped_predictions[group_key].append(prediction)
 
-        return grouped
+        return grouped_predictions
 
     def groupbyiter(
         self, keys: "Callable[[PredictionType], Iterable[KeyType]]"
     ) -> "dict[KeyType, Self]":
         """
-        Group predictions into a dictionary using `key` to derive an iterable of keys.
+        Group predictions into a dictionary using `keys` to derive an iterable of keys.
         E.g. `key=attrgetter("groups")` or `key=attrgetter("pages")`.
 
         Each prediction is associated with every key in the iterable individually.
         If the iterable is empty, the prediction is not included in any group.
         """
-        grouped = defaultdict(type(self))  # type: ignore[var-annotated]
+        grouped_predictions = defaultdict(type(self))  # type: ignore[var-annotated]
 
         for prediction in self:
-            for derived_key in keys(prediction):
-                grouped[derived_key].append(prediction)
+            for group_key in keys(prediction):
+                grouped_predictions[group_key].append(prediction)
 
-        return grouped
+        return grouped_predictions
 
     def oftype(self, type: "type[OfType]") -> "PredictionList[OfType]":
         """
