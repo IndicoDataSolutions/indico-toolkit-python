@@ -171,15 +171,15 @@ class PredictionList(List[PredictionType]):
 
         predicate: predictions for which this function returns True,
         document: predictions from this document,
-        document_in: predictions from these documents,
+        document_in: predictions from any of these documents,
         task: predictions from this task, task type, or task name,
-        task_in: predictions from these models, task types, or names,
+        task_in: predictions from any of these tasks, task types, or task names,
         review: predictions from this review or review type,
-        review_in: predictions from these reviews or review types,
+        review_in: predictions from any of these reviews or review types,
         label: predictions with this label,
-        label_in: predictions with these labels,
+        label_in: predictions with any of these labels,
         page: extractions/unbundlings on this page,
-        page_in: extractions/unbundlings on these pages,
+        page_in: extractions/unbundlings on any of these pages,
         min_confidence: predictions with confidence >= this threshold,
         max_confidence: predictions with confidence <= this threshold,
         accepted: extractions that have or haven't been accepted,
@@ -244,16 +244,6 @@ class PredictionList(List[PredictionType]):
         if label_in is not None:
             predicates.append(lambda prediction: prediction.label in label_in)
 
-        if min_confidence is not None:
-            predicates.append(
-                lambda prediction: prediction.confidence >= min_confidence
-            )
-
-        if max_confidence is not None:
-            predicates.append(
-                lambda prediction: prediction.confidence <= max_confidence
-            )
-
         if page is not None:
             predicates.append(
                 lambda prediction: (
@@ -272,6 +262,16 @@ class PredictionList(List[PredictionType]):
                         and bool(page_in & set(prediction.pages))
                     )
                 )
+            )
+
+        if min_confidence is not None:
+            predicates.append(
+                lambda prediction: prediction.confidence >= min_confidence
+            )
+
+        if max_confidence is not None:
+            predicates.append(
+                lambda prediction: prediction.confidence <= max_confidence
             )
 
         if accepted is not None:
