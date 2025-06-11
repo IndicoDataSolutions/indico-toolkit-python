@@ -59,21 +59,21 @@ def load(
     pages = get(etl_output, list, "pages")
 
     if text and has(pages, str, 0, "text"):
-        text_by_page = map(lambda page: reader(get(page, str, "text")), pages)
+        text_pages = map(lambda page: reader(get(page, str, "text")), pages)
     else:
-        text_by_page = ()  # type: ignore[assignment]
+        text_pages = ()  # type: ignore[assignment]
 
     if tokens and has(pages, str, 0, "tokens"):
-        tokens_by_page = map(lambda page: reader(get(page, str, "tokens")), pages)
+        token_dict_pages = map(lambda page: reader(get(page, str, "tokens")), pages)
     else:
-        tokens_by_page = ()  # type: ignore[assignment]
+        token_dict_pages = ()  # type: ignore[assignment]
 
     if tables and has(pages, str, 0, "tables"):
-        tables_by_page = map(lambda page: reader(get(page, str, "tables")), pages)
+        table_dict_pages = map(lambda page: reader(get(page, str, "tables")), pages)
     else:
-        tables_by_page = ()  # type: ignore[assignment]
+        table_dict_pages = ()  # type: ignore[assignment]
 
-    return EtlOutput.from_pages(text_by_page, tokens_by_page, tables_by_page)
+    return EtlOutput.from_pages(text_pages, token_dict_pages, table_dict_pages)
 
 
 async def load_async(
@@ -103,18 +103,18 @@ async def load_async(
     pages = get(etl_output, list, "pages")
 
     if text and has(pages, str, 0, "text"):
-        text_by_page = [await reader(get(page, str, "text")) for page in pages]
+        text_pages = [await reader(get(page, str, "text")) for page in pages]
     else:
-        text_by_page = ()  # type: ignore[assignment]
+        text_pages = ()  # type: ignore[assignment]
 
     if tokens and has(pages, str, 0, "tokens"):
-        tokens_by_page = [await reader(get(page, str, "tokens")) for page in pages]
+        token_dict_pages = [await reader(get(page, str, "tokens")) for page in pages]
     else:
-        tokens_by_page = ()  # type: ignore[assignment]
+        token_dict_pages = ()  # type: ignore[assignment]
 
     if tables and has(pages, str, 0, "tables"):
-        tables_by_page = [await reader(get(page, str, "tables")) for page in pages]
+        table_dict_pages = [await reader(get(page, str, "tables")) for page in pages]
     else:
-        tables_by_page = ()  # type: ignore[assignment]
+        table_dict_pages = ()  # type: ignore[assignment]
 
-    return EtlOutput.from_pages(text_by_page, tokens_by_page, tables_by_page)
+    return EtlOutput.from_pages(text_pages, token_dict_pages, table_dict_pages)

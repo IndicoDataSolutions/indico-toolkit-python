@@ -28,30 +28,30 @@ class EtlOutput:
 
     @staticmethod
     def from_pages(
-        text_by_page: "Iterable[str]",
-        token_dicts_by_page: "Iterable[Iterable[object]]",
-        table_dicts_by_page: "Iterable[Iterable[object]]",
+        text_pages: "Iterable[str]",
+        token_dict_pages: "Iterable[Iterable[object]]",
+        table_dict_pages: "Iterable[Iterable[object]]",
     ) -> "EtlOutput":
         """
         Create an `EtlOutput` from pages of text, tokens, and tables.
         """
-        text_by_page = tuple(text_by_page)
-        tokens_by_page = tuple(
+        text_pages = tuple(text_pages)
+        token_pages = tuple(
             tuple(sorted(map(Token.from_dict, token_dict_page), key=attrgetter("span")))
-            for token_dict_page in token_dicts_by_page
+            for token_dict_page in token_dict_pages
         )
-        tables_by_page = tuple(
+        table_pages = tuple(
             tuple(sorted(map(Table.from_dict, table_dict_page), key=attrgetter("box")))
-            for table_dict_page in table_dicts_by_page
+            for table_dict_page in table_dict_pages
         )
 
         return EtlOutput(
-            text="\n".join(text_by_page),
-            text_on_page=text_by_page,
-            tokens=tuple(itertools.chain.from_iterable(tokens_by_page)),
-            tokens_on_page=tokens_by_page,
-            tables=tuple(itertools.chain.from_iterable(tables_by_page)),
-            tables_on_page=tables_by_page,
+            text="\n".join(text_pages),
+            text_on_page=text_pages,
+            tokens=tuple(itertools.chain.from_iterable(token_pages)),
+            tokens_on_page=token_pages,
+            tables=tuple(itertools.chain.from_iterable(table_pages)),
+            tables_on_page=table_pages,
         )
 
     def token_for(self, span: Span) -> Token:
