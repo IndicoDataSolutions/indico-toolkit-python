@@ -64,20 +64,20 @@ class EtlOutput:
             first = bisect_right(tokens, span.start, key=attrgetter("span.end"))
             last = bisect_left(tokens, span.end, lo=first, key=attrgetter("span.start"))
             tokens = tokens[first:last]
-
-            return Token(
-                text=self.text[span.slice],
-                span=span,
-                box=Box(
-                    page=min(token.box.page for token in tokens),
-                    top=min(token.box.top for token in tokens),
-                    left=min(token.box.left for token in tokens),
-                    right=max(token.box.right for token in tokens),
-                    bottom=max(token.box.bottom for token in tokens),
-                ),
-            )
         except (IndexError, ValueError) as error:
             raise TokenNotFoundError(f"no token contains {span!r}") from error
+
+        return Token(
+            text=self.text[span.slice],
+            box=Box(
+                page=span.page,
+                top=min(token.box.top for token in tokens),
+                left=min(token.box.left for token in tokens),
+                right=max(token.box.right for token in tokens),
+                bottom=max(token.box.bottom for token in tokens),
+            ),
+            span=span,
+        )
 
     def table_cell_for(self, token: Token) -> "tuple[Table, Cell]":
         """
