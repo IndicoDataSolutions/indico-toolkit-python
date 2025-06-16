@@ -57,5 +57,5 @@ class Box:
 # It's more ergonomic to represent the lack of a bounding box with a special null box
 # object rather than using `None` or raising an error. This lets you e.g. sort by the
 # `box` attribute without having to constantly check for `None`, while still allowing
-# you do a "None check" with `extraction.box == NULL_BOX`.
+# you do a "None check" with `bool(extraction.box)` or `extraction.box == NULL_BOX`.
 NULL_BOX: "Final" = Box(page=0, top=0, left=0, right=0, bottom=0)
