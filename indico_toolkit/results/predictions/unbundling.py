@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from typing import Any
 
     from ..document import Document
-    from ..model import ModelGroup
+    from ..task import Task
 
 
 @dataclass
@@ -25,18 +25,18 @@ class Unbundling(Prediction):
         return tuple(span.page for span in self.spans)
 
     @staticmethod
-    def from_v3_dict(
+    def from_dict(
         document: "Document",
-        model: "ModelGroup",
+        task: "Task",
         review: "Review | None",
         prediction: object,
     ) -> "Unbundling":
         """
-        Create an `Unbundling` from a v3 prediction dictionary.
+        Create an `Unbundling` from a prediction dictionary.
         """
         return Unbundling(
             document=document,
-            model=model,
+            task=task,
             review=review,
             label=get(prediction, str, "label"),
             confidences=get(prediction, dict, "confidence"),
@@ -44,9 +44,9 @@ class Unbundling(Prediction):
             extras=omit(prediction, "confidence", "label", "spans"),
         )
 
-    def to_v3_dict(self) -> "dict[str, Any]":
+    def to_dict(self) -> "dict[str, Any]":
         """
-        Create a prediction dictionary for v3 auto review changes.
+        Create a prediction dictionary for auto review changes.
         """
         return {
             **self.extras,

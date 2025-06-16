@@ -31,17 +31,17 @@ class Citation:
 
     def to_dict(self) -> "dict[str, Any]":
         return {
-            "document": self.span.to_dict(),
             "response": {
                 "start": self.start,
                 "end": self.end,
             },
+            "document": self.span.to_dict(),
         }
 
 
 # It's more ergonomic to represent the lack of citations with a special null citation
 # object rather than using `None` or raising an error. This lets you e.g. sort by the
 # `citation` attribute without having to constantly check for `None`, while still
-# allowing you do a "None check" with `summarization.citation == NULL_CITATION` or
-# `bool(summarization.citation)`.
-NULL_CITATION: "Final" = Citation(span=NULL_SPAN, start=0, end=0)
+# allowing you do a "None check" with `bool(summarization.citation)` or
+# `summarization.citation == NULL_CITATION`.
+NULL_CITATION: "Final" = Citation(start=0, end=0, span=NULL_SPAN)

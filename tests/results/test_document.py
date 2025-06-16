@@ -1,29 +1,7 @@
 from indico_toolkit import results
 
 
-def test_empy_v1_sections() -> None:
-    result = results.load(
-        """
-        {
-            "file_version": 1,
-            "submission_id": 0,
-            "etl_output": "",
-            "results": {
-                "document": {
-                    "results": {
-                        "Empty Model Section": []
-                    }
-                }
-            }
-        }
-        """
-    )
-    assert result.predictions.to_changes(result) == {
-        "Empty Model Section": [],
-    }
-
-
-def test_empy_v3_sections() -> None:
+def test_empty_sections() -> None:
     result = results.load(
         """
         {
@@ -64,7 +42,11 @@ def test_empy_v3_sections() -> None:
                         }
                     }
                 }
-            ]
+            ],
+            "reviews": {
+            },
+            "errored_files": {
+            }
         }
         """
     )

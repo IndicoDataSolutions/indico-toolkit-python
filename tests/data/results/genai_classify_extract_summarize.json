@@ -1,0 +1,1053 @@
+{
+    "file_version": 3,
+    "submission_id": 98233,
+    "modelgroup_metadata": {
+        "6240": {
+            "id": 6240,
+            "task_type": "genai_classification",
+            "name": "GenAI Accounting Classification",
+            "selected_model": {
+                "id": 10730,
+                "model_type": "genai"
+            }
+        },
+        "6241": {
+            "id": 6241,
+            "task_type": "genai_annotation",
+            "name": "GenAI Invoice Extraction",
+            "selected_model": {
+                "id": 10733,
+                "model_type": "genai"
+            }
+        },
+        "6242": {
+            "id": 6242,
+            "task_type": "genai_annotation",
+            "name": "GenAI Purchase Order Extraction",
+            "selected_model": {
+                "id": 10731,
+                "model_type": "genai"
+            }
+        },
+        "6258": {
+            "id": 6258,
+            "task_type": "summarization",
+            "name": "GenAI Accounting Summarization",
+            "selected_model": {
+                "id": 10735,
+                "model_type": "summarization"
+            }
+        }
+    },
+    "component_metadata": {
+        "18025": {
+            "id": 18025,
+            "name": null,
+            "component_type": "input_ocr_extraction",
+            "task_type": null
+        },
+        "18026": {
+            "id": 18026,
+            "name": null,
+            "component_type": "output_json_formatter",
+            "task_type": null
+        },
+        "18029": {
+            "id": 18029,
+            "name": "Standard Output",
+            "component_type": "default_output",
+            "task_type": null
+        },
+        "18032": {
+            "id": 18032,
+            "name": "Review",
+            "component_type": "review",
+            "task_type": null
+        },
+        "20105": {
+            "id": 20105,
+            "name": "GenAI Document Classification",
+            "component_type": "model_group",
+            "task_type": "genai_classification"
+        },
+        "20106": {
+            "id": 20106,
+            "name": "Agent Link",
+            "component_type": "link_classification_model",
+            "task_type": "genai_classification"
+        },
+        "20107": {
+            "id": 20107,
+            "name": "GenAI Document Extraction",
+            "component_type": "model_group",
+            "task_type": "genai_annotation"
+        },
+        "20108": {
+            "id": 20108,
+            "name": "GenAI Document Extraction",
+            "component_type": "model_group",
+            "task_type": "genai_annotation"
+        },
+        "20195": {
+            "id": 20195,
+            "name": "Summarization",
+            "component_type": "model_group",
+            "task_type": "summarization"
+        }
+    },
+    "submission_results": [
+        {
+            "submissionfile_id": 96495,
+            "etl_output": "indico-file:///storage/submission/5216/98233/96495/etl_output.json",
+            "input_filename": "invoice.pdf",
+            "input_filepath": "indico-file:///storage/submission/5216/98233/96495.pdf",
+            "input_filesize": 426157,
+            "model_results": {
+                "ORIGINAL": {
+                    "6241": [
+                        {
+                            "label": "Line Item Description",
+                            "spans": [
+                                {
+                                    "start": 340,
+                                    "end": 358,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:0",
+                            "confidence": {
+                                "Line Item Description": 0.9771312368280062
+                            },
+                            "field_id": 590168,
+                            "location_type": "exact",
+                            "text": "HubSpot Enterprise",
+                            "groupings": [
+                                {
+                                    "group_name": "LineItems",
+                                    "group_index": 0,
+                                    "group_id": "20107:LineItems"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "HubSpot Enterprise",
+                                "start": 340,
+                                "end": 358,
+                                "structured": null,
+                                "formatted": "HubSpot Enterprise",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "HubSpot Enterprise",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Quantity",
+                            "spans": [
+                                {
+                                    "start": 476,
+                                    "end": 477,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:1",
+                            "confidence": {
+                                "Line Item Quantity": 0.20713065009297202
+                            },
+                            "field_id": 894563,
+                            "location_type": "exact",
+                            "text": "1",
+                            "groupings": [
+                                {
+                                    "group_name": "LineItems",
+                                    "group_index": 0,
+                                    "group_id": "20107:LineItems"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "1",
+                                "start": 476,
+                                "end": 477,
+                                "structured": null,
+                                "formatted": "1",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "1",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Description",
+                            "spans": [
+                                {
+                                    "start": 359,
+                                    "end": 376,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:3",
+                            "confidence": {
+                                "Line Item Description": 0.2530567860528453
+                            },
+                            "field_id": 590168,
+                            "location_type": "exact",
+                            "text": "Included Contacts",
+                            "groupings": [
+                                {
+                                    "group_name": "LineItems",
+                                    "group_index": 1,
+                                    "group_id": "20107:LineItems"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "Included Contacts",
+                                "start": 359,
+                                "end": 376,
+                                "structured": null,
+                                "formatted": "Included Contacts",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "Included Contacts",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Quantity",
+                            "spans": [
+                                {
+                                    "start": 499,
+                                    "end": 501,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:4",
+                            "confidence": {
+                                "Line Item Quantity": 0.2691964289030739
+                            },
+                            "field_id": 894563,
+                            "location_type": "exact",
+                            "text": "10",
+                            "groupings": [
+                                {
+                                    "group_name": "LineItems",
+                                    "group_index": 1,
+                                    "group_id": "20107:LineItems"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "10",
+                                "start": 499,
+                                "end": 501,
+                                "structured": null,
+                                "formatted": "10",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "10",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Description",
+                            "spans": [
+                                {
+                                    "start": 377,
+                                    "end": 407,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:6",
+                            "confidence": {
+                                "Line Item Description": 0.8422187257019328
+                            },
+                            "field_id": 590168,
+                            "location_type": "exact",
+                            "text": "Enterprise Contacts - Per 1000",
+                            "groupings": [
+                                {
+                                    "group_name": "LineItems",
+                                    "group_index": 2,
+                                    "group_id": "20107:LineItems"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "Enterprise Contacts - Per 1000",
+                                "start": 377,
+                                "end": 407,
+                                "structured": null,
+                                "formatted": "Enterprise Contacts - Per 1000",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "Enterprise Contacts - Per 1000",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Quantity",
+                            "spans": [
+                                {
+                                    "start": 519,
+                                    "end": 520,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:7",
+                            "confidence": {
+                                "Line Item Quantity": 0.36009207957974565
+                            },
+                            "field_id": 894563,
+                            "location_type": "exact",
+                            "text": "5",
+                            "groupings": [
+                                {
+                                    "group_name": "LineItems",
+                                    "group_index": 2,
+                                    "group_id": "20107:LineItems"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "5",
+                                "start": 519,
+                                "end": 520,
+                                "structured": null,
+                                "formatted": "5",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "5",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Total",
+                            "spans": [
+                                {
+                                    "start": 522,
+                                    "end": 527,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:8",
+                            "confidence": {
+                                "Line Item Total": 0.7787655465616223
+                            },
+                            "field_id": 894564,
+                            "location_type": "exact",
+                            "text": "$25.00",
+                            "groupings": [
+                                {
+                                    "group_name": "LineItems",
+                                    "group_index": 2,
+                                    "group_id": "20107:LineItems"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "$25.00",
+                                "start": 522,
+                                "end": 528,
+                                "structured": {
+                                    "currency": "USD",
+                                    "amount": 25.0,
+                                    "currency_symbol": "$"
+                                },
+                                "formatted": "$25.00",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 25.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    },
+                                    {
+                                        "validation_type": "MIN_CONFIDENCE",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "6258": [
+                        {
+                            "field_id": 894565,
+                            "confidence": {
+                                "Accounting Summary": 1.0
+                            },
+                            "label": "Accounting Summary",
+                            "text": "Vendor: HubSpot, Inc. [1]  \nDate: 06/21/2016 [1]  \nNumber: 579266 [1]  \nTotal: $1,301.56 [1]  \n\nBilling Address:  \n186 SOUTH STREET  \nSUITE 400  \nBoston MA 02111  \nUS [1]  \n\nLine Items:  \n- HubSpot Enterprise (1): $1,200.00 [1]  \n- Included Contacts (10): $0.00 [1]  \n- Enterprise Contacts - Per 1000 (5): $25.00 [1]  ",
+                            "citations": [
+                                {
+                                    "document": {
+                                        "start": 0,
+                                        "end": 758,
+                                        "page_num": 0
+                                    },
+                                    "response": {
+                                        "start": 22,
+                                        "end": 25
+                                    }
+                                },
+                                {
+                                    "document": {
+                                        "start": 0,
+                                        "end": 758,
+                                        "page_num": 0
+                                    },
+                                    "response": {
+                                        "start": 45,
+                                        "end": 48
+                                    }
+                                },
+                                {
+                                    "document": {
+                                        "start": 0,
+                                        "end": 758,
+                                        "page_num": 0
+                                    },
+                                    "response": {
+                                        "start": 66,
+                                        "end": 69
+                                    }
+                                },
+                                {
+                                    "document": {
+                                        "start": 0,
+                                        "end": 758,
+                                        "page_num": 0
+                                    },
+                                    "response": {
+                                        "start": 89,
+                                        "end": 92
+                                    }
+                                },
+                                {
+                                    "document": {
+                                        "start": 0,
+                                        "end": 758,
+                                        "page_num": 0
+                                    },
+                                    "response": {
+                                        "start": 167,
+                                        "end": 170
+                                    }
+                                },
+                                {
+                                    "document": {
+                                        "start": 0,
+                                        "end": 758,
+                                        "page_num": 0
+                                    },
+                                    "response": {
+                                        "start": 224,
+                                        "end": 227
+                                    }
+                                },
+                                {
+                                    "document": {
+                                        "start": 0,
+                                        "end": 758,
+                                        "page_num": 0
+                                    },
+                                    "response": {
+                                        "start": 262,
+                                        "end": 265
+                                    }
+                                },
+                                {
+                                    "document": {
+                                        "start": 0,
+                                        "end": 758,
+                                        "page_num": 0
+                                    },
+                                    "response": {
+                                        "start": 313,
+                                        "end": 316
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "6240": [
+                        {
+                            "field_id": 590167,
+                            "confidence": {
+                                "Invoice": 0.9997535776578542
+                            },
+                            "label": "Invoice"
+                        }
+                    ]
+                },
+                "FINAL": {
+                    "6241": [
+                        {
+                            "text": "HubSpot Enterprise",
+                            "label": "Line Item Description",
+                            "spans": [
+                                {
+                                    "end": 358,
+                                    "start": 340,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:0",
+                            "field_id": 590168,
+                            "page_num": 0,
+                            "groupings": [
+                                {
+                                    "group_id": "20107:LineItems",
+                                    "group_name": "LineItems",
+                                    "group_index": 1
+                                }
+                            ],
+                            "confidence": {
+                                "Line Item Description": 0.9771312368280062
+                            },
+                            "normalized": {
+                                "end": 358,
+                                "text": "HubSpot Enterprise",
+                                "start": 340,
+                                "status": "SUCCESS",
+                                "formatted": "HubSpot Enterprise",
+                                "structured": {},
+                                "validation": [
+                                    {
+                                        "error_message": null,
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ],
+                                "comparison_type": "string",
+                                "comparison_value": "HubSpot Enterprise"
+                            },
+                            "location_type": "exact"
+                        },
+                        {
+                            "text": "Included Contacts",
+                            "label": "Line Item Description",
+                            "spans": [
+                                {
+                                    "end": 376,
+                                    "start": 359,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:3",
+                            "field_id": 590168,
+                            "page_num": 0,
+                            "groupings": [
+                                {
+                                    "group_id": "20107:LineItems",
+                                    "group_name": "LineItems",
+                                    "group_index": 2
+                                }
+                            ],
+                            "confidence": {
+                                "Line Item Description": 0.2530567860528453
+                            },
+                            "normalized": {
+                                "end": 376,
+                                "text": "Included Contacts",
+                                "start": 359,
+                                "status": "SUCCESS",
+                                "formatted": "Included Contacts",
+                                "structured": {},
+                                "validation": [
+                                    {
+                                        "error_message": null,
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ],
+                                "comparison_type": "string",
+                                "comparison_value": "Included Contacts"
+                            },
+                            "location_type": "exact"
+                        },
+                        {
+                            "text": "Enterprise Contacts - Per 1000",
+                            "label": "Line Item Description",
+                            "spans": [
+                                {
+                                    "end": 407,
+                                    "start": 377,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:6",
+                            "field_id": 590168,
+                            "page_num": 0,
+                            "groupings": [
+                                {
+                                    "group_id": "20107:LineItems",
+                                    "group_name": "LineItems",
+                                    "group_index": 3
+                                }
+                            ],
+                            "confidence": {
+                                "Line Item Description": 0.8422187257019328
+                            },
+                            "normalized": {
+                                "end": 407,
+                                "text": "Enterprise Contacts - Per 1000",
+                                "start": 377,
+                                "status": "SUCCESS",
+                                "formatted": "Enterprise Contacts - Per 1000",
+                                "structured": {},
+                                "validation": [
+                                    {
+                                        "error_message": null,
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ],
+                                "comparison_type": "string",
+                                "comparison_value": "Enterprise Contacts - Per 1000"
+                            },
+                            "location_type": "exact"
+                        },
+                        {
+                            "text": "1",
+                            "label": "Line Item Quantity",
+                            "spans": [
+                                {
+                                    "end": 477,
+                                    "start": 476,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:1",
+                            "field_id": 894563,
+                            "page_num": 0,
+                            "groupings": [
+                                {
+                                    "group_id": "20107:LineItems",
+                                    "group_name": "LineItems",
+                                    "group_index": 1
+                                }
+                            ],
+                            "confidence": {
+                                "Line Item Quantity": 0.20713065009297202
+                            },
+                            "normalized": {
+                                "end": 477,
+                                "text": "1",
+                                "start": 476,
+                                "status": "SUCCESS",
+                                "formatted": "1",
+                                "structured": {},
+                                "validation": [
+                                    {
+                                        "error_message": null,
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ],
+                                "comparison_type": "string",
+                                "comparison_value": "1"
+                            },
+                            "location_type": "exact"
+                        },
+                        {
+                            "text": "$1,200.00",
+                            "label": "Line Item Total",
+                            "spans": [
+                                {
+                                    "end": 487,
+                                    "start": 478,
+                                    "page_num": 1
+                                }
+                            ],
+                            "field_id": 894564,
+                            "page_num": 0,
+                            "groupings": [
+                                {
+                                    "group_id": "20107:LineItems",
+                                    "group_name": "LineItems",
+                                    "group_index": 1
+                                }
+                            ],
+                            "normalized": {
+                                "end": 487,
+                                "text": "$1,200.00",
+                                "start": 478,
+                                "status": "SUCCESS",
+                                "formatted": "$1,200.00",
+                                "structured": {
+                                    "amount": 1200,
+                                    "currency": "USD",
+                                    "currency_symbol": "$"
+                                },
+                                "validation": [
+                                    {
+                                        "error_message": null,
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "validation_status": "SUCCESS"
+                                    },
+                                    {
+                                        "error_message": null,
+                                        "validation_type": "MIN_CONFIDENCE",
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ],
+                                "comparison_type": "string",
+                                "comparison_value": "$1,200.00"
+                            }
+                        },
+                        {
+                            "text": "10",
+                            "label": "Line Item Quantity",
+                            "spans": [
+                                {
+                                    "end": 501,
+                                    "start": 499,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:4",
+                            "field_id": 894563,
+                            "page_num": 0,
+                            "groupings": [
+                                {
+                                    "group_id": "20107:LineItems",
+                                    "group_name": "LineItems",
+                                    "group_index": 2
+                                }
+                            ],
+                            "confidence": {
+                                "Line Item Quantity": 0.2691964289030739
+                            },
+                            "normalized": {
+                                "end": 501,
+                                "text": "10",
+                                "start": 499,
+                                "status": "SUCCESS",
+                                "formatted": "10",
+                                "structured": {},
+                                "validation": [
+                                    {
+                                        "error_message": null,
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ],
+                                "comparison_type": "string",
+                                "comparison_value": "10"
+                            },
+                            "location_type": "exact"
+                        },
+                        {
+                            "text": "5",
+                            "label": "Line Item Quantity",
+                            "spans": [
+                                {
+                                    "end": 520,
+                                    "start": 519,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:7",
+                            "field_id": 894563,
+                            "page_num": 0,
+                            "groupings": [
+                                {
+                                    "group_id": "20107:LineItems",
+                                    "group_name": "LineItems",
+                                    "group_index": 3
+                                }
+                            ],
+                            "confidence": {
+                                "Line Item Quantity": 0.36009207957974565
+                            },
+                            "normalized": {
+                                "end": 520,
+                                "text": "5",
+                                "start": 519,
+                                "status": "SUCCESS",
+                                "formatted": "5",
+                                "structured": {},
+                                "validation": [
+                                    {
+                                        "error_message": null,
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ],
+                                "comparison_type": "string",
+                                "comparison_value": "5"
+                            },
+                            "location_type": "exact"
+                        },
+                        {
+                            "text": "$25.00",
+                            "label": "Line Item Total",
+                            "spans": [
+                                {
+                                    "end": 527,
+                                    "start": 522,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:8",
+                            "field_id": 894564,
+                            "page_num": 0,
+                            "groupings": [
+                                {
+                                    "group_id": "20107:LineItems",
+                                    "group_name": "LineItems",
+                                    "group_index": 3
+                                }
+                            ],
+                            "confidence": {
+                                "Line Item Total": 0.7787655465616223
+                            },
+                            "normalized": {
+                                "end": 528,
+                                "text": "$25.00",
+                                "start": 522,
+                                "status": "SUCCESS",
+                                "formatted": "$25.00",
+                                "structured": {
+                                    "amount": 25,
+                                    "currency": "USD",
+                                    "currencySymbol": "$"
+                                },
+                                "validation": [
+                                    {
+                                        "error_message": null,
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "validation_status": "SUCCESS"
+                                    },
+                                    {
+                                        "error_message": null,
+                                        "validation_type": "MIN_CONFIDENCE",
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ],
+                                "comparison_type": "number",
+                                "comparison_value": 25
+                            },
+                            "location_type": "exact"
+                        },
+                        {
+                            "text": "$0.00",
+                            "label": "Line Item Total",
+                            "field_id": 894564,
+                            "page_num": 0,
+                            "groupings": [
+                                {
+                                    "group_id": "20107:LineItems",
+                                    "group_name": "LineItems",
+                                    "group_index": 2
+                                }
+                            ],
+                            "normalized": {
+                                "end": null,
+                                "text": "$0.00",
+                                "start": null,
+                                "status": "SUCCESS",
+                                "formatted": "$0.00",
+                                "structured": {
+                                    "amount": 0,
+                                    "currency": "USD",
+                                    "currency_symbol": "$"
+                                },
+                                "validation": [
+                                    {
+                                        "error_message": null,
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "validation_status": "SUCCESS"
+                                    },
+                                    {
+                                        "error_message": null,
+                                        "validation_type": "MIN_CONFIDENCE",
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ],
+                                "comparison_type": "string",
+                                "comparison_value": "$0.00"
+                            }
+                        }
+                    ],
+                    "6258": [
+                        {
+                            "text": "Number: 579266\nDate: 06/21/2016\nTotal: $1,301.56\nVendor: HubSpot, Inc.\n\nBilling Address:  \n186 SOUTH STREET  \nSUITE 400 \nBoston MA 02111  \nUS\n\nLine Items:  \n- HubSpot Enterprise (x1): $1,200.00\n- Included Contacts (x10): $0.00\n- Enterprise Contacts - Per 1000 (x5): $25.00",
+                            "label": "Accounting Summary",
+                            "field_id": 894565,
+                            "page_num": 0,
+                            "confidence": {
+                                "Accounting Summary": 1
+                            }
+                        }
+                    ],
+                    "6240": [
+                        {
+                            "field_id": 590167,
+                            "confidence": {
+                                "Invoice": 0.9997535776578542
+                            },
+                            "label": "Invoice"
+                        }
+                    ]
+                }
+            },
+            "component_results": {
+                "ORIGINAL": {},
+                "FINAL": {}
+            },
+            "rejected": {
+                "models": {
+                    "6241": [
+                        {
+                            "label": "Line Item Total",
+                            "spans": [
+                                {
+                                    "start": 479,
+                                    "end": 487,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:2",
+                            "confidence": {
+                                "Line Item Total": 0.043654061181374125
+                            },
+                            "field_id": 894564,
+                            "location_type": "exact",
+                            "text": "$1,200.00",
+                            "groupings": [
+                                {
+                                    "group_name": "LineItems",
+                                    "group_index": 0,
+                                    "group_id": "20107:LineItems"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "$1,200.00",
+                                "start": 479,
+                                "end": 488,
+                                "structured": {
+                                    "currency": "USD",
+                                    "amount": 1200.0,
+                                    "currency_symbol": "$"
+                                },
+                                "formatted": "$1,200.00",
+                                "status": "REJECTION",
+                                "comparison_type": "number",
+                                "comparison_value": 1200.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    },
+                                    {
+                                        "validation_type": "MIN_CONFIDENCE",
+                                        "error_message": "Confidence value is below minimum of 0.5",
+                                        "validation_status": "REJECTION"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Total",
+                            "spans": [
+                                {
+                                    "start": 503,
+                                    "end": 507,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "96495:c:20107:idx:5",
+                            "confidence": {
+                                "Line Item Total": 0.005000358430264759
+                            },
+                            "field_id": 894564,
+                            "location_type": "exact",
+                            "text": "$0.00",
+                            "groupings": [
+                                {
+                                    "group_name": "LineItems",
+                                    "group_index": 1,
+                                    "group_id": "20107:LineItems"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "$0.00",
+                                "start": 503,
+                                "end": 508,
+                                "structured": {
+                                    "currency": "USD",
+                                    "amount": 0.0,
+                                    "currency_symbol": "$"
+                                },
+                                "formatted": "$0.00",
+                                "status": "REJECTION",
+                                "comparison_type": "number",
+                                "comparison_value": 0.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    },
+                                    {
+                                        "validation_type": "MIN_CONFIDENCE",
+                                        "error_message": "Confidence value is below minimum of 0.5",
+                                        "validation_status": "REJECTION"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "6258": [],
+                    "6240": []
+                },
+                "components": {}
+            }
+        }
+    ],
+    "reviews": {
+        "69744": {
+            "review_id": 69744,
+            "reviewer_id": 422,
+            "review_notes": null,
+            "review_rejected": false,
+            "review_type": "manual"
+        }
+    },
+    "errored_files": {}
+}

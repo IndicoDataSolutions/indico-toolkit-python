@@ -71,7 +71,10 @@
             "input_filename": "invoice.pdf",
             "input_filepath": "indico-file:///storage/submission/5588/97211/93479.pdf",
             "input_filesize": 426157,
-            "model_results": { "ORIGINAL": {}, "FINAL": {} },
+            "model_results": {
+                "ORIGINAL": {},
+                "FINAL": {}
+            },
             "component_results": {
                 "ORIGINAL": {
                     "19409": [
@@ -79,7 +82,7 @@
                             "field_id": 858117,
                             "confidence": {
                                 "Invoice": 0.9999999853918985,
-                                "Purchase Order": 1.4608101511772668e-8
+                                "Purchase Order": 1.4608101511772668e-08
                             },
                             "label": "Invoice"
                         }
@@ -87,17 +90,23 @@
                     "19411": [
                         {
                             "label": "Vendor Name",
-                            "spans": [{ "start": 0, "end": 13, "page_num": 0 }],
+                            "spans": [
+                                {
+                                    "start": 0,
+                                    "end": 13,
+                                    "page_num": 0
+                                }
+                            ],
                             "span_id": "93479:c:19411:idx:0",
                             "confidence": {
-                                "Invoice Date": 3.3424697676309734e-8,
-                                "Invoice Number": 3.447171437187535e-8,
-                                "Invoice Subtotal": 2.993116865468437e-8,
-                                "Invoice Tax": 3.6883669451981405e-8,
-                                "Invoice Total": 2.7991509554681215e-8,
-                                "Line Item Name": 8.883939806025865e-9,
-                                "Line Item Quantity": 5.827023485949212e-8,
-                                "Line Item Total": 5.176908146609094e-8,
+                                "Invoice Date": 3.3424697676309734e-08,
+                                "Invoice Number": 3.447171437187535e-08,
+                                "Invoice Subtotal": 2.993116865468437e-08,
+                                "Invoice Tax": 3.6883669451981405e-08,
+                                "Invoice Total": 2.7991509554681215e-08,
+                                "Line Item Name": 8.883939806025865e-09,
+                                "Line Item Quantity": 5.827023485949212e-08,
+                                "Line Item Total": 5.176908146609094e-08,
                                 "Vendor Name": 0.9999996423721313
                             },
                             "field_id": 858126,
@@ -125,19 +134,23 @@
                         {
                             "label": "Invoice Date",
                             "spans": [
-                                { "start": 125, "end": 135, "page_num": 0 }
+                                {
+                                    "start": 125,
+                                    "end": 135,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:1",
                             "confidence": {
                                 "Invoice Date": 0.9999996423721313,
-                                "Invoice Number": 3.765953948686729e-8,
-                                "Invoice Subtotal": 2.3938278914670263e-8,
-                                "Invoice Tax": 5.890121812512916e-8,
-                                "Invoice Total": 2.9429369163835872e-8,
-                                "Line Item Name": 1.0651284299001418e-7,
-                                "Line Item Quantity": 1.2222901091263338e-7,
-                                "Line Item Total": 4.1870002576160914e-8,
-                                "Vendor Name": 1.4272615089794272e-8
+                                "Invoice Number": 3.765953948686729e-08,
+                                "Invoice Subtotal": 2.3938278914670263e-08,
+                                "Invoice Tax": 5.890121812512916e-08,
+                                "Invoice Total": 2.9429369163835872e-08,
+                                "Line Item Name": 1.0651284299001418e-07,
+                                "Line Item Quantity": 1.2222901091263338e-07,
+                                "Line Item Total": 4.1870002576160914e-08,
+                                "Vendor Name": 1.4272615089794272e-08
                             },
                             "field_id": 858119,
                             "location_type": "exact",
@@ -164,19 +177,23 @@
                         {
                             "label": "Invoice Number",
                             "spans": [
-                                { "start": 146, "end": 153, "page_num": 0 }
+                                {
+                                    "start": 146,
+                                    "end": 153,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:2",
                             "confidence": {
-                                "Invoice Date": 1.8282889868714847e-8,
+                                "Invoice Date": 1.8282889868714847e-08,
                                 "Invoice Number": 0.9999997019767761,
-                                "Invoice Subtotal": 5.3069218353130054e-8,
-                                "Invoice Tax": 3.253961722293752e-8,
-                                "Invoice Total": 1.3829179579261108e-7,
-                                "Line Item Name": 4.505617923200589e-8,
-                                "Line Item Quantity": 2.9700066406235237e-8,
-                                "Line Item Total": 2.1834006602716727e-8,
-                                "Vendor Name": 5.3663740118281567e-8
+                                "Invoice Subtotal": 5.3069218353130054e-08,
+                                "Invoice Tax": 3.253961722293752e-08,
+                                "Invoice Total": 1.3829179579261108e-07,
+                                "Line Item Name": 4.505617923200589e-08,
+                                "Line Item Quantity": 2.9700066406235237e-08,
+                                "Line Item Total": 2.1834006602716727e-08,
+                                "Vendor Name": 5.3663740118281567e-08
                             },
                             "field_id": 858120,
                             "location_type": "exact",
@@ -203,19 +220,23 @@
                         {
                             "label": "Line Item Name",
                             "spans": [
-                                { "start": 340, "end": 407, "page_num": 0 }
+                                {
+                                    "start": 340,
+                                    "end": 407,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:3",
                             "confidence": {
-                                "Invoice Date": 7.043927041650022e-8,
-                                "Invoice Number": 1.85422432963378e-8,
-                                "Invoice Subtotal": 9.213624529991193e-9,
-                                "Invoice Tax": 8.453332611679798e-8,
-                                "Invoice Total": 1.9014857244314953e-8,
+                                "Invoice Date": 7.043927041650022e-08,
+                                "Invoice Number": 1.85422432963378e-08,
+                                "Invoice Subtotal": 9.213624529991193e-09,
+                                "Invoice Tax": 8.453332611679798e-08,
+                                "Invoice Total": 1.9014857244314953e-08,
                                 "Line Item Name": 0.9999997019767761,
-                                "Line Item Quantity": 8.187748257171279e-9,
-                                "Line Item Total": 6.951040631975047e-9,
-                                "Vendor Name": 7.4245527059702e-8
+                                "Line Item Quantity": 8.187748257171279e-09,
+                                "Line Item Total": 6.951040631975047e-09,
+                                "Vendor Name": 7.4245527059702e-08
                             },
                             "field_id": 858121,
                             "location_type": "exact",
@@ -248,19 +269,23 @@
                         {
                             "label": "Line Item Quantity",
                             "spans": [
-                                { "start": 476, "end": 477, "page_num": 0 }
+                                {
+                                    "start": 476,
+                                    "end": 477,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:4",
                             "confidence": {
-                                "Invoice Date": 9.375153098289957e-8,
-                                "Invoice Number": 5.951939741066781e-8,
-                                "Invoice Subtotal": 6.869062474379461e-8,
-                                "Invoice Tax": 1.196322472196698e-7,
-                                "Invoice Total": 7.469050444797176e-8,
-                                "Line Item Name": 6.045668499154999e-8,
+                                "Invoice Date": 9.375153098289957e-08,
+                                "Invoice Number": 5.951939741066781e-08,
+                                "Invoice Subtotal": 6.869062474379461e-08,
+                                "Invoice Tax": 1.196322472196698e-07,
+                                "Invoice Total": 7.469050444797176e-08,
+                                "Line Item Name": 6.045668499154999e-08,
                                 "Line Item Quantity": 0.9999992847442627,
-                                "Line Item Total": 1.0597534583212109e-7,
-                                "Vendor Name": 1.2245095604157541e-8
+                                "Line Item Total": 1.0597534583212109e-07,
+                                "Vendor Name": 1.2245095604157541e-08
                             },
                             "field_id": 858122,
                             "location_type": "exact",
@@ -293,19 +318,23 @@
                         {
                             "label": "Line Item Total",
                             "spans": [
-                                { "start": 478, "end": 487, "page_num": 0 }
+                                {
+                                    "start": 478,
+                                    "end": 487,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:5",
                             "confidence": {
-                                "Invoice Date": 2.9472216667159046e-8,
-                                "Invoice Number": 6.045723477399179e-9,
-                                "Invoice Subtotal": 3.819852167907811e-8,
-                                "Invoice Tax": 6.359238025055447e-9,
-                                "Invoice Total": 1.601269694617713e-8,
-                                "Line Item Name": 4.507643325268873e-8,
-                                "Line Item Quantity": 9.02977035366348e-8,
+                                "Invoice Date": 2.9472216667159046e-08,
+                                "Invoice Number": 6.045723477399179e-09,
+                                "Invoice Subtotal": 3.819852167907811e-08,
+                                "Invoice Tax": 6.359238025055447e-09,
+                                "Invoice Total": 1.601269694617713e-08,
+                                "Line Item Name": 4.507643325268873e-08,
+                                "Line Item Quantity": 9.02977035366348e-08,
                                 "Line Item Total": 0.9999998211860657,
-                                "Vendor Name": 3.079120602933472e-8
+                                "Vendor Name": 3.079120602933472e-08
                             },
                             "field_id": 858123,
                             "location_type": "exact",
@@ -338,19 +367,23 @@
                         {
                             "label": "Line Item Quantity",
                             "spans": [
-                                { "start": 499, "end": 501, "page_num": 0 }
+                                {
+                                    "start": 499,
+                                    "end": 501,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:6",
                             "confidence": {
-                                "Invoice Date": 1.4731193687111954e-7,
-                                "Invoice Number": 4.397265485067692e-8,
-                                "Invoice Subtotal": 8.046448840559606e-8,
-                                "Invoice Tax": 1.2959037576365517e-7,
-                                "Invoice Total": 5.365328092921118e-8,
-                                "Line Item Name": 4.536295961088399e-8,
+                                "Invoice Date": 1.4731193687111954e-07,
+                                "Invoice Number": 4.397265485067692e-08,
+                                "Invoice Subtotal": 8.046448840559606e-08,
+                                "Invoice Tax": 1.2959037576365517e-07,
+                                "Invoice Total": 5.365328092921118e-08,
+                                "Line Item Name": 4.536295961088399e-08,
                                 "Line Item Quantity": 0.9999994039535522,
-                                "Line Item Total": 6.116934514466266e-8,
-                                "Vendor Name": 1.0360611923942997e-8
+                                "Line Item Total": 6.116934514466266e-08,
+                                "Vendor Name": 1.0360611923942997e-08
                             },
                             "field_id": 858122,
                             "location_type": "exact",
@@ -383,19 +416,23 @@
                         {
                             "label": "Line Item Total",
                             "spans": [
-                                { "start": 502, "end": 507, "page_num": 0 }
+                                {
+                                    "start": 502,
+                                    "end": 507,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:7",
                             "confidence": {
-                                "Invoice Date": 2.487784023230688e-8,
-                                "Invoice Number": 5.1960333813383386e-9,
-                                "Invoice Subtotal": 2.7321593876195038e-8,
-                                "Invoice Tax": 5.000234892804656e-9,
-                                "Invoice Total": 1.1822152146123699e-8,
-                                "Line Item Name": 3.007375326546935e-8,
-                                "Line Item Quantity": 8.39153528886527e-8,
+                                "Invoice Date": 2.487784023230688e-08,
+                                "Invoice Number": 5.1960333813383386e-09,
+                                "Invoice Subtotal": 2.7321593876195038e-08,
+                                "Invoice Tax": 5.000234892804656e-09,
+                                "Invoice Total": 1.1822152146123699e-08,
+                                "Line Item Name": 3.007375326546935e-08,
+                                "Line Item Quantity": 8.39153528886527e-08,
                                 "Line Item Total": 0.9999997615814209,
-                                "Vendor Name": 1.9458024524965367e-8
+                                "Vendor Name": 1.9458024524965367e-08
                             },
                             "field_id": 858123,
                             "location_type": "exact",
@@ -428,19 +465,23 @@
                         {
                             "label": "Line Item Quantity",
                             "spans": [
-                                { "start": 519, "end": 520, "page_num": 0 }
+                                {
+                                    "start": 519,
+                                    "end": 520,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:8",
                             "confidence": {
-                                "Invoice Date": 1.3724279313009902e-7,
-                                "Invoice Number": 4.43608350053637e-8,
-                                "Invoice Subtotal": 9.689298252624212e-8,
-                                "Invoice Tax": 1.3488433125985466e-7,
-                                "Invoice Total": 5.79847068138406e-8,
-                                "Line Item Name": 4.117256224844823e-8,
+                                "Invoice Date": 1.3724279313009902e-07,
+                                "Invoice Number": 4.43608350053637e-08,
+                                "Invoice Subtotal": 9.689298252624212e-08,
+                                "Invoice Tax": 1.3488433125985466e-07,
+                                "Invoice Total": 5.79847068138406e-08,
+                                "Line Item Name": 4.117256224844823e-08,
                                 "Line Item Quantity": 0.9999994039535522,
-                                "Line Item Total": 8.499782211401907e-8,
-                                "Vendor Name": 9.074271112297083e-9
+                                "Line Item Total": 8.499782211401907e-08,
+                                "Vendor Name": 9.074271112297083e-09
                             },
                             "field_id": 858122,
                             "location_type": "exact",
@@ -473,19 +514,23 @@
                         {
                             "label": "Line Item Total",
                             "spans": [
-                                { "start": 521, "end": 527, "page_num": 0 }
+                                {
+                                    "start": 521,
+                                    "end": 527,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:9",
                             "confidence": {
-                                "Invoice Date": 3.019848193730468e-8,
-                                "Invoice Number": 5.982286666039727e-9,
-                                "Invoice Subtotal": 4.329503866529194e-8,
-                                "Invoice Tax": 5.606381581202413e-9,
-                                "Invoice Total": 1.3499708018116507e-8,
-                                "Line Item Name": 3.2691968243625524e-8,
-                                "Line Item Quantity": 8.082533042852447e-8,
+                                "Invoice Date": 3.019848193730468e-08,
+                                "Invoice Number": 5.982286666039727e-09,
+                                "Invoice Subtotal": 4.329503866529194e-08,
+                                "Invoice Tax": 5.606381581202413e-09,
+                                "Invoice Total": 1.3499708018116507e-08,
+                                "Line Item Name": 3.2691968243625524e-08,
+                                "Line Item Quantity": 8.082533042852447e-08,
                                 "Line Item Total": 0.9999997615814209,
-                                "Vendor Name": 2.1103359060248295e-8
+                                "Vendor Name": 2.1103359060248295e-08
                             },
                             "field_id": 858123,
                             "location_type": "exact",
@@ -518,19 +563,23 @@
                         {
                             "label": "Invoice Subtotal",
                             "spans": [
-                                { "start": 537, "end": 546, "page_num": 0 }
+                                {
+                                    "start": 537,
+                                    "end": 546,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:10",
                             "confidence": {
-                                "Invoice Date": 9.50030809576674e-9,
-                                "Invoice Number": 3.281632743323826e-8,
+                                "Invoice Date": 9.50030809576674e-09,
+                                "Invoice Number": 3.281632743323826e-08,
                                 "Invoice Subtotal": 1.0,
-                                "Invoice Tax": 3.089213507223576e-8,
-                                "Invoice Total": 4.5628176792433806e-9,
-                                "Line Item Name": 4.575837042608555e-9,
-                                "Line Item Quantity": 1.3403760767971562e-8,
-                                "Line Item Total": 3.6726991226032624e-8,
-                                "Vendor Name": 9.200683770416163e-9
+                                "Invoice Tax": 3.089213507223576e-08,
+                                "Invoice Total": 4.5628176792433806e-09,
+                                "Line Item Name": 4.575837042608555e-09,
+                                "Line Item Quantity": 1.3403760767971562e-08,
+                                "Line Item Total": 3.6726991226032624e-08,
+                                "Vendor Name": 9.200683770416163e-09
                             },
                             "field_id": 858118,
                             "location_type": "exact",
@@ -557,19 +606,23 @@
                         {
                             "label": "Invoice Tax",
                             "spans": [
-                                { "start": 557, "end": 563, "page_num": 0 }
+                                {
+                                    "start": 557,
+                                    "end": 563,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:11",
                             "confidence": {
-                                "Invoice Date": 6.549097975039331e-8,
-                                "Invoice Number": 1.693945250735851e-8,
-                                "Invoice Subtotal": 4.138750497872934e-8,
+                                "Invoice Date": 6.549097975039331e-08,
+                                "Invoice Number": 1.693945250735851e-08,
+                                "Invoice Subtotal": 4.138750497872934e-08,
                                 "Invoice Tax": 0.9999997615814209,
-                                "Invoice Total": 1.009439642984944e-8,
-                                "Line Item Name": 6.045966927104018e-8,
-                                "Line Item Quantity": 4.567436207025821e-8,
-                                "Line Item Total": 2.1588691723195552e-8,
-                                "Vendor Name": 7.856115757931548e-9
+                                "Invoice Total": 1.009439642984944e-08,
+                                "Line Item Name": 6.045966927104018e-08,
+                                "Line Item Quantity": 4.567436207025821e-08,
+                                "Line Item Total": 2.1588691723195552e-08,
+                                "Vendor Name": 7.856115757931548e-09
                             },
                             "field_id": 858125,
                             "location_type": "exact",
@@ -596,19 +649,23 @@
                         {
                             "label": "Invoice Total",
                             "spans": [
-                                { "start": 570, "end": 579, "page_num": 0 }
+                                {
+                                    "start": 570,
+                                    "end": 579,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:12",
                             "confidence": {
-                                "Invoice Date": 3.388734981513153e-8,
-                                "Invoice Number": 4.117489993404888e-8,
-                                "Invoice Subtotal": 2.353094430418423e-8,
-                                "Invoice Tax": 1.6204319663870592e-8,
+                                "Invoice Date": 3.388734981513153e-08,
+                                "Invoice Number": 4.117489993404888e-08,
+                                "Invoice Subtotal": 2.353094430418423e-08,
+                                "Invoice Tax": 1.6204319663870592e-08,
                                 "Invoice Total": 0.9999997019767761,
-                                "Line Item Name": 7.487341413536797e-9,
-                                "Line Item Quantity": 4.3006924244082256e-8,
-                                "Line Item Total": 7.838348636823866e-8,
-                                "Vendor Name": 3.8579965888629886e-8
+                                "Line Item Name": 7.487341413536797e-09,
+                                "Line Item Quantity": 4.3006924244082256e-08,
+                                "Line Item Total": 7.838348636823866e-08,
+                                "Vendor Name": 3.8579965888629886e-08
                             },
                             "field_id": 858124,
                             "location_type": "exact",
@@ -641,7 +698,7 @@
                             "field_id": 858117,
                             "confidence": {
                                 "Invoice": 0.9999999853918985,
-                                "Purchase Order": 1.4608101511772668e-8
+                                "Purchase Order": 1.4608101511772668e-08
                             }
                         }
                     ],
@@ -649,20 +706,26 @@
                         {
                             "text": "Updated!",
                             "label": "Vendor Name",
-                            "spans": [{ "end": 13, "start": 0, "page_num": 0 }],
+                            "spans": [
+                                {
+                                    "end": 13,
+                                    "start": 0,
+                                    "page_num": 0
+                                }
+                            ],
                             "span_id": "93479:c:19411:idx:0",
                             "field_id": 858126,
                             "groupings": [],
                             "confidence": {
-                                "Invoice Tax": 3.6883669451981405e-8,
+                                "Invoice Tax": 3.6883669451981405e-08,
                                 "Vendor Name": 0.9999996423721313,
-                                "Invoice Date": 3.3424697676309734e-8,
-                                "Invoice Total": 2.7991509554681215e-8,
-                                "Invoice Number": 3.447171437187535e-8,
-                                "Line Item Name": 8.883939806025865e-9,
-                                "Line Item Total": 5.176908146609094e-8,
-                                "Invoice Subtotal": 2.993116865468437e-8,
-                                "Line Item Quantity": 5.827023485949212e-8
+                                "Invoice Date": 3.3424697676309734e-08,
+                                "Invoice Total": 2.7991509554681215e-08,
+                                "Invoice Number": 3.447171437187535e-08,
+                                "Line Item Name": 8.883939806025865e-09,
+                                "Line Item Total": 5.176908146609094e-08,
+                                "Invoice Subtotal": 2.993116865468437e-08,
+                                "Line Item Quantity": 5.827023485949212e-08
                             },
                             "normalized": {
                                 "end": 13,
@@ -687,21 +750,25 @@
                             "text": "Updated!",
                             "label": "Invoice Date",
                             "spans": [
-                                { "end": 135, "start": 125, "page_num": 0 }
+                                {
+                                    "end": 135,
+                                    "start": 125,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:1",
                             "field_id": 858119,
                             "groupings": [],
                             "confidence": {
-                                "Invoice Tax": 5.890121812512916e-8,
-                                "Vendor Name": 1.4272615089794272e-8,
+                                "Invoice Tax": 5.890121812512916e-08,
+                                "Vendor Name": 1.4272615089794272e-08,
                                 "Invoice Date": 0.9999996423721313,
-                                "Invoice Total": 2.9429369163835872e-8,
-                                "Invoice Number": 3.765953948686729e-8,
-                                "Line Item Name": 1.0651284299001418e-7,
-                                "Line Item Total": 4.1870002576160914e-8,
-                                "Invoice Subtotal": 2.3938278914670263e-8,
-                                "Line Item Quantity": 1.2222901091263338e-7
+                                "Invoice Total": 2.9429369163835872e-08,
+                                "Invoice Number": 3.765953948686729e-08,
+                                "Line Item Name": 1.0651284299001418e-07,
+                                "Line Item Total": 4.1870002576160914e-08,
+                                "Invoice Subtotal": 2.3938278914670263e-08,
+                                "Line Item Quantity": 1.2222901091263338e-07
                             },
                             "normalized": {
                                 "end": 135,
@@ -726,21 +793,25 @@
                             "text": "Updated!",
                             "label": "Invoice Number",
                             "spans": [
-                                { "end": 153, "start": 146, "page_num": 0 }
+                                {
+                                    "end": 153,
+                                    "start": 146,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:2",
                             "field_id": 858120,
                             "groupings": [],
                             "confidence": {
-                                "Invoice Tax": 3.253961722293752e-8,
-                                "Vendor Name": 5.3663740118281567e-8,
-                                "Invoice Date": 1.8282889868714847e-8,
-                                "Invoice Total": 1.3829179579261108e-7,
+                                "Invoice Tax": 3.253961722293752e-08,
+                                "Vendor Name": 5.3663740118281567e-08,
+                                "Invoice Date": 1.8282889868714847e-08,
+                                "Invoice Total": 1.3829179579261108e-07,
                                 "Invoice Number": 0.9999997019767761,
-                                "Line Item Name": 4.505617923200589e-8,
-                                "Line Item Total": 2.1834006602716727e-8,
-                                "Invoice Subtotal": 5.3069218353130054e-8,
-                                "Line Item Quantity": 2.9700066406235237e-8
+                                "Line Item Name": 4.505617923200589e-08,
+                                "Line Item Total": 2.1834006602716727e-08,
+                                "Invoice Subtotal": 5.3069218353130054e-08,
+                                "Line Item Quantity": 2.9700066406235237e-08
                             },
                             "normalized": {
                                 "end": 153,
@@ -765,7 +836,11 @@
                             "text": "Updated!",
                             "label": "Line Item Name",
                             "spans": [
-                                { "end": 407, "start": 340, "page_num": 0 }
+                                {
+                                    "end": 407,
+                                    "start": 340,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:3",
                             "field_id": 858121,
@@ -777,15 +852,15 @@
                                 }
                             ],
                             "confidence": {
-                                "Invoice Tax": 8.453332611679798e-8,
-                                "Vendor Name": 7.4245527059702e-8,
-                                "Invoice Date": 7.043927041650022e-8,
-                                "Invoice Total": 1.9014857244314953e-8,
-                                "Invoice Number": 1.85422432963378e-8,
+                                "Invoice Tax": 8.453332611679798e-08,
+                                "Vendor Name": 7.4245527059702e-08,
+                                "Invoice Date": 7.043927041650022e-08,
+                                "Invoice Total": 1.9014857244314953e-08,
+                                "Invoice Number": 1.85422432963378e-08,
                                 "Line Item Name": 0.9999997019767761,
-                                "Line Item Total": 6.951040631975047e-9,
-                                "Invoice Subtotal": 9.213624529991193e-9,
-                                "Line Item Quantity": 8.187748257171279e-9
+                                "Line Item Total": 6.951040631975047e-09,
+                                "Invoice Subtotal": 9.213624529991193e-09,
+                                "Line Item Quantity": 8.187748257171279e-09
                             },
                             "normalized": {
                                 "end": 407,
@@ -810,7 +885,11 @@
                             "text": "Updated!",
                             "label": "Line Item Quantity",
                             "spans": [
-                                { "end": 477, "start": 476, "page_num": 0 }
+                                {
+                                    "end": 477,
+                                    "start": 476,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:4",
                             "field_id": 858122,
@@ -822,14 +901,14 @@
                                 }
                             ],
                             "confidence": {
-                                "Invoice Tax": 1.196322472196698e-7,
-                                "Vendor Name": 1.2245095604157541e-8,
-                                "Invoice Date": 9.375153098289957e-8,
-                                "Invoice Total": 7.469050444797176e-8,
-                                "Invoice Number": 5.951939741066781e-8,
-                                "Line Item Name": 6.045668499154999e-8,
-                                "Line Item Total": 1.0597534583212109e-7,
-                                "Invoice Subtotal": 6.869062474379461e-8,
+                                "Invoice Tax": 1.196322472196698e-07,
+                                "Vendor Name": 1.2245095604157541e-08,
+                                "Invoice Date": 9.375153098289957e-08,
+                                "Invoice Total": 7.469050444797176e-08,
+                                "Invoice Number": 5.951939741066781e-08,
+                                "Line Item Name": 6.045668499154999e-08,
+                                "Line Item Total": 1.0597534583212109e-07,
+                                "Invoice Subtotal": 6.869062474379461e-08,
                                 "Line Item Quantity": 0.9999992847442627
                             },
                             "normalized": {
@@ -855,7 +934,11 @@
                             "text": "Updated!",
                             "label": "Line Item Total",
                             "spans": [
-                                { "end": 487, "start": 478, "page_num": 0 }
+                                {
+                                    "end": 487,
+                                    "start": 478,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:5",
                             "field_id": 858123,
@@ -867,15 +950,15 @@
                                 }
                             ],
                             "confidence": {
-                                "Invoice Tax": 6.359238025055447e-9,
-                                "Vendor Name": 3.079120602933472e-8,
-                                "Invoice Date": 2.9472216667159046e-8,
-                                "Invoice Total": 1.601269694617713e-8,
-                                "Invoice Number": 6.045723477399179e-9,
-                                "Line Item Name": 4.507643325268873e-8,
+                                "Invoice Tax": 6.359238025055447e-09,
+                                "Vendor Name": 3.079120602933472e-08,
+                                "Invoice Date": 2.9472216667159046e-08,
+                                "Invoice Total": 1.601269694617713e-08,
+                                "Invoice Number": 6.045723477399179e-09,
+                                "Line Item Name": 4.507643325268873e-08,
                                 "Line Item Total": 0.9999998211860657,
-                                "Invoice Subtotal": 3.819852167907811e-8,
-                                "Line Item Quantity": 9.02977035366348e-8
+                                "Invoice Subtotal": 3.819852167907811e-08,
+                                "Line Item Quantity": 9.02977035366348e-08
                             },
                             "normalized": {
                                 "end": 487,
@@ -900,7 +983,11 @@
                             "text": "Updated!",
                             "label": "Line Item Quantity",
                             "spans": [
-                                { "end": 501, "start": 499, "page_num": 0 }
+                                {
+                                    "end": 501,
+                                    "start": 499,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:6",
                             "field_id": 858122,
@@ -912,14 +999,14 @@
                                 }
                             ],
                             "confidence": {
-                                "Invoice Tax": 1.2959037576365517e-7,
-                                "Vendor Name": 1.0360611923942997e-8,
-                                "Invoice Date": 1.4731193687111954e-7,
-                                "Invoice Total": 5.365328092921118e-8,
-                                "Invoice Number": 4.397265485067692e-8,
-                                "Line Item Name": 4.536295961088399e-8,
-                                "Line Item Total": 6.116934514466266e-8,
-                                "Invoice Subtotal": 8.046448840559606e-8,
+                                "Invoice Tax": 1.2959037576365517e-07,
+                                "Vendor Name": 1.0360611923942997e-08,
+                                "Invoice Date": 1.4731193687111954e-07,
+                                "Invoice Total": 5.365328092921118e-08,
+                                "Invoice Number": 4.397265485067692e-08,
+                                "Line Item Name": 4.536295961088399e-08,
+                                "Line Item Total": 6.116934514466266e-08,
+                                "Invoice Subtotal": 8.046448840559606e-08,
                                 "Line Item Quantity": 0.9999994039535522
                             },
                             "normalized": {
@@ -945,7 +1032,11 @@
                             "text": "Updated!",
                             "label": "Line Item Total",
                             "spans": [
-                                { "end": 507, "start": 502, "page_num": 0 }
+                                {
+                                    "end": 507,
+                                    "start": 502,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:7",
                             "field_id": 858123,
@@ -957,15 +1048,15 @@
                                 }
                             ],
                             "confidence": {
-                                "Invoice Tax": 5.000234892804656e-9,
-                                "Vendor Name": 1.9458024524965367e-8,
-                                "Invoice Date": 2.487784023230688e-8,
-                                "Invoice Total": 1.1822152146123699e-8,
-                                "Invoice Number": 5.1960333813383386e-9,
-                                "Line Item Name": 3.007375326546935e-8,
+                                "Invoice Tax": 5.000234892804656e-09,
+                                "Vendor Name": 1.9458024524965367e-08,
+                                "Invoice Date": 2.487784023230688e-08,
+                                "Invoice Total": 1.1822152146123699e-08,
+                                "Invoice Number": 5.1960333813383386e-09,
+                                "Line Item Name": 3.007375326546935e-08,
                                 "Line Item Total": 0.9999997615814209,
-                                "Invoice Subtotal": 2.7321593876195038e-8,
-                                "Line Item Quantity": 8.39153528886527e-8
+                                "Invoice Subtotal": 2.7321593876195038e-08,
+                                "Line Item Quantity": 8.39153528886527e-08
                             },
                             "normalized": {
                                 "end": 507,
@@ -990,7 +1081,11 @@
                             "text": "Updated!",
                             "label": "Line Item Quantity",
                             "spans": [
-                                { "end": 520, "start": 519, "page_num": 0 }
+                                {
+                                    "end": 520,
+                                    "start": 519,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:8",
                             "field_id": 858122,
@@ -1002,14 +1097,14 @@
                                 }
                             ],
                             "confidence": {
-                                "Invoice Tax": 1.3488433125985466e-7,
-                                "Vendor Name": 9.074271112297083e-9,
-                                "Invoice Date": 1.3724279313009902e-7,
-                                "Invoice Total": 5.79847068138406e-8,
-                                "Invoice Number": 4.43608350053637e-8,
-                                "Line Item Name": 4.117256224844823e-8,
-                                "Line Item Total": 8.499782211401907e-8,
-                                "Invoice Subtotal": 9.689298252624212e-8,
+                                "Invoice Tax": 1.3488433125985466e-07,
+                                "Vendor Name": 9.074271112297083e-09,
+                                "Invoice Date": 1.3724279313009902e-07,
+                                "Invoice Total": 5.79847068138406e-08,
+                                "Invoice Number": 4.43608350053637e-08,
+                                "Line Item Name": 4.117256224844823e-08,
+                                "Line Item Total": 8.499782211401907e-08,
+                                "Invoice Subtotal": 9.689298252624212e-08,
                                 "Line Item Quantity": 0.9999994039535522
                             },
                             "normalized": {
@@ -1035,7 +1130,11 @@
                             "text": "Updated!",
                             "label": "Line Item Total",
                             "spans": [
-                                { "end": 527, "start": 521, "page_num": 0 }
+                                {
+                                    "end": 527,
+                                    "start": 521,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:9",
                             "field_id": 858123,
@@ -1047,15 +1146,15 @@
                                 }
                             ],
                             "confidence": {
-                                "Invoice Tax": 5.606381581202413e-9,
-                                "Vendor Name": 2.1103359060248295e-8,
-                                "Invoice Date": 3.019848193730468e-8,
-                                "Invoice Total": 1.3499708018116507e-8,
-                                "Invoice Number": 5.982286666039727e-9,
-                                "Line Item Name": 3.2691968243625524e-8,
+                                "Invoice Tax": 5.606381581202413e-09,
+                                "Vendor Name": 2.1103359060248295e-08,
+                                "Invoice Date": 3.019848193730468e-08,
+                                "Invoice Total": 1.3499708018116507e-08,
+                                "Invoice Number": 5.982286666039727e-09,
+                                "Line Item Name": 3.2691968243625524e-08,
                                 "Line Item Total": 0.9999997615814209,
-                                "Invoice Subtotal": 4.329503866529194e-8,
-                                "Line Item Quantity": 8.082533042852447e-8
+                                "Invoice Subtotal": 4.329503866529194e-08,
+                                "Line Item Quantity": 8.082533042852447e-08
                             },
                             "normalized": {
                                 "end": 527,
@@ -1080,21 +1179,25 @@
                             "text": "Updated!",
                             "label": "Invoice Subtotal",
                             "spans": [
-                                { "end": 546, "start": 537, "page_num": 0 }
+                                {
+                                    "end": 546,
+                                    "start": 537,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:10",
                             "field_id": 858118,
                             "groupings": [],
                             "confidence": {
-                                "Invoice Tax": 3.089213507223576e-8,
-                                "Vendor Name": 9.200683770416163e-9,
-                                "Invoice Date": 9.50030809576674e-9,
-                                "Invoice Total": 4.5628176792433806e-9,
-                                "Invoice Number": 3.281632743323826e-8,
-                                "Line Item Name": 4.575837042608555e-9,
-                                "Line Item Total": 3.6726991226032624e-8,
+                                "Invoice Tax": 3.089213507223576e-08,
+                                "Vendor Name": 9.200683770416163e-09,
+                                "Invoice Date": 9.50030809576674e-09,
+                                "Invoice Total": 4.5628176792433806e-09,
+                                "Invoice Number": 3.281632743323826e-08,
+                                "Line Item Name": 4.575837042608555e-09,
+                                "Line Item Total": 3.6726991226032624e-08,
                                 "Invoice Subtotal": 1.0,
-                                "Line Item Quantity": 1.3403760767971562e-8
+                                "Line Item Quantity": 1.3403760767971562e-08
                             },
                             "normalized": {
                                 "end": 546,
@@ -1119,21 +1222,25 @@
                             "text": "Updated!",
                             "label": "Invoice Tax",
                             "spans": [
-                                { "end": 563, "start": 557, "page_num": 0 }
+                                {
+                                    "end": 563,
+                                    "start": 557,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:11",
                             "field_id": 858125,
                             "groupings": [],
                             "confidence": {
                                 "Invoice Tax": 0.9999997615814209,
-                                "Vendor Name": 7.856115757931548e-9,
-                                "Invoice Date": 6.549097975039331e-8,
-                                "Invoice Total": 1.009439642984944e-8,
-                                "Invoice Number": 1.693945250735851e-8,
-                                "Line Item Name": 6.045966927104018e-8,
-                                "Line Item Total": 2.1588691723195552e-8,
-                                "Invoice Subtotal": 4.138750497872934e-8,
-                                "Line Item Quantity": 4.567436207025821e-8
+                                "Vendor Name": 7.856115757931548e-09,
+                                "Invoice Date": 6.549097975039331e-08,
+                                "Invoice Total": 1.009439642984944e-08,
+                                "Invoice Number": 1.693945250735851e-08,
+                                "Line Item Name": 6.045966927104018e-08,
+                                "Line Item Total": 2.1588691723195552e-08,
+                                "Invoice Subtotal": 4.138750497872934e-08,
+                                "Line Item Quantity": 4.567436207025821e-08
                             },
                             "normalized": {
                                 "end": 563,
@@ -1158,21 +1265,25 @@
                             "text": "Updated!",
                             "label": "Invoice Total",
                             "spans": [
-                                { "end": 579, "start": 570, "page_num": 0 }
+                                {
+                                    "end": 579,
+                                    "start": 570,
+                                    "page_num": 0
+                                }
                             ],
                             "span_id": "93479:c:19411:idx:12",
                             "field_id": 858124,
                             "groupings": [],
                             "confidence": {
-                                "Invoice Tax": 1.6204319663870592e-8,
-                                "Vendor Name": 3.8579965888629886e-8,
-                                "Invoice Date": 3.388734981513153e-8,
+                                "Invoice Tax": 1.6204319663870592e-08,
+                                "Vendor Name": 3.8579965888629886e-08,
+                                "Invoice Date": 3.388734981513153e-08,
                                 "Invoice Total": 0.9999997019767761,
-                                "Invoice Number": 4.117489993404888e-8,
-                                "Line Item Name": 7.487341413536797e-9,
-                                "Line Item Total": 7.838348636823866e-8,
-                                "Invoice Subtotal": 2.353094430418423e-8,
-                                "Line Item Quantity": 4.3006924244082256e-8
+                                "Invoice Number": 4.117489993404888e-08,
+                                "Line Item Name": 7.487341413536797e-09,
+                                "Line Item Total": 7.838348636823866e-08,
+                                "Invoice Subtotal": 2.353094430418423e-08,
+                                "Line Item Quantity": 4.3006924244082256e-08
                             },
                             "normalized": {
                                 "end": 579,
@@ -1198,7 +1309,10 @@
             },
             "rejected": {
                 "models": {},
-                "components": { "19409": [], "19411": [] }
+                "components": {
+                    "19409": [],
+                    "19411": []
+                }
             }
         }
     ],

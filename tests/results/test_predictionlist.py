@@ -7,13 +7,13 @@ from indico_toolkit.results import (
     Document,
     DocumentExtraction,
     Group,
-    ModelGroup,
-    ModelGroupType,
     Prediction,
     PredictionList,
     Review,
     ReviewType,
     Span,
+    Task,
+    TaskType,
 )
 
 
@@ -26,22 +26,20 @@ def document() -> Document:
         failed=False,
         error="",
         traceback="",
-        _model_sections=frozenset({"124", "123", "122", "121"}),
-        _component_sections=frozenset(),
+        _model_ids=frozenset({"124", "123", "122", "121"}),
+        _component_ids=frozenset(),
     )
 
 
 @pytest.fixture
-def classification_model() -> ModelGroup:
-    return ModelGroup(
-        id=121, name="Tax Classification", type=ModelGroupType.CLASSIFICATION
-    )
+def classification_task() -> Task:
+    return Task(id=121, name="Tax Classification", type=TaskType.CLASSIFICATION)
 
 
 @pytest.fixture
-def extraction_model() -> ModelGroup:
-    return ModelGroup(
-        id=122, name="1040 Document Extraction", type=ModelGroupType.DOCUMENT_EXTRACTION
+def extraction_task() -> Task:
+    return Task(
+        id=122, name="1040 Document Extraction", type=TaskType.DOCUMENT_EXTRACTION
     )
 
 
@@ -72,8 +70,8 @@ def group_bravo() -> Group:
 @pytest.fixture
 def predictions(
     document: Document,
-    classification_model: ModelGroup,
-    extraction_model: ModelGroup,
+    classification_task: Task,
+    extraction_task: Task,
     auto_review: Review,
     manual_review: Review,
     group_alpha: Group,
@@ -83,7 +81,7 @@ def predictions(
         [
             Classification(
                 document=document,
-                model=classification_model,
+                task=classification_task,
                 review=None,
                 label="1040",
                 confidences={"1040": 0.7},
@@ -91,7 +89,7 @@ def predictions(
             ),
             DocumentExtraction(
                 document=document,
-                model=extraction_model,
+                task=extraction_task,
                 review=auto_review,
                 label="First Name",
                 confidences={"First Name": 0.8},
@@ -104,7 +102,7 @@ def predictions(
             ),
             DocumentExtraction(
                 document=document,
-                model=extraction_model,
+                task=extraction_task,
                 review=manual_review,
                 label="Last Name",
                 confidences={"Last Name": 0.9},
@@ -131,6 +129,9 @@ def test_extractions(predictions: "PredictionList[Prediction]") -> None:
 
 
 def test_slice_is_prediction_list(predictions: "PredictionList[Prediction]") -> None:
+    prediction = predictions[0]
+    assert isinstance(prediction, Prediction)
+
     predictions = predictions[1:3]
     assert len(predictions) == 2
     assert isinstance(predictions, PredictionList)
@@ -139,11 +140,18 @@ def test_slice_is_prediction_list(predictions: "PredictionList[Prediction]") -> 
 def test_groupby(
     predictions: "PredictionList[Prediction]", group_alpha: Group, group_bravo: Group
 ) -> None:
-    first_name, last_name = predictions.extractions
+    first_name, last_name = predictions.document_extractions
+
     predictions_by_groups = predictions.extractions.groupby(attrgetter("groups"))
     assert predictions_by_groups == {
         frozenset({group_alpha}): [first_name],
         frozenset({group_alpha, group_bravo}): [last_name],
+    }
+
+    predictions_by_spans = predictions.extractions.groupby(attrgetter("spans"))
+    assert predictions_by_spans == {
+        tuple(first_name.spans): [first_name],
+        tuple(last_name.spans): [last_name],
     }
 
 
@@ -177,31 +185,29 @@ def test_where_document_in(
     assert predictions.where(document_in={}) == []
 
 
-def test_where_model(
-    predictions: "PredictionList[Prediction]", classification_model: ModelGroup
+def test_where_task(
+    predictions: "PredictionList[Prediction]", classification_task: Task
 ) -> None:
     (classification,) = predictions.classifications
-    assert predictions.where(model=classification_model) == [classification]
-    assert predictions.where(model=ModelGroupType.CLASSIFICATION) == [classification]
-    assert predictions.where(model="Tax Classification") == [classification]
+    assert predictions.where(task=classification_task) == [classification]
+    assert predictions.where(task=TaskType.CLASSIFICATION) == [classification]
+    assert predictions.where(task="Tax Classification") == [classification]
 
 
-def test_where_model_in(
-    predictions: "PredictionList[Prediction]", classification_model: ModelGroup
+def test_where_task_in(
+    predictions: "PredictionList[Prediction]", classification_task: Task
 ) -> None:
     classification, first_name, last_name = predictions
-    assert predictions.where(model_in={classification_model}) == [classification]
-    assert predictions.where(model_in={ModelGroupType.CLASSIFICATION}) == [
-        classification
-    ]
+    assert predictions.where(task_in={classification_task}) == [classification]
+    assert predictions.where(task_in={TaskType.CLASSIFICATION}) == [classification]
     assert predictions.where(
-        model_in={ModelGroupType.CLASSIFICATION, ModelGroupType.DOCUMENT_EXTRACTION}
+        task_in={TaskType.CLASSIFICATION, TaskType.DOCUMENT_EXTRACTION}
     ) == [classification, first_name, last_name]
-    assert predictions.where(model_in={"Tax Classification"}) == [classification]
+    assert predictions.where(task_in={"Tax Classification"}) == [classification]
     assert predictions.where(
-        model_in={"Tax Classification", "1040 Document Extraction"}
+        task_in={"Tax Classification", "1040 Document Extraction"}
     ) == [classification, first_name, last_name]
-    assert predictions.where(model_in={}) == []
+    assert predictions.where(task_in={}) == []
 
 
 def test_where_review(

@@ -1,0 +1,1910 @@
+{
+    "file_version": 3,
+    "submission_id": 97717,
+    "modelgroup_metadata": {
+        "5446": {
+            "id": 5446,
+            "task_type": "classification",
+            "name": "Accounting Classification",
+            "selected_model": {
+                "id": 8796,
+                "model_type": "tfidf_gbt"
+            }
+        },
+        "5447": {
+            "id": 5447,
+            "task_type": "annotation",
+            "name": "Invoice Document Extraction",
+            "selected_model": {
+                "id": 10222,
+                "model_type": "finetune"
+            }
+        },
+        "5448": {
+            "id": 5448,
+            "task_type": "annotation",
+            "name": "Purchase Order Extraction",
+            "selected_model": {
+                "id": 10223,
+                "model_type": "finetune"
+            }
+        },
+        "6118": {
+            "id": 6118,
+            "task_type": "form_extraction",
+            "name": "Acord Form Extraction",
+            "selected_model": {
+                "id": 10224,
+                "model_type": "form_extraction"
+            }
+        }
+    },
+    "component_metadata": {
+        "17680": {
+            "id": 17680,
+            "name": null,
+            "component_type": "input_ocr_extraction",
+            "task_type": null
+        },
+        "17681": {
+            "id": 17681,
+            "name": null,
+            "component_type": "output_json_formatter",
+            "task_type": null
+        },
+        "17682": {
+            "id": 17682,
+            "name": "Document Classification",
+            "component_type": "model_group",
+            "task_type": "classification"
+        },
+        "17683": {
+            "id": 17683,
+            "name": "Model Link",
+            "component_type": "link_classification_model",
+            "task_type": "classification"
+        },
+        "17684": {
+            "id": 17684,
+            "name": "Document Extraction",
+            "component_type": "model_group",
+            "task_type": "annotation"
+        },
+        "17685": {
+            "id": 17685,
+            "name": "Document Extraction",
+            "component_type": "model_group",
+            "task_type": "annotation"
+        },
+        "17687": {
+            "id": 17687,
+            "name": "Review",
+            "component_type": "review",
+            "task_type": null
+        },
+        "17688": {
+            "id": 17688,
+            "name": "Standard Output",
+            "component_type": "default_output",
+            "task_type": null
+        },
+        "17689": {
+            "id": 17689,
+            "name": "Invoice Line Items",
+            "component_type": "link_label",
+            "task_type": "annotation"
+        },
+        "19736": {
+            "id": 19736,
+            "name": "Form Extraction",
+            "component_type": "model_group",
+            "task_type": "form_extraction"
+        }
+    },
+    "submission_results": [
+        {
+            "submissionfile_id": 95508,
+            "etl_output": "indico-file:///storage/submission/5120/97717/95508/etl_output.json",
+            "input_filename": "acord.pdf",
+            "input_filepath": "indico-file:///storage/submission/5120/97717/95508.pdf",
+            "input_filesize": 242331,
+            "model_results": {
+                "ORIGINAL": {
+                    "5446": [
+                        {
+                            "field_id": 554471,
+                            "confidence": {
+                                "Invoice": 0.9983696357001948,
+                                "Purchase Order": 0.0016303642998051805
+                            },
+                            "label": "Invoice"
+                        }
+                    ],
+                    "6118": [
+                        {
+                            "label": "Agency",
+                            "spans": [
+                                {
+                                    "start": 35,
+                                    "end": 61,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95508:c:19736:idx:0",
+                            "confidence": {
+                                "Agency": 1.0
+                            },
+                            "field_id": 876477,
+                            "location_type": "exact",
+                            "top": 201,
+                            "bottom": 448,
+                            "left": 73,
+                            "right": 1266,
+                            "page_num": 0,
+                            "type": "text",
+                            "text": "Indico Data Solutions Inc.",
+                            "normalized": {
+                                "text": "Indico Data Solutions Inc.",
+                                "start": 35,
+                                "end": 61,
+                                "structured": null,
+                                "formatted": "Indico Data Solutions Inc.",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "Indico Data Solutions Inc.",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    },
+                                    {
+                                        "validation_type": "MIN_CONFIDENCE",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Fire",
+                            "spans": [],
+                            "span_id": "95508:c:19736:idx:1",
+                            "confidence": {
+                                "Fire": 0.9999999964041294
+                            },
+                            "field_id": 876470,
+                            "location_type": "exact",
+                            "top": 2352,
+                            "bottom": 2398,
+                            "left": 206,
+                            "right": 264,
+                            "page_num": 0,
+                            "checked": false,
+                            "type": "checkbox",
+                            "normalized": {
+                                "text": "",
+                                "start": null,
+                                "end": null,
+                                "structured": {
+                                    "checked": false
+                                },
+                                "formatted": "Unchecked",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Theft",
+                            "spans": [],
+                            "span_id": "95508:c:19736:idx:2",
+                            "confidence": {
+                                "Theft": 0.9999999883911289
+                            },
+                            "field_id": 876471,
+                            "location_type": "exact",
+                            "top": 2401,
+                            "bottom": 2446,
+                            "left": 207,
+                            "right": 261,
+                            "page_num": 0,
+                            "checked": false,
+                            "type": "checkbox",
+                            "normalized": {
+                                "text": "",
+                                "start": null,
+                                "end": null,
+                                "structured": {
+                                    "checked": false
+                                },
+                                "formatted": "Unchecked",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Lightning",
+                            "spans": [],
+                            "span_id": "95508:c:19736:idx:3",
+                            "confidence": {
+                                "Lightning": 0.9998268387285644
+                            },
+                            "field_id": 876472,
+                            "location_type": "exact",
+                            "top": 2351,
+                            "bottom": 2395,
+                            "left": 416,
+                            "right": 472,
+                            "page_num": 0,
+                            "checked": true,
+                            "type": "checkbox",
+                            "normalized": {
+                                "text": "",
+                                "start": null,
+                                "end": null,
+                                "structured": {
+                                    "checked": true
+                                },
+                                "formatted": "Checked",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 1,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Hail",
+                            "spans": [],
+                            "span_id": "95508:c:19736:idx:4",
+                            "confidence": {
+                                "Hail": 0.9999999842620407
+                            },
+                            "field_id": 876473,
+                            "location_type": "exact",
+                            "top": 2399,
+                            "bottom": 2448,
+                            "left": 416,
+                            "right": 473,
+                            "page_num": 0,
+                            "checked": false,
+                            "type": "checkbox",
+                            "normalized": {
+                                "text": "",
+                                "start": null,
+                                "end": null,
+                                "structured": {
+                                    "checked": false
+                                },
+                                "formatted": "Unchecked",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Flood",
+                            "spans": [],
+                            "span_id": "95508:c:19736:idx:5",
+                            "confidence": {
+                                "Flood": 0.9999999985638672
+                            },
+                            "field_id": 876474,
+                            "location_type": "exact",
+                            "top": 2352,
+                            "bottom": 2398,
+                            "left": 657,
+                            "right": 714,
+                            "page_num": 0,
+                            "checked": false,
+                            "type": "checkbox",
+                            "normalized": {
+                                "text": "",
+                                "start": null,
+                                "end": null,
+                                "structured": {
+                                    "checked": false
+                                },
+                                "formatted": "Unchecked",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Wind",
+                            "spans": [],
+                            "span_id": "95508:c:19736:idx:6",
+                            "confidence": {
+                                "Wind": 0.9999999962468843
+                            },
+                            "field_id": 876475,
+                            "location_type": "exact",
+                            "top": 2399,
+                            "bottom": 2449,
+                            "left": 657,
+                            "right": 714,
+                            "page_num": 0,
+                            "checked": false,
+                            "type": "checkbox",
+                            "normalized": {
+                                "text": "",
+                                "start": null,
+                                "end": null,
+                                "structured": {
+                                    "checked": false
+                                },
+                                "formatted": "Unchecked",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Reporter Signature",
+                            "spans": [
+                                {
+                                    "start": 1535,
+                                    "end": 1543,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95508:c:19736:idx:7",
+                            "confidence": {
+                                "Reporter Signature": 0.6324167015617136
+                            },
+                            "field_id": 876476,
+                            "location_type": "exact",
+                            "top": 2999,
+                            "bottom": 3097,
+                            "left": 75,
+                            "right": 1270,
+                            "page_num": 0,
+                            "type": "text",
+                            "text": "John Doe",
+                            "signed": false,
+                            "normalized": {
+                                "text": "John Doe",
+                                "start": 1535,
+                                "end": 1543,
+                                "structured": {
+                                    "signed": false
+                                },
+                                "formatted": "Unsigned",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "Unsigned",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "5447": [
+                        {
+                            "label": "Invoice Date",
+                            "spans": [
+                                {
+                                    "start": 1569,
+                                    "end": 1570,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95508:c:17684:idx:0",
+                            "confidence": {
+                                "Invoice Date": 0.8117260932922363,
+                                "Invoice Number": 9.211415999743622e-06,
+                                "Invoice Subtotal": 6.8906156229786575e-06,
+                                "Invoice Tax": 8.797347254585475e-05,
+                                "Invoice Total": 1.3973905879538506e-05,
+                                "Line Item Name": 3.142923378618434e-05,
+                                "Line Item Quantity": 5.212751148064854e-06,
+                                "Line Item Total": 7.055744845274603e-06,
+                                "Vendor Name": 6.338641014735913e-06
+                            },
+                            "field_id": 554473,
+                            "location_type": "exact",
+                            "text": "/",
+                            "groupings": [],
+                            "normalized": {
+                                "text": "/",
+                                "start": 1569,
+                                "end": 1570,
+                                "structured": null,
+                                "formatted": "/",
+                                "status": "INFO",
+                                "comparison_type": "number",
+                                "comparison_value": null,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": "No valid date matches found",
+                                        "validation_status": "INFO"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "component_results": {
+                "ORIGINAL": {}
+            },
+            "rejected": {
+                "models": {
+                    "5446": [],
+                    "6118": [],
+                    "5447": []
+                },
+                "components": {}
+            }
+        },
+        {
+            "submissionfile_id": 95510,
+            "etl_output": "indico-file:///storage/submission/5120/97717/95510/etl_output.json",
+            "input_filename": "invoice.pdf",
+            "input_filepath": "indico-file:///storage/submission/5120/97717/95510.pdf",
+            "input_filesize": 426157,
+            "model_results": {
+                "ORIGINAL": {
+                    "5446": [
+                        {
+                            "field_id": 554471,
+                            "confidence": {
+                                "Invoice": 0.9999999853918985,
+                                "Purchase Order": 1.4608101511772668e-08
+                            },
+                            "label": "Invoice"
+                        }
+                    ],
+                    "6118": [],
+                    "5447": [
+                        {
+                            "label": "Vendor Name",
+                            "spans": [
+                                {
+                                    "start": 0,
+                                    "end": 13,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:0",
+                            "confidence": {
+                                "Invoice Date": 2.400350584963462e-09,
+                                "Invoice Number": 8.615306512638199e-08,
+                                "Invoice Subtotal": 1.574784569413623e-08,
+                                "Invoice Tax": 3.4804223503215326e-08,
+                                "Invoice Total": 3.3525918752275174e-07,
+                                "Line Item Name": 5.377413714313661e-08,
+                                "Line Item Quantity": 4.938188080672035e-09,
+                                "Line Item Total": 3.7823695286931525e-09,
+                                "Vendor Name": 0.9999908208847046
+                            },
+                            "field_id": 554472,
+                            "location_type": "exact",
+                            "text": "HubSpot, Inc.",
+                            "groupings": []
+                        },
+                        {
+                            "label": "Invoice Date",
+                            "spans": [
+                                {
+                                    "start": 125,
+                                    "end": 135,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:1",
+                            "confidence": {
+                                "Invoice Date": 0.9999942779541016,
+                                "Invoice Number": 1.1598333315987475e-07,
+                                "Invoice Subtotal": 2.1972986985474563e-08,
+                                "Invoice Tax": 3.641215243987972e-06,
+                                "Invoice Total": 4.4100261220592074e-07,
+                                "Line Item Name": 9.148626389787751e-08,
+                                "Line Item Quantity": 2.35244641544341e-07,
+                                "Line Item Total": 5.503422784158829e-08,
+                                "Vendor Name": 4.493779215408722e-08
+                            },
+                            "field_id": 554473,
+                            "location_type": "exact",
+                            "text": "06/21/2016",
+                            "groupings": [],
+                            "normalized": {
+                                "text": "06/21/2016",
+                                "start": 125,
+                                "end": 135,
+                                "structured": {
+                                    "day": 21,
+                                    "month": 6,
+                                    "year": 2016
+                                },
+                                "formatted": "06/21/2016",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 1466467200.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Invoice Number",
+                            "spans": [
+                                {
+                                    "start": 146,
+                                    "end": 153,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:2",
+                            "confidence": {
+                                "Invoice Date": 5.598737473633264e-08,
+                                "Invoice Number": 0.999999463558197,
+                                "Invoice Subtotal": 4.058968272602215e-08,
+                                "Invoice Tax": 6.889321468861453e-08,
+                                "Invoice Total": 1.5093485572492682e-08,
+                                "Line Item Name": 1.1201677807548549e-08,
+                                "Line Item Quantity": 7.595297168982995e-10,
+                                "Line Item Total": 6.70873911978731e-11,
+                                "Vendor Name": 1.8480035279822005e-08
+                            },
+                            "field_id": 554474,
+                            "location_type": "exact",
+                            "text": "3927578",
+                            "groupings": [],
+                            "normalized": {
+                                "text": "3927578",
+                                "start": 146,
+                                "end": 153,
+                                "structured": null,
+                                "formatted": "3927578",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "3927578",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Name",
+                            "spans": [
+                                {
+                                    "start": 340,
+                                    "end": 407,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:3",
+                            "confidence": {
+                                "Invoice Date": 1.7565442433919998e-08,
+                                "Invoice Number": 2.365634976797537e-08,
+                                "Invoice Subtotal": 3.1575535075489825e-08,
+                                "Invoice Tax": 5.957954574142832e-09,
+                                "Invoice Total": 4.966599576050612e-09,
+                                "Line Item Name": 0.9999649524688721,
+                                "Line Item Quantity": 1.7177193001316482e-08,
+                                "Line Item Total": 7.645165056580083e-10,
+                                "Vendor Name": 5.279783636069624e-06
+                            },
+                            "field_id": 554475,
+                            "location_type": "exact",
+                            "text": "HubSpot Enterprise\nIncluded Contacts\nEnterprise Contacts - Per 1000",
+                            "groupings": [
+                                {
+                                    "group_name": "Invoice Line Item",
+                                    "group_index": 4,
+                                    "group_id": "5447:Invoice Line Item"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "HubSpot Enterprise\nIncluded Contacts\nEnterprise Contacts - Per 1000",
+                                "start": 340,
+                                "end": 407,
+                                "structured": null,
+                                "formatted": "HubSpot Enterprise\nIncluded Contacts\nEnterprise Contacts - Per 1000",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "HubSpot Enterprise\nIncluded Contacts\nEnterprise Contacts - Per 1000",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Quantity",
+                            "spans": [
+                                {
+                                    "start": 476,
+                                    "end": 477,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:4",
+                            "confidence": {
+                                "Invoice Date": 2.0007496459584218e-07,
+                                "Invoice Number": 5.268412373027331e-09,
+                                "Invoice Subtotal": 2.0731549739139155e-06,
+                                "Invoice Tax": 7.271044211165645e-08,
+                                "Invoice Total": 9.540383416606346e-07,
+                                "Line Item Name": 3.446030518716725e-07,
+                                "Line Item Quantity": 0.9992546439170837,
+                                "Line Item Total": 0.0007325292099267244,
+                                "Vendor Name": 9.231066542270128e-07
+                            },
+                            "field_id": 554476,
+                            "location_type": "exact",
+                            "text": "1",
+                            "groupings": [
+                                {
+                                    "group_name": "Invoice Line Item",
+                                    "group_index": 4,
+                                    "group_id": "5447:Invoice Line Item"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "1",
+                                "start": 476,
+                                "end": 477,
+                                "structured": {
+                                    "currency": null,
+                                    "amount": 1.0,
+                                    "currency_symbol": null
+                                },
+                                "formatted": "$1.00",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 1.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Total",
+                            "spans": [
+                                {
+                                    "start": 478,
+                                    "end": 487,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:5",
+                            "confidence": {
+                                "Invoice Date": 2.2957024725656083e-08,
+                                "Invoice Number": 4.731684821734916e-09,
+                                "Invoice Subtotal": 3.5948771255789325e-05,
+                                "Invoice Tax": 1.440768215843491e-07,
+                                "Invoice Total": 9.350693375154151e-08,
+                                "Line Item Name": 6.605429803130392e-07,
+                                "Line Item Quantity": 3.4471519029466435e-05,
+                                "Line Item Total": 0.9999279975891113,
+                                "Vendor Name": 7.658569245450053e-08
+                            },
+                            "field_id": 554477,
+                            "location_type": "exact",
+                            "text": "$1,200.00",
+                            "groupings": [
+                                {
+                                    "group_name": "Invoice Line Item",
+                                    "group_index": 4,
+                                    "group_id": "5447:Invoice Line Item"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "$1,200.00",
+                                "start": 478,
+                                "end": 487,
+                                "structured": {
+                                    "currency": "USD",
+                                    "amount": 1200.0,
+                                    "currency_symbol": "$"
+                                },
+                                "formatted": "$1,200.00",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 1200.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    },
+                                    {
+                                        "validation_type": "MIN_CONFIDENCE",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Quantity",
+                            "spans": [
+                                {
+                                    "start": 499,
+                                    "end": 501,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:6",
+                            "confidence": {
+                                "Invoice Date": 1.076231548324813e-08,
+                                "Invoice Number": 1.1603896732381713e-09,
+                                "Invoice Subtotal": 3.864898019401153e-07,
+                                "Invoice Tax": 6.23728979576299e-08,
+                                "Invoice Total": 9.395338906870165e-08,
+                                "Line Item Name": 4.1748722878764966e-07,
+                                "Line Item Quantity": 0.9994648098945618,
+                                "Line Item Total": 0.0005268307868391275,
+                                "Vendor Name": 1.0827177732153359e-07
+                            },
+                            "field_id": 554476,
+                            "location_type": "exact",
+                            "text": "10",
+                            "groupings": [
+                                {
+                                    "group_name": "Invoice Line Item",
+                                    "group_index": 5,
+                                    "group_id": "5447:Invoice Line Item"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "10",
+                                "start": 499,
+                                "end": 501,
+                                "structured": {
+                                    "currency": null,
+                                    "amount": 10.0,
+                                    "currency_symbol": null
+                                },
+                                "formatted": "$10.00",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 10.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Total",
+                            "spans": [
+                                {
+                                    "start": 502,
+                                    "end": 507,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:7",
+                            "confidence": {
+                                "Invoice Date": 1.5343369907938609e-09,
+                                "Invoice Number": 1.4856093022430628e-09,
+                                "Invoice Subtotal": 1.594042441865895e-05,
+                                "Invoice Tax": 2.384278445788368e-07,
+                                "Invoice Total": 1.1305982638987189e-07,
+                                "Line Item Name": 8.561663662476349e-07,
+                                "Line Item Quantity": 6.795264198444784e-05,
+                                "Line Item Total": 0.9999126195907593,
+                                "Vendor Name": 4.1239573533857765e-07
+                            },
+                            "field_id": 554477,
+                            "location_type": "exact",
+                            "text": "$0.00",
+                            "groupings": [
+                                {
+                                    "group_name": "Invoice Line Item",
+                                    "group_index": 5,
+                                    "group_id": "5447:Invoice Line Item"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "$0.00",
+                                "start": 502,
+                                "end": 507,
+                                "structured": {
+                                    "currency": "USD",
+                                    "amount": 0.0,
+                                    "currency_symbol": "$"
+                                },
+                                "formatted": "$0.00",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 0.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    },
+                                    {
+                                        "validation_type": "MIN_CONFIDENCE",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Quantity",
+                            "spans": [
+                                {
+                                    "start": 519,
+                                    "end": 520,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:8",
+                            "confidence": {
+                                "Invoice Date": 2.8531161433420493e-08,
+                                "Invoice Number": 4.069365733272434e-09,
+                                "Invoice Subtotal": 6.226035111467354e-06,
+                                "Invoice Tax": 1.6429021343355998e-06,
+                                "Invoice Total": 2.72286882818662e-07,
+                                "Line Item Name": 6.900664288878033e-07,
+                                "Line Item Quantity": 0.9983378648757935,
+                                "Line Item Total": 0.0016476557357236743,
+                                "Vendor Name": 2.637806630900741e-07
+                            },
+                            "field_id": 554476,
+                            "location_type": "exact",
+                            "text": "5",
+                            "groupings": [
+                                {
+                                    "group_name": "Invoice Line Item",
+                                    "group_index": 6,
+                                    "group_id": "5447:Invoice Line Item"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "5",
+                                "start": 519,
+                                "end": 520,
+                                "structured": {
+                                    "currency": null,
+                                    "amount": 5.0,
+                                    "currency_symbol": null
+                                },
+                                "formatted": "$5.00",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 5.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Line Item Total",
+                            "spans": [
+                                {
+                                    "start": 521,
+                                    "end": 527,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:9",
+                            "confidence": {
+                                "Invoice Date": 7.177814786984982e-09,
+                                "Invoice Number": 3.1152287416347235e-09,
+                                "Invoice Subtotal": 4.165806603850797e-05,
+                                "Invoice Tax": 3.2139239465323044e-06,
+                                "Invoice Total": 2.033676160806408e-08,
+                                "Line Item Name": 9.56858912104508e-07,
+                                "Line Item Quantity": 3.715637285495177e-05,
+                                "Line Item Total": 0.9999152421951294,
+                                "Vendor Name": 3.6665915104094893e-07
+                            },
+                            "field_id": 554477,
+                            "location_type": "exact",
+                            "text": "$25.00",
+                            "groupings": [
+                                {
+                                    "group_name": "Invoice Line Item",
+                                    "group_index": 6,
+                                    "group_id": "5447:Invoice Line Item"
+                                }
+                            ],
+                            "normalized": {
+                                "text": "$25.00",
+                                "start": 521,
+                                "end": 527,
+                                "structured": {
+                                    "currency": "USD",
+                                    "amount": 25.0,
+                                    "currency_symbol": "$"
+                                },
+                                "formatted": "$25.00",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 25.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    },
+                                    {
+                                        "validation_type": "MIN_CONFIDENCE",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Invoice Subtotal",
+                            "spans": [
+                                {
+                                    "start": 537,
+                                    "end": 546,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:10",
+                            "confidence": {
+                                "Invoice Date": 1.2479067557080725e-08,
+                                "Invoice Number": 1.037754504551458e-08,
+                                "Invoice Subtotal": 0.999993622303009,
+                                "Invoice Tax": 1.511050413682824e-06,
+                                "Invoice Total": 1.1302825697612207e-07,
+                                "Line Item Name": 3.7292852539394516e-07,
+                                "Line Item Quantity": 1.6987804940526985e-07,
+                                "Line Item Total": 6.638203444708779e-07,
+                                "Vendor Name": 5.14679413754493e-07
+                            },
+                            "field_id": 554478,
+                            "location_type": "exact",
+                            "text": "$1,225.00",
+                            "groupings": [],
+                            "normalized": {
+                                "text": "$1,225.00",
+                                "start": 537,
+                                "end": 546,
+                                "structured": {
+                                    "currency": "USD",
+                                    "amount": 1225.0,
+                                    "currency_symbol": "$"
+                                },
+                                "formatted": "$1,225.00",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 1225.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Invoice Tax",
+                            "spans": [
+                                {
+                                    "start": 557,
+                                    "end": 563,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:11",
+                            "confidence": {
+                                "Invoice Date": 4.953463417223247e-09,
+                                "Invoice Number": 6.921577551111113e-07,
+                                "Invoice Subtotal": 5.481627596282124e-08,
+                                "Invoice Tax": 0.9999969005584717,
+                                "Invoice Total": 7.9409846875933e-07,
+                                "Line Item Name": 1.860678366938373e-08,
+                                "Line Item Quantity": 6.929780482778369e-08,
+                                "Line Item Total": 6.931463047976649e-08,
+                                "Vendor Name": 9.391482791443195e-08
+                            },
+                            "field_id": 554479,
+                            "location_type": "exact",
+                            "text": "$76.56",
+                            "groupings": [],
+                            "normalized": {
+                                "text": "$76.56",
+                                "start": 557,
+                                "end": 563,
+                                "structured": {
+                                    "currency": "USD",
+                                    "amount": 76.56,
+                                    "currency_symbol": "$"
+                                },
+                                "formatted": "$76.56",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 76.56,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Invoice Total",
+                            "spans": [
+                                {
+                                    "start": 570,
+                                    "end": 579,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95510:c:17684:idx:12",
+                            "confidence": {
+                                "Invoice Date": 2.4829425626649027e-08,
+                                "Invoice Number": 3.630819733757562e-08,
+                                "Invoice Subtotal": 3.666984014216723e-07,
+                                "Invoice Tax": 1.9052085917792283e-05,
+                                "Invoice Total": 0.9999463558197021,
+                                "Line Item Name": 6.92955914871618e-09,
+                                "Line Item Quantity": 6.221291073416069e-07,
+                                "Line Item Total": 1.4124430514073083e-09,
+                                "Vendor Name": 2.59860030382697e-06
+                            },
+                            "field_id": 554480,
+                            "location_type": "exact",
+                            "text": "$1,301.56",
+                            "groupings": [],
+                            "normalized": {
+                                "text": "$1,301.56",
+                                "start": 570,
+                                "end": 579,
+                                "structured": {
+                                    "currency": "USD",
+                                    "amount": 1301.56,
+                                    "currency_symbol": "$"
+                                },
+                                "formatted": "$1,301.56",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 1301.56,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "component_results": {
+                "ORIGINAL": {}
+            },
+            "rejected": {
+                "models": {
+                    "5446": [],
+                    "6118": [],
+                    "5447": []
+                },
+                "components": {}
+            }
+        },
+        {
+            "submissionfile_id": 95511,
+            "etl_output": "indico-file:///storage/submission/5120/97717/95511/etl_output.json",
+            "input_filename": "purchase_order.pdf",
+            "input_filepath": "indico-file:///storage/submission/5120/97717/95511.pdf",
+            "input_filesize": 80950,
+            "model_results": {
+                "ORIGINAL": {
+                    "5446": [
+                        {
+                            "field_id": 554471,
+                            "confidence": {
+                                "Purchase Order": 0.9999999850173318,
+                                "Invoice": 1.4982668217200512e-08
+                            },
+                            "label": "Purchase Order"
+                        }
+                    ],
+                    "5448": [
+                        {
+                            "label": "PO Number",
+                            "spans": [
+                                {
+                                    "start": 150,
+                                    "end": 158,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:0",
+                            "confidence": {
+                                "Buyer ID": 1.2627575642909505e-06,
+                                "Buyer Name": 2.447901010782516e-07,
+                                "PO Date": 1.1118426300527062e-05,
+                                "PO Number": 0.9999815821647644,
+                                "PO Total": 2.3315555708336433e-08,
+                                "Product Code": 3.630110995800351e-06,
+                                "Product Description": 1.4727102204403764e-08,
+                                "Product Quantity": 6.1471610024455e-07,
+                                "Product Total": 1.2719820574602636e-07,
+                                "Product Unit Cost": 1.616589599962026e-07
+                            },
+                            "field_id": 554489,
+                            "location_type": "exact",
+                            "text": "29111525",
+                            "normalized": {
+                                "text": "29111525",
+                                "start": 150,
+                                "end": 158,
+                                "structured": null,
+                                "formatted": "29111525",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "29111525",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Buyer Name",
+                            "spans": [
+                                {
+                                    "start": 342,
+                                    "end": 355,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:2",
+                            "confidence": {
+                                "Buyer ID": 1.2982777661818545e-06,
+                                "Buyer Name": 0.9999947547912598,
+                                "PO Date": 8.240203186460349e-08,
+                                "PO Number": 7.985746464100885e-08,
+                                "PO Total": 1.7511210259613108e-09,
+                                "Product Code": 1.1287174572771619e-07,
+                                "Product Description": 1.2632793868760928e-06,
+                                "Product Quantity": 1.5098430594662204e-07,
+                                "Product Total": 1.93391009872812e-08,
+                                "Product Unit Cost": 2.2306220870405014e-08
+                            },
+                            "field_id": 554482,
+                            "location_type": "exact",
+                            "text": "Michelle Amos",
+                            "normalized": {
+                                "text": "Michelle Amos",
+                                "start": 342,
+                                "end": 355,
+                                "structured": {
+                                    "type": "Person",
+                                    "full_name": "Michelle Amos",
+                                    "title": null,
+                                    "first": "Michelle",
+                                    "middle": null,
+                                    "last": "Amos",
+                                    "suffix": null
+                                },
+                                "formatted": "Michelle Amos",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "Michelle Amos",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "PO Date",
+                            "spans": [
+                                {
+                                    "start": 356,
+                                    "end": 364,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:3",
+                            "confidence": {
+                                "Buyer ID": 3.822090548055712e-06,
+                                "Buyer Name": 8.714440724588712e-08,
+                                "PO Date": 0.9999903440475464,
+                                "PO Number": 4.136407369514927e-06,
+                                "PO Total": 1.4920766844284117e-09,
+                                "Product Code": 2.1699176500078465e-07,
+                                "Product Description": 8.091866732229391e-09,
+                                "Product Quantity": 3.829829893220449e-07,
+                                "Product Total": 1.9468048151338735e-07,
+                                "Product Unit Cost": 5.011253847442276e-07
+                            },
+                            "field_id": 554483,
+                            "location_type": "exact",
+                            "text": "06/16/21",
+                            "normalized": {
+                                "text": "06/16/21",
+                                "start": 356,
+                                "end": 364,
+                                "structured": {
+                                    "day": 16,
+                                    "month": 6,
+                                    "year": 2021
+                                },
+                                "formatted": "06/16/2021",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 1623801600.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Buyer ID",
+                            "spans": [
+                                {
+                                    "start": 380,
+                                    "end": 385,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:4",
+                            "confidence": {
+                                "Buyer ID": 0.9999929070472717,
+                                "Buyer Name": 4.93660820666264e-07,
+                                "PO Date": 3.8837319493723044e-07,
+                                "PO Number": 2.8662989848271536e-07,
+                                "PO Total": 1.0579029208201973e-07,
+                                "Product Code": 7.133622261790151e-07,
+                                "Product Description": 5.113787793220581e-08,
+                                "Product Quantity": 1.0991599310727906e-06,
+                                "Product Total": 5.646242939860713e-08,
+                                "Product Unit Cost": 2.0277305168292514e-07
+                            },
+                            "field_id": 554481,
+                            "location_type": "exact",
+                            "text": "86847",
+                            "normalized": {
+                                "text": "86847",
+                                "start": 380,
+                                "end": 385,
+                                "structured": null,
+                                "formatted": "86847",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "86847",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Product Quantity",
+                            "spans": [
+                                {
+                                    "start": 532,
+                                    "end": 534,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:5",
+                            "confidence": {
+                                "Buyer ID": 3.2345758427254623e-06,
+                                "Buyer Name": 4.632624381883943e-07,
+                                "PO Date": 8.714248451724416e-07,
+                                "PO Number": 3.8181426020855724e-07,
+                                "PO Total": 1.0790621729483973e-07,
+                                "Product Code": 5.301757482811809e-06,
+                                "Product Description": 3.633870804264916e-08,
+                                "Product Quantity": 0.9999887943267822,
+                                "Product Total": 1.495936459150471e-07,
+                                "Product Unit Cost": 5.2666379701804544e-08
+                            },
+                            "field_id": 554484,
+                            "location_type": "exact",
+                            "text": "60",
+                            "normalized": {
+                                "text": "60",
+                                "start": 532,
+                                "end": 534,
+                                "structured": null,
+                                "formatted": "60",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "60",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Product Code",
+                            "spans": [
+                                {
+                                    "start": 535,
+                                    "end": 541,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:6",
+                            "confidence": {
+                                "Buyer ID": 2.7396484370001417e-07,
+                                "Buyer Name": 1.3114745343045797e-06,
+                                "PO Date": 4.440954626261373e-08,
+                                "PO Number": 3.3387289022357436e-07,
+                                "PO Total": 2.2077864869629593e-08,
+                                "Product Code": 0.9999920129776001,
+                                "Product Description": 3.4629613310244167e-07,
+                                "Product Quantity": 3.294227781225345e-06,
+                                "Product Total": 1.1255536946919165e-06,
+                                "Product Unit Cost": 1.0448789389272406e-08
+                            },
+                            "field_id": 554485,
+                            "location_type": "exact",
+                            "text": "605220",
+                            "normalized": {
+                                "text": "605220",
+                                "start": 535,
+                                "end": 541,
+                                "structured": null,
+                                "formatted": "605220",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "605220",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Product Description",
+                            "spans": [
+                                {
+                                    "start": 542,
+                                    "end": 564,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:7",
+                            "confidence": {
+                                "Buyer ID": 3.993866215523667e-08,
+                                "Buyer Name": 1.4608106368996232e-07,
+                                "PO Date": 1.2237320490271486e-08,
+                                "PO Number": 6.42832898023471e-09,
+                                "PO Total": 1.6042527306581178e-09,
+                                "Product Code": 7.234188501570316e-07,
+                                "Product Description": 0.9999908208847046,
+                                "Product Quantity": 1.6196107566202045e-08,
+                                "Product Total": 1.4558002803255476e-08,
+                                "Product Unit Cost": 1.2452557207609516e-08
+                            },
+                            "field_id": 554486,
+                            "location_type": "exact",
+                            "text": "JELTRATE DUSTLESS FAST",
+                            "normalized": {
+                                "text": "JELTRATE DUSTLESS FAST",
+                                "start": 542,
+                                "end": 564,
+                                "structured": null,
+                                "formatted": "JELTRATE DUSTLESS FAST",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "JELTRATE DUSTLESS FAST",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Product Unit Cost",
+                            "spans": [
+                                {
+                                    "start": 565,
+                                    "end": 570,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:8",
+                            "confidence": {
+                                "Buyer ID": 2.6427224497638235e-07,
+                                "Buyer Name": 4.014124854734291e-08,
+                                "PO Date": 4.016795003281004e-07,
+                                "PO Number": 2.3258805015302642e-07,
+                                "PO Total": 1.7378805239331996e-07,
+                                "Product Code": 7.95176617884863e-08,
+                                "Product Description": 8.015751973289298e-08,
+                                "Product Quantity": 7.299282600570223e-08,
+                                "Product Total": 5.87092608839157e-06,
+                                "Product Unit Cost": 0.999991238117218
+                            },
+                            "field_id": 554487,
+                            "location_type": "exact",
+                            "text": "12.00",
+                            "normalized": {
+                                "text": "12.00",
+                                "start": 565,
+                                "end": 570,
+                                "structured": {
+                                    "currency": null,
+                                    "amount": 12.0,
+                                    "currency_symbol": null
+                                },
+                                "formatted": "$12.00",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 12.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Product Total",
+                            "spans": [
+                                {
+                                    "start": 574,
+                                    "end": 580,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:9",
+                            "confidence": {
+                                "Buyer ID": 4.537493225598155e-08,
+                                "Buyer Name": 3.259183358750306e-07,
+                                "PO Date": 7.566043791484844e-07,
+                                "PO Number": 7.37256797833652e-08,
+                                "PO Total": 4.526620159595041e-06,
+                                "Product Code": 3.3305266242678044e-06,
+                                "Product Description": 1.6461865470773773e-07,
+                                "Product Quantity": 1.4980018022470176e-05,
+                                "Product Total": 0.9999709129333496,
+                                "Product Unit Cost": 4.025662292406196e-06
+                            },
+                            "field_id": 554488,
+                            "location_type": "exact",
+                            "text": "720.00",
+                            "normalized": {
+                                "text": "720.00",
+                                "start": 574,
+                                "end": 580,
+                                "structured": {
+                                    "currency": null,
+                                    "amount": 720.0,
+                                    "currency_symbol": null
+                                },
+                                "formatted": "$720.00",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 720.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Product Quantity",
+                            "spans": [
+                                {
+                                    "start": 581,
+                                    "end": 583,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:10",
+                            "confidence": {
+                                "Buyer ID": 1.0983510492224013e-06,
+                                "Buyer Name": 2.2434529967085837e-07,
+                                "PO Date": 6.200424422786455e-07,
+                                "PO Number": 1.366048678619336e-07,
+                                "PO Total": 1.7799243323679548e-07,
+                                "Product Code": 1.4050222489458974e-05,
+                                "Product Description": 2.552115176968073e-07,
+                                "Product Quantity": 0.9999791383743286,
+                                "Product Total": 3.5455207125778543e-06,
+                                "Product Unit Cost": 4.970032705386984e-07
+                            },
+                            "field_id": 554484,
+                            "location_type": "exact",
+                            "text": "60",
+                            "normalized": {
+                                "text": "60",
+                                "start": 581,
+                                "end": 583,
+                                "structured": null,
+                                "formatted": "60",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "60",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Product Code",
+                            "spans": [
+                                {
+                                    "start": 584,
+                                    "end": 590,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:11",
+                            "confidence": {
+                                "Buyer ID": 1.0878926559598767e-06,
+                                "Buyer Name": 7.618435660106115e-08,
+                                "PO Date": 1.7333126933749554e-08,
+                                "PO Number": 8.019516712920449e-07,
+                                "PO Total": 9.104788745162296e-08,
+                                "Product Code": 0.9999862909317017,
+                                "Product Description": 7.504857421736233e-06,
+                                "Product Quantity": 2.091606575049809e-06,
+                                "Product Total": 1.6547481891393545e-06,
+                                "Product Unit Cost": 2.0974837866560847e-07
+                            },
+                            "field_id": 554485,
+                            "location_type": "exact",
+                            "text": "608015",
+                            "normalized": {
+                                "text": "608015",
+                                "start": 584,
+                                "end": 590,
+                                "structured": null,
+                                "formatted": "608015",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "608015",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Product Description",
+                            "spans": [
+                                {
+                                    "start": 591,
+                                    "end": 619,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:12",
+                            "confidence": {
+                                "Buyer ID": 8.465552703285084e-09,
+                                "Buyer Name": 2.5433310568701017e-08,
+                                "PO Date": 6.951509146091439e-09,
+                                "PO Number": 6.641318051059386e-10,
+                                "PO Total": 8.700578035814033e-10,
+                                "Product Code": 1.9124070149700856e-07,
+                                "Product Description": 0.9999961256980896,
+                                "Product Quantity": 5.855104845409187e-09,
+                                "Product Total": 2.7109662070756713e-08,
+                                "Product Unit Cost": 9.049230698110478e-09
+                            },
+                            "field_id": 554486,
+                            "location_type": "exact",
+                            "text": "JELTRATE SCOOP / MEASURE SET",
+                            "normalized": {
+                                "text": "JELTRATE SCOOP / MEASURE SET",
+                                "start": 591,
+                                "end": 619,
+                                "structured": null,
+                                "formatted": "JELTRATE SCOOP / MEASURE SET",
+                                "status": "SUCCESS",
+                                "comparison_type": "string",
+                                "comparison_value": "JELTRATE SCOOP / MEASURE SET",
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Product Unit Cost",
+                            "spans": [
+                                {
+                                    "start": 620,
+                                    "end": 624,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:13",
+                            "confidence": {
+                                "Buyer ID": 1.2182437103547272e-07,
+                                "Buyer Name": 1.8778500532334874e-08,
+                                "PO Date": 1.3097340456624806e-07,
+                                "PO Number": 2.0941644152117078e-07,
+                                "PO Total": 7.584417858197412e-07,
+                                "Product Code": 4.6080171500761935e-07,
+                                "Product Description": 3.293564532214077e-07,
+                                "Product Quantity": 5.5458997394453036e-08,
+                                "Product Total": 1.0070839380205143e-05,
+                                "Product Unit Cost": 0.9999850392341614
+                            },
+                            "field_id": 554487,
+                            "location_type": "exact",
+                            "text": "3.05",
+                            "normalized": {
+                                "text": "3.05",
+                                "start": 620,
+                                "end": 624,
+                                "structured": {
+                                    "currency": null,
+                                    "amount": 3.05,
+                                    "currency_symbol": null
+                                },
+                                "formatted": "$3.05",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 3.05,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "Product Total",
+                            "spans": [
+                                {
+                                    "start": 628,
+                                    "end": 634,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:14",
+                            "confidence": {
+                                "Buyer ID": 2.3236003343640732e-08,
+                                "Buyer Name": 2.3211507382825403e-08,
+                                "PO Date": 4.50823876008144e-08,
+                                "PO Number": 6.25630391937193e-08,
+                                "PO Total": 5.013069767301204e-06,
+                                "Product Code": 9.836236358751194e-08,
+                                "Product Description": 5.516259804494439e-08,
+                                "Product Quantity": 5.189342573430622e-07,
+                                "Product Total": 0.9999917149543762,
+                                "Product Unit Cost": 1.7762935158316395e-06
+                            },
+                            "field_id": 554488,
+                            "location_type": "exact",
+                            "text": "183.00",
+                            "normalized": {
+                                "text": "183.00",
+                                "start": 628,
+                                "end": 634,
+                                "structured": {
+                                    "currency": null,
+                                    "amount": 183.0,
+                                    "currency_symbol": null
+                                },
+                                "formatted": "$183.00",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 183.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "label": "PO Total",
+                            "spans": [
+                                {
+                                    "start": 641,
+                                    "end": 647,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:15",
+                            "confidence": {
+                                "Buyer ID": 2.1331260313672828e-07,
+                                "Buyer Name": 4.117542751203018e-09,
+                                "PO Date": 6.391702722652326e-09,
+                                "PO Number": 5.190192098325497e-08,
+                                "PO Total": 0.9999980926513672,
+                                "Product Code": 1.0232552227762426e-07,
+                                "Product Description": 5.355866417033894e-09,
+                                "Product Quantity": 2.2604419669391973e-08,
+                                "Product Total": 7.359597589129407e-07,
+                                "Product Unit Cost": 1.0356086477258941e-07
+                            },
+                            "field_id": 554490,
+                            "location_type": "exact",
+                            "text": "903.00",
+                            "normalized": {
+                                "text": "903.00",
+                                "start": 641,
+                                "end": 647,
+                                "structured": {
+                                    "currency": null,
+                                    "amount": 903.0,
+                                    "currency_symbol": null
+                                },
+                                "formatted": "$903.00",
+                                "status": "SUCCESS",
+                                "comparison_type": "number",
+                                "comparison_value": 903.0,
+                                "validation": [
+                                    {
+                                        "validation_type": "TYPE_CONVERSION",
+                                        "error_message": null,
+                                        "validation_status": "SUCCESS"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "6118": []
+                }
+            },
+            "component_results": {
+                "ORIGINAL": {}
+            },
+            "rejected": {
+                "models": {
+                    "5446": [],
+                    "5448": [
+                        {
+                            "label": "PO Date",
+                            "spans": [
+                                {
+                                    "start": 177,
+                                    "end": 185,
+                                    "page_num": 0
+                                }
+                            ],
+                            "span_id": "95511:c:17685:idx:1",
+                            "confidence": {
+                                "Buyer ID": 1.976757175725652e-06,
+                                "Buyer Name": 2.7853705120151062e-08,
+                                "PO Date": 0.9999796748161316,
+                                "PO Number": 6.943222160771256e-06,
+                                "PO Total": 2.2437840030420375e-08,
+                                "Product Code": 6.111208676884416e-07,
+                                "Product Description": 1.825127959875772e-08,
+                                "Product Quantity": 2.546036284911679e-06,
+                                "Product Total": 1.9051916524404078e-06,
+                                "Product Unit Cost": 1.0712782341215643e-06
+                            },
+                            "field_id": 554483,
+                            "location_type": "exact",
+                            "text": "06/16/21"
+                        }
+                    ],
+                    "6118": []
+                },
+                "components": {}
+            }
+        }
+    ],
+    "reviews": {},
+    "errored_files": {
+        "95509": {
+            "submissionfile_id": 95509,
+            "error": "Traceback (most recent call last):\n\n  File \"/readapi/readapi/celery_tasks/submission.py\", line 87, in _\n    readapi_input: dict = await get_readapi_client().prepare_for_ocr(\n\n  File \"/readapi/readapi/read/readapi.py\", line 202, in prepare_for_ocr\n    num_pages: int = pdf_get_num_pages(pdf_path)\n\n  File \"/venv/.venv/lib/python3.10/site-packages/mediocris/pdfconverter/convert.py\", line 465, in pdf_get_num_pages\n    pdf = pdfium.PdfDocument(file_or_bytes)\n\n  File \"/venv/.venv/lib/python3.10/site-packages/pypdfium2/_helpers/document.py\", line 78, in __init__\n    self.raw, to_hold, to_close = _open_pdf(self._input, self._password, self._autoclose)\n\n  File \"/venv/.venv/lib/python3.10/site-packages/pypdfium2/_helpers/document.py\", line 678, in _open_pdf\n    raise PdfiumError(f\"Failed to load document (PDFium: {pdfium_i.ErrorToStr.get(err_code)}).\")\n\npypdfium2._helpers.misc.PdfiumError: Failed to load document (PDFium: Data format error).",
+            "reason": "Error preparing for OCR, skipping submission file 'corrupted.pdf' with id '95509'"
+        }
+    }
+}
