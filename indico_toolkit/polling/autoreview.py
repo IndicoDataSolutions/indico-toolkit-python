@@ -53,7 +53,7 @@ class AutoReviewPoller:
         load_etl_output: bool = True,
         load_text: bool = True,
         load_tokens: bool = True,
-        load_tables: bool = False,
+        load_tables: bool = True,
         retry_count: int = 4,
         retry_wait: float = 1,
         retry_backoff: float = 4,
