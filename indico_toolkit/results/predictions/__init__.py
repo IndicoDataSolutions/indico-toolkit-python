@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 
+from ..errors import ResultError
 from ..normalization import normalize_prediction_dict
 from ..task import TaskType
 from .box import NULL_BOX, Box
@@ -16,7 +17,6 @@ from .unbundling import Unbundling
 
 if TYPE_CHECKING:
     from ..document import Document
-    from ..errors import ResultError
     from ..review import Review
     from ..task import Task
 
