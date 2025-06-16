@@ -1,5 +1,9 @@
+import json
 from collections.abc import Iterable, Iterator
-from typing import Callable, TypeVar
+from typing import TYPE_CHECKING, TypeVar
+
+if TYPE_CHECKING:
+    from typing import Any, Callable
 
 Value = TypeVar("Value")
 
@@ -47,6 +51,18 @@ def has(result: object, value_type: "type[Value]", *keys: "str | int") -> bool:
     return isinstance(result, value_type)
 
 
+def json_loaded(value: "Any") -> "Any":
+    """
+    Ensure `value` has been loaded as JSON.
+    """
+    value = str_decoded(value)
+
+    if isinstance(value, str):
+        value = json.loads(value)
+
+    return value
+
+
 def nfilter(
     predicates: "Iterable[Callable[[Value], bool]]", values: "Iterable[Value]"
 ) -> "Iterator[Value]":
@@ -73,3 +89,13 @@ def omit(dictionary: object, *keys: str) -> "dict[str, Value]":
         for key, value in dictionary.items()
         if key not in keys
     }  # fmt: skip
+
+
+def str_decoded(value: str | bytes) -> str:
+    """
+    Ensure `value` has been decoded to a string.
+    """
+    if isinstance(value, bytes):
+        value = value.decode()
+
+    return value
