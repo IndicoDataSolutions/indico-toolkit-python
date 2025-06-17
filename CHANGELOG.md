@@ -166,3 +166,25 @@ This is the first major version release tested to work on Indico 6.X.
 * Added support for imported models using IPA 7.2 `component_metadata` section.
 * Parse and preserve full span information for `Unbundling` predictions.
 * Add `group = next(group)` idiom.
+
+## 7.2.0 6/17/25
+
+### Added
+
+* Unified support for `dict`, JSON `str`, and JSON `bytes` as loadable types in
+  `results.load()`, `results.load_async()`, `etloutput.load()`, and
+  `etloutput.load_async()`.
+
+### Changed
+
+* Renamed `model`, `ModelGroup`, and `ModelGroupType` to `task`, `Task`, and `TaskType`
+  in the `results` module.
+* Table OCR is now automatically loaded when present
+  (`AutoReviewPoller(..., load_tables=True)` and `etloutput.load(..., tables=True)` are
+  now the default).
+
+### Removed
+
+* v1 result file code paths in the `results` module.
+* v1 ETL output code paths in the `etloutput` module.
+* 6.X edge cases in the `results` module.
