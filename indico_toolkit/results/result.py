@@ -4,6 +4,7 @@ from itertools import chain
 
 from . import predictions as prediction
 from .document import Document
+from .errors import ResultError
 from .normalization import normalize_result_dict
 from .predictionlist import PredictionList
 from .predictions import Prediction
@@ -49,6 +50,11 @@ class Result:
         """
         Create a `Result` from a result file dictionary.
         """
+        file_version = get(result, int, "file_version")
+
+        if file_version != 3:
+            raise ResultError(f"unsupported file version `{file_version}`")
+
         normalize_result_dict(result)
 
         submission_id = get(result, int, "submission_id")

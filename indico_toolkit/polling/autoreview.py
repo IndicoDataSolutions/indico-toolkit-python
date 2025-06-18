@@ -96,8 +96,8 @@ class AutoReviewPoller:
                 *(self._reap_workers() for _ in range(self._worker_count)),
             )
 
-    async def _retrieve_storage_object(self, url: str) -> object:
-        return await self._client_call(RetrieveStorageObject(url))
+    async def _retrieve_storage_object(self, uri: str) -> "Any":
+        return await self._client_call(RetrieveStorageObject(uri))
 
     async def _spawn_workers(self) -> None:
         """

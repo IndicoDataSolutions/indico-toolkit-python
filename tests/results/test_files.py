@@ -17,10 +17,10 @@ def test_file_load(result_file: Path) -> None:
 
 @pytest.mark.parametrize("result_file", list(data_folder.glob("*.json")))
 async def test_file_load_async(result_file: Path) -> None:
-    async def path_read_text_async(path: Path) -> str:
-        return path.read_text()
+    async def path_read_bytes_async(path: Path) -> bytes:
+        return path.read_bytes()
 
-    result = await results.load_async(result_file, reader=path_read_text_async)
+    result = await results.load_async(result_file, reader=path_read_bytes_async)
     result.pre_review.to_changes(result)
     assert result.submission_id
 

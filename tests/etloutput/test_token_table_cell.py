@@ -1,4 +1,3 @@
-import json
 from dataclasses import replace
 from pathlib import Path
 
@@ -18,19 +17,16 @@ data_folder = Path(__file__).parent.parent / "data" / "etloutput"
 etl_output_file = data_folder / "4725" / "111924" / "110239" / "etl_output.json"
 
 
-def read_uri(uri: str) -> object:
+def read_uri(uri: str | Path) -> bytes:
+    uri = str(uri)
     storage_folder_path = uri.split("/storage/submission/")[-1]
     file_path = data_folder / storage_folder_path
-
-    if file_path.suffix.casefold() == ".json":
-        return json.loads(file_path.read_text())
-    else:
-        return file_path.read_text()
+    return file_path.read_bytes()
 
 
 @pytest.fixture(scope="module")
 def etl_output() -> EtlOutput:
-    return etloutput.load(str(etl_output_file), reader=read_uri)
+    return etloutput.load(etl_output_file, reader=read_uri)
 
 
 @pytest.fixture

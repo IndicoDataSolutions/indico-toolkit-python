@@ -1,7 +1,7 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypeAlias, TypeVar
 
 from ..results import NULL_BOX, NULL_SPAN, Box, Span
-from ..results.utils import get, has
+from ..results.utils import get, has, json_loaded, str_decoded
 from .cell import Cell, CellType
 from .errors import EtlOutputError, TableCellNotFoundError, TokenNotFoundError
 from .etloutput import EtlOutput
@@ -11,7 +11,6 @@ from .token import Token
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable
-    from typing import Any
 
 __all__ = (
     "Box",
@@ -31,20 +30,28 @@ __all__ = (
     "TokenNotFoundError",
 )
 
+Loadable: TypeAlias = "dict[str, object] | list[object] | str | bytes"
+Readable = TypeVar("Readable")
+URI: TypeAlias = str
+
 
 def load(
-    etl_output_uri: str,
+    etl_output: "Loadable | Readable",
     *,
-    reader: "Callable[..., Any]",
+    reader: "Callable[[Readable | URI], Loadable]",
     text: bool = True,
     tokens: bool = True,
     tables: bool = True,
 ) -> EtlOutput:
     """
-    Load `etl_output_uri` as an `EtlOutput` dataclass. A `reader` function must be
-    supplied to read JSON files from disk, storage API, or Indico client.
+    Load `etl_output` as an `EtlOutput` dataclass.
 
-    Use `text`, `tokens`, and `tables` to specify what to load.
+    `etl_output` can be a dict, JSON string/bytes, or something that can be read by
+    `reader` to produce a loadable type.
+
+    `reader` must be able to load Indico storage URIs as lists or JSON strings/bytes.
+
+    Use `text`, `tokens`, and `tables` to specify what not to load.
 
     ```
     result = results.load(submission.result_file, reader=read_uri)
@@ -55,21 +62,34 @@ def load(
     }
     ```
     """
-    etl_output = reader(etl_output_uri)
+    if not isinstance(etl_output, dict):
+        if (isinstance(etl_output, str) and etl_output.startswith("{")) or (
+            isinstance(etl_output, bytes) and etl_output.startswith(b"{")
+        ):
+            etl_output = json_loaded(etl_output)
+        else:
+            etl_output = json_loaded(reader(etl_output))  # type: ignore[arg-type]
+
     pages = get(etl_output, list, "pages")
 
     if text and has(pages, str, 0, "text"):
-        text_pages = map(lambda page: reader(get(page, str, "text")), pages)
+        text_pages = map(
+            lambda page: str_decoded(reader(get(page, str, "text"))), pages  # type: ignore[arg-type]
+        )
     else:
         text_pages = ()  # type: ignore[assignment]
 
     if tokens and has(pages, str, 0, "tokens"):
-        token_dict_pages = map(lambda page: reader(get(page, str, "tokens")), pages)
+        token_dict_pages = map(
+            lambda page: json_loaded(reader(get(page, str, "tokens"))), pages
+        )
     else:
         token_dict_pages = ()  # type: ignore[assignment]
 
     if tables and has(pages, str, 0, "tables"):
-        table_dict_pages = map(lambda page: reader(get(page, str, "tables")), pages)
+        table_dict_pages = map(
+            lambda page: json_loaded(reader(get(page, str, "tables"))), pages
+        )
     else:
         table_dict_pages = ()  # type: ignore[assignment]
 
@@ -77,18 +97,22 @@ def load(
 
 
 async def load_async(
-    etl_output_uri: str,
+    etl_output: "Loadable | Readable",
     *,
-    reader: "Callable[..., Awaitable[Any]]",
+    reader: "Callable[[Readable | URI], Awaitable[Loadable]]",
     text: bool = True,
     tokens: bool = True,
     tables: bool = True,
 ) -> EtlOutput:
     """
-    Load `etl_output_uri` as an `EtlOutput` dataclass. A `reader` coroutine must be
-    supplied to read JSON files from disk, storage API, or Indico client.
+    Load `etl_output` as an `EtlOutput` dataclass.
 
-    Use `text`, `tokens`, and `tables` to specify what to load.
+    `etl_output` can be a dict, JSON string/bytes, or something that can be read by
+    `reader` to produce a loadable type.
+
+    `reader` must be able to load Indico storage URIs as lists or JSON strings/bytes.
+
+    Use `text`, `tokens`, and `tables` to specify what not to load.
 
     ```
     result = await results.load_async(submission.result_file, reader=read_uri)
@@ -99,21 +123,34 @@ async def load_async(
     }
     ```
     """
-    etl_output = await reader(etl_output_uri)
+    if not isinstance(etl_output, dict):
+        if (isinstance(etl_output, str) and etl_output.startswith("{")) or (
+            isinstance(etl_output, bytes) and etl_output.startswith(b"{")
+        ):
+            etl_output = json_loaded(etl_output)
+        else:
+            etl_output = json_loaded(await reader(etl_output))  # type: ignore[arg-type]
+
     pages = get(etl_output, list, "pages")
 
     if text and has(pages, str, 0, "text"):
-        text_pages = [await reader(get(page, str, "text")) for page in pages]
+        text_pages = [
+            str_decoded(await reader(get(page, str, "text"))) for page in pages  # type: ignore[arg-type]
+        ]
     else:
         text_pages = ()  # type: ignore[assignment]
 
     if tokens and has(pages, str, 0, "tokens"):
-        token_dict_pages = [await reader(get(page, str, "tokens")) for page in pages]
+        token_dict_pages = [
+            json_loaded(await reader(get(page, str, "tokens"))) for page in pages
+        ]
     else:
         token_dict_pages = ()  # type: ignore[assignment]
 
     if tables and has(pages, str, 0, "tables"):
-        table_dict_pages = [await reader(get(page, str, "tables")) for page in pages]
+        table_dict_pages = [
+            json_loaded(await reader(get(page, str, "tables"))) for page in pages
+        ]
     else:
         table_dict_pages = ()  # type: ignore[assignment]
 
