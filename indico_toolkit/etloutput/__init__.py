@@ -30,7 +30,7 @@ __all__ = (
     "TokenNotFoundError",
 )
 
-Loadable: TypeAlias = "dict[str, object] | str | bytes"
+Loadable: TypeAlias = "dict[str, object] | list[object] | str | bytes"
 Readable = TypeVar("Readable")
 URI: TypeAlias = str
 
@@ -47,9 +47,9 @@ def load(
     Load `etl_output` as an `EtlOutput` dataclass.
 
     `etl_output` can be a dict, JSON string/bytes, or something that can be read by
-    `reader` to produce either.
+    `reader` to produce a loadable type.
 
-    `reader` must be able to handle Indico storage URIs.
+    `reader` must be able to load Indico storage URIs as lists or JSON strings/bytes.
 
     Use `text`, `tokens`, and `tables` to specify what not to load.
 
@@ -108,9 +108,9 @@ async def load_async(
     Load `etl_output` as an `EtlOutput` dataclass.
 
     `etl_output` can be a dict, JSON string/bytes, or something that can be read by
-    `reader` to produce either.
+    `reader` to produce a loadable type.
 
-    `reader` must be able to handle Indico storage URIs.
+    `reader` must be able to load Indico storage URIs as lists or JSON strings/bytes.
 
     Use `text`, `tokens`, and `tables` to specify what not to load.
 
