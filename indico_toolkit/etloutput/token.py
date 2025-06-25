@@ -13,7 +13,7 @@ class Token:
     @staticmethod
     def from_dict(token: object) -> "Token":
         """
-        Create a `Token` from a v1 or v3 token dictionary.
+        Create a `Token` from a token dictionary.
         """
         get(token, dict, "position")["page_num"] = get(token, int, "page_num")
         get(token, dict, "doc_offset")["page_num"] = get(token, int, "page_num")

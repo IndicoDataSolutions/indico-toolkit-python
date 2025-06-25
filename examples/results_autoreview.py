@@ -20,8 +20,8 @@ def autoreview(result: results.Result) -> Any:
     pre_review = result.pre_review
     extractions = pre_review.extractions
 
-    # Downselect all labels from all models based on highest confidence.
-    for model, extractions in extractions.groupby(attrgetter("model")).items():
+    # Downselect all labels from all tasks based on highest confidence.
+    for task, extractions in extractions.groupby(attrgetter("task")).items():
         for label, extractions in extractions.groupby(attrgetter("label")).items():
             # Order extractions by confidence descending.
             ordered = extractions.orderby(attrgetter("confidence"), reverse=True)

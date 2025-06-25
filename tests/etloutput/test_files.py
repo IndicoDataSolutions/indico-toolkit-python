@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 
 import pytest
@@ -8,29 +7,80 @@ from indico_toolkit import etloutput
 data_folder = Path(__file__).parent.parent / "data" / "etloutput"
 
 
-def read_url(url: str) -> object:
-    storage_folder_path = url.split("/storage/submission/")[-1]
+def read_uri(uri: str | Path) -> str:
+    uri = str(uri)
+    storage_folder_path = uri.split("/storage/submission/")[-1]
     file_path = data_folder / storage_folder_path
+    return file_path.read_text()
 
-    if file_path.suffix.casefold() == ".json":
-        return json.loads(file_path.read_text())
-    else:
-        return file_path.read_text()
+
+async def read_uri_async(uri: str | Path) -> str:
+    return read_uri(uri)
 
 
 @pytest.mark.parametrize("etl_output_file", list(data_folder.rglob("etl_output.json")))
 def test_file_load(etl_output_file: Path) -> None:
-    try:
-        etl_output = etloutput.load(str(etl_output_file), reader=read_url, tables=True)
-    except FileNotFoundError:
-        etl_output = etloutput.load(str(etl_output_file), reader=read_url, tables=False)
-
+    etl_output = etloutput.load(etl_output_file, reader=read_uri)
     page_count = len(etl_output.text_on_page)
     char_count = len(etl_output.text)
     token_count = len(etl_output.tokens)
     table_count = len(etl_output.tables)
 
-    assert page_count == 6
-    assert char_count in (6466, 6494)
-    assert token_count in (948, 978)
-    assert table_count in (0, 6)
+    assert page_count == 2
+    assert 2090 <= char_count <= 2093
+    assert 326 <= token_count <= 331
+    assert table_count in (0, 4)
+
+
+@pytest.mark.parametrize("etl_output_file", list(data_folder.rglob("etl_output.json")))
+async def test_file_load_async(etl_output_file: Path) -> None:
+    etl_output = await etloutput.load_async(etl_output_file, reader=read_uri_async)
+    page_count = len(etl_output.text_on_page)
+    char_count = len(etl_output.text)
+    token_count = len(etl_output.tokens)
+    table_count = len(etl_output.tables)
+
+    assert page_count == 2
+    assert 2090 <= char_count <= 2093
+    assert 326 <= token_count <= 331
+    assert table_count in (0, 4)
+
+
+@pytest.mark.parametrize("etl_output_file", list(data_folder.rglob("etl_output.json")))
+def test_file_load_disable_values(etl_output_file: Path) -> None:
+    etl_output = etloutput.load(
+        etl_output_file,
+        reader=read_uri,
+        text=False,
+        tokens=False,
+        tables=False,
+    )
+    page_count = len(etl_output.text_on_page)
+    char_count = len(etl_output.text)
+    token_count = len(etl_output.tokens)
+    table_count = len(etl_output.tables)
+
+    assert page_count == 0
+    assert char_count == 0
+    assert token_count == 0
+    assert table_count == 0
+
+
+@pytest.mark.parametrize("etl_output_file", list(data_folder.rglob("etl_output.json")))
+async def test_file_load_disable_values_async(etl_output_file: Path) -> None:
+    etl_output = await etloutput.load_async(
+        etl_output_file,
+        reader=read_uri_async,
+        text=False,
+        tokens=False,
+        tables=False,
+    )
+    page_count = len(etl_output.text_on_page)
+    char_count = len(etl_output.text)
+    token_count = len(etl_output.tokens)
+    table_count = len(etl_output.tables)
+
+    assert page_count == 0
+    assert char_count == 0
+    assert token_count == 0
+    assert table_count == 0

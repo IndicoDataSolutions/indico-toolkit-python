@@ -17,7 +17,7 @@ def final_predictions(result: results.Result) -> Iterator[dict[str, object]]:
             yield {
                 "submission_id": result.submission_id,
                 "document_id": prediction.document.id,
-                "model": prediction.model.name,
+                "task": prediction.task.name,
                 "field": "Classification",
                 "value": prediction.label,
                 "confidence": prediction.confidence,
@@ -26,7 +26,7 @@ def final_predictions(result: results.Result) -> Iterator[dict[str, object]]:
             yield {
                 "submission_id": result.submission_id,
                 "document_id": prediction.document.id,
-                "model": prediction.model.name,
+                "task": prediction.task.name,
                 "field": prediction.label,
                 "value": prediction.text,
                 "confidence": prediction.confidence,
@@ -53,7 +53,7 @@ def convert_to_csv(
             fieldnames=[
                 "submission_id",
                 "document_id",
-                "model",
+                "task",
                 "field",
                 "value",
                 "confidence",

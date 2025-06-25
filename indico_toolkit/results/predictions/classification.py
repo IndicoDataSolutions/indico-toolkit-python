@@ -9,15 +9,15 @@ if TYPE_CHECKING:
     from typing import Any
 
     from ..document import Document
-    from ..model import ModelGroup
+    from ..task import Task
 
 
 @dataclass
 class Classification(Prediction):
     @staticmethod
-    def _from_dict(
+    def from_dict(
         document: "Document",
-        model: "ModelGroup",
+        task: "Task",
         review: "Review | None",
         prediction: object,
     ) -> "Classification":
@@ -26,17 +26,14 @@ class Classification(Prediction):
         """
         return Classification(
             document=document,
-            model=model,
+            task=task,
             review=review,
             label=get(prediction, str, "label"),
             confidences=get(prediction, dict, "confidence"),
             extras=omit(prediction, "label", "confidence"),
         )
 
-    from_v1_dict = _from_dict
-    from_v3_dict = _from_dict
-
-    def _to_dict(self) -> "dict[str, Any]":
+    def to_dict(self) -> "dict[str, Any]":
         """
         Create a prediction dictionary for auto review changes.
         """
@@ -45,6 +42,3 @@ class Classification(Prediction):
             "label": self.label,
             "confidence": self.confidences,
         }
-
-    to_v1_dict = _to_dict
-    to_v3_dict = _to_dict

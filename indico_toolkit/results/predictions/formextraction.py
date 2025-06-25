@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from typing import Any
 
     from ..document import Document
-    from ..model import ModelGroup
+    from ..task import Task
 
 
 class FormExtractionType(Enum):
@@ -28,9 +28,9 @@ class FormExtraction(Extraction):
     signed: bool
 
     @staticmethod
-    def _from_dict(
+    def from_dict(
         document: "Document",
-        model: "ModelGroup",
+        task: "Task",
         review: "Review | None",
         prediction: object,
     ) -> "FormExtraction":
@@ -39,7 +39,7 @@ class FormExtraction(Extraction):
         """
         return FormExtraction(
             document=document,
-            model=model,
+            task=task,
             review=review,
             label=get(prediction, str, "label"),
             confidences=get(prediction, dict, "confidence"),
@@ -77,10 +77,7 @@ class FormExtraction(Extraction):
             ),
         )
 
-    from_v1_dict = _from_dict
-    from_v3_dict = _from_dict
-
-    def _to_dict(self) -> "dict[str, Any]":
+    def to_dict(self) -> "dict[str, Any]":
         """
         Create a prediction dictionary for auto review changes.
         """
@@ -100,20 +97,21 @@ class FormExtraction(Extraction):
             prediction["normalized"]["structured"] = {"checked": self.checked}
             text = "Checked" if self.checked else "Unchecked"
             prediction["normalized"]["formatted"] = text
-            prediction["normalized"]["text"] = self.text
-            prediction["text"] = self.text
+            prediction["normalized"]["text"] = text
+            prediction["text"] = text
         elif self.type == FormExtractionType.SIGNATURE:
             prediction["normalized"]["structured"] = {"signed": self.signed}
             text = "Signed" if self.signed else "Unsigned"
             prediction["normalized"]["formatted"] = text
             # Don't overwrite the text of the signature stored in these attributes.
-            # prediction["normalized"]["text"] = self.text
-            # prediction["text"] = self.text
-        elif self.type == FormExtractionType.TEXT:
-            if self.text != get(prediction, str, "normalized", "formatted"):
-                prediction["normalized"]["formatted"] = self.text
-                prediction["normalized"]["text"] = self.text
-                prediction["text"] = self.text
+            # prediction["normalized"]["text"] = text
+            # prediction["text"] = text
+        elif self.type == FormExtractionType.TEXT and self.text != get(
+            prediction, str, "normalized", "formatted"
+        ):
+            prediction["normalized"]["formatted"] = self.text
+            prediction["normalized"]["text"] = self.text
+            prediction["text"] = self.text
 
         if self.accepted:
             prediction["accepted"] = True
@@ -121,6 +119,3 @@ class FormExtraction(Extraction):
             prediction["rejected"] = True
 
         return prediction
-
-    to_v1_dict = _to_dict
-    to_v3_dict = _to_dict

@@ -15,7 +15,7 @@ class Range:
     @staticmethod
     def from_dict(cell: object) -> "Range":
         """
-        Create a `Range` from a v1 or v3 cell dictionary.
+        Create a `Range` from a cell dictionary.
         """
         rows = get(cell, list, "rows")
         columns = get(cell, list, "columns")

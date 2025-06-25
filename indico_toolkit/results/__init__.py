@@ -1,9 +1,7 @@
-import json
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypeAlias, TypeVar, overload
 
 from .document import Document
 from .errors import ResultError
-from .model import ModelGroup, ModelGroupType
 from .predictionlist import PredictionList
 from .predictions import (
     NULL_BOX,
@@ -23,7 +21,8 @@ from .predictions import (
 )
 from .result import Result
 from .review import Review, ReviewType
-from .utils import get
+from .task import Task, TaskType
+from .utils import json_loaded
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable
@@ -40,8 +39,6 @@ __all__ = (
     "Group",
     "load",
     "load_async",
-    "ModelGroup",
-    "ModelGroupType",
     "NULL_BOX",
     "NULL_CITATION",
     "NULL_SPAN",
@@ -53,16 +50,24 @@ __all__ = (
     "ReviewType",
     "Span",
     "Summarization",
+    "Task",
+    "TaskType",
     "Unbundling",
 )
 
+Loadable: TypeAlias = "dict[str, object] | str | bytes"
+Readable = TypeVar("Readable")
 
+
+@overload
+def load(result: Loadable) -> Result: ...
+@overload
+def load(result: Readable, *, reader: "Callable[[Readable], Loadable]") -> Result: ...
 def load(result: object, *, reader: "Callable[..., object] | None" = None) -> Result:
     """
-    Load `result` as a Result dataclass.
+    Load `result` as a `Result` dataclass. `result` can be a dict or JSON string/bytes.
 
-    `result` can be a dict, a JSON string, or something that can be read with `reader`
-    to produce either.
+    If `reader` is provided, it should read `result` to produce a loadable type.
 
     ```
     for result_file in result_folder.glob("*.json"):
@@ -72,33 +77,28 @@ def load(result: object, *, reader: "Callable[..., object] | None" = None) -> Re
     if reader:
         result = reader(result)
 
-    return _load(result)
+    return Result.from_dict(json_loaded(result))
 
 
+@overload
+async def load_async(result: Loadable) -> Result: ...
+@overload
+async def load_async(
+    result: Readable, *, reader: "Callable[[Readable], Awaitable[Loadable]]"
+) -> Result: ...
 async def load_async(
     result: object, *, reader: "Callable[..., Awaitable[object]] | None" = None
 ) -> Result:
     """
-    Load `result` as a Result dataclass.
+    Load `result` as a `Result` dataclass. `result` can be a dict or JSON string/bytes.
 
-    `result` can be a dict, a JSON string, or something that can be read with `reader`
-    to produce either.
+    If `reader` is provided, it should read `result` to produce a loadable type.
+
+    ```
+    result = await results.load_async(submission.result_file, reader=read_uri)
+    ```
     """
     if reader:
         result = await reader(result)
 
-    return _load(result)
-
-
-def _load(result: object) -> Result:
-    if isinstance(result, str) and result.strip().startswith("{"):
-        result = json.loads(result)
-
-    file_version = get(result, int, "file_version")
-
-    if file_version == 1:
-        return Result.from_v1_dict(result)
-    elif file_version == 3:
-        return Result.from_v3_dict(result)
-    else:
-        raise ResultError(f"unsupported file version `{file_version}`")
+    return Result.from_dict(json_loaded(result))
