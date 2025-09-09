@@ -1,0 +1,7 @@
+Rowspan / Colspan Sample
+Alfa	Bravo	Charlie	Delta
+Echo	Foxtrot		Golf
+	Hotel	India	Juliett
+Kilo			Mike
+November	Lima		Oscar
+formatted by Markdeep 1.18_d
