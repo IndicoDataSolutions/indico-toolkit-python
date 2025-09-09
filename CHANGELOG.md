@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and versions match the minimum IPA version required to use functionality.
 
 
+## [v7.2.1] - 2025-09-09
+
+### Fixed
+
+- Account for row spans and column spans in ETL output tables.
+  Affects `Table.from_dict()`, `Range.from_dict()`, and `EtlOutput.table_cell_for()`.
+- Narrow `AutoReviewed.changes` type to v3 result file changes,
+  as that's the only version supported by `results` and `polling` modules.
+
+
 ## [v7.2.0] - 2025-06-17
 
 ### Added
@@ -255,6 +265,7 @@ This is the first major version release tested to work on Indico 6.X.
 - Row Association now also sorting on 'bbtop'.
 
 
+[v7.2.1]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v7.2.0...v7.2.1
 [v7.2.0]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v6.14.2...v7.2.0
 [v6.14.2]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v6.14.1...v6.14.2
 [v6.14.1]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v6.14.0...v6.14.1
