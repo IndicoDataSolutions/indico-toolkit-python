@@ -21,8 +21,8 @@ class Range:
         columns = get(cell, list, "columns")
 
         return Range(
-            row=rows[0],
-            column=columns[0],
+            row=min(rows),
+            column=min(columns),
             rowspan=len(rows),
             columnspan=len(columns),
             rows=tuple(rows),
