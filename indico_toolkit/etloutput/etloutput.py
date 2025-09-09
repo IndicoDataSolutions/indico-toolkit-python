@@ -96,15 +96,11 @@ class EtlOutput:
         else:
             raise TableCellNotFoundError(f"no table contains {token!r}")
 
-        try:
-            row_index = bisect_left(
-                table.rows, token_vmid, key=lambda row: row[0].box.bottom
-            )
-            row = table.rows[row_index]
-
-            cell_index = bisect_left(row, token_hmid, key=attrgetter("box.right"))
-            cell = row[cell_index]
-        except (IndexError, ValueError) as error:
-            raise TableCellNotFoundError(f"no cell contains {token!r}") from error
-
-        return table, cell
+        for cell in table.cells:
+            if (
+                (cell.box.top  <= token_vmid <= cell.box.bottom) and
+                (cell.box.left <= token_hmid <= cell.box.right)
+            ):  # fmt: skip
+                return table, cell
+        else:
+            raise TableCellNotFoundError(f"no cell contains {token!r}")
