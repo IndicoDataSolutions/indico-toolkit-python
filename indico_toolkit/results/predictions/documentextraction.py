@@ -1,13 +1,23 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
-from ...etloutput import NULL_SPAN, Span
+from ...etloutput import (
+    NULL_CELL,
+    NULL_SPAN,
+    NULL_TABLE,
+    NULL_TOKEN,
+    Cell,
+    Span,
+    Table,
+    Token,
+)
 from ..review import Review
 from ..utils import get, has, omit
 from .extraction import Extraction
 from .group import Group
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable, Iterator
     from typing import Any
 
     from ..document import Document
@@ -18,6 +28,10 @@ if TYPE_CHECKING:
 class DocumentExtraction(Extraction):
     groups: "set[Group]"
     spans: "list[Span]"
+
+    tokens: "list[Token]" = field(default_factory=list)
+    tables: "list[Table]" = field(default_factory=list)
+    cells: "list[Cell]" = field(default_factory=list)
 
     @property
     def span(self) -> Span:
@@ -38,6 +52,79 @@ class DocumentExtraction(Extraction):
         multiple-span sensetive, you'll set `extraction.spans` instead.
         """
         self.spans = [span] if span else []
+
+    @property
+    def token(self) -> Token:
+        """
+        Return the first `Token` the document extraction covers
+        or `NULL_TOKEN` if it doesn't cover a token or OCR hasn't been assigned yet.
+        """
+        return self.tokens[0] if self.tokens else NULL_TOKEN
+
+    @token.setter
+    def token(self, token: Token) -> None:
+        """
+        Overwrite all tokens with the one provided, handling `NULL_TOKEN`.
+
+        This is assumes if you're setting a single token you want it to be the only one.
+        Multiple-token sensitive contexts should work with `extraction.tokens` instead.
+        """
+        self.tokens = [token] if token else []
+
+    @property
+    def table(self) -> Table:
+        """
+        Return the first `Table` the document extraction is in
+        or `NULL_TABLE` if it's not in a table or OCR hasn't been assigned yet.
+        """
+        return self.tables[0] if self.tables else NULL_TABLE
+
+    @table.setter
+    def table(self, table: Table) -> None:
+        """
+        Overwrite all tables with the one provided, handling `NULL_TABLE`.
+
+        This is assumes if you're setting a single table you want it to be the only one.
+        Multiple-table sensitive contexts should work with `extraction.tables` instead.
+        """
+        self.tables = [table] if table else []
+
+    @property
+    def cell(self) -> Cell:
+        """
+        Return the first `Cell` the document extraction is in
+        or `NULL_CELL` if it's not in a cell or OCR hasn't been assigned yet.
+        """
+        return self.cells[0] if self.cells else NULL_CELL
+
+    @cell.setter
+    def cell(self, cell: Cell) -> None:
+        """
+        Overwrite all cells with the one provided, handling `NULL_CELL`.
+
+        This is assumes if you're setting a single cell you want it to be the only one.
+        Multiple-cell sensitive contexts should work with `extraction.cells` instead.
+        """
+        self.cells = [cell] if cell else []
+
+    @property
+    def table_cells(self) -> "Iterator[tuple[Table, Cell]]":
+        """
+        Yield the table cells the document extraction is in.
+        """
+        yield from zip(self.tables, self.cells)
+
+    @table_cells.setter
+    def table_cells(self, table_cells: "Iterable[tuple[Table, Cell]]") -> None:
+        """
+        Set the tables cells the document extraction is in.
+        """
+        self.tables = []
+        self.cells = []
+
+        for table, cell in table_cells:
+            self.tables.append(table)
+            self.cells.append(cell)
 
     @staticmethod
     def from_dict(
