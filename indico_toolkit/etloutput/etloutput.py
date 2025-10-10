@@ -85,21 +85,24 @@ class EtlOutput:
     _TableCellSpan = namedtuple("_TableCellSpan", ["table", "cell", "span"])
 
     @cached_property
-    def _table_cell_spans(self) -> "tuple[_TableCellSpan, ...]":
+    def _table_cell_spans_on_page(self) -> "tuple[tuple[_TableCellSpan, ...], ...]":
         """
-        Order table cells by their spans such that they can be bisected.
+        Order table cells on each page by their spans such that they can be bisected.
         """
         return tuple(
-            sorted(
-                (
-                    self._TableCellSpan(table, cell, span)
-                    for table in self.tables
-                    for cell in table.cells
-                    for span in cell.spans
-                    if span
-                ),
-                key=attrgetter("span"),
+            tuple(
+                sorted(
+                    (
+                        self._TableCellSpan(table, cell, span)
+                        for table in page_tables
+                        for cell in table.cells
+                        for span in cell.spans
+                        if span
+                    ),
+                    key=attrgetter("span"),
+                )
             )
+            for page_tables in self.tables_on_page
         )
 
     def table_cells_for(self, span: "Span") -> "Iterator[tuple[Table, Cell]]":
@@ -110,17 +113,22 @@ class EtlOutput:
         yielded multiple times. Deduplication in `DocumentExtraction.table_cells`
         accounts for this when OCR is assigned with `PredictionList.assign_ocr()`.
         """
-        first = bisect_right(
-            self._table_cell_spans,
-            span.start,
-            key=attrgetter("span.end"),
-        )
-        last = bisect_left(
-            self._table_cell_spans,
-            span.end,
-            lo=first,
-            key=attrgetter("span.start"),
-        )
+        try:
+            page_table_cell_spans = self._table_cell_spans_on_page[span.page]
+            first = bisect_right(
+                page_table_cell_spans,
+                span.start,
+                key=attrgetter("span.end"),
+            )
+            last = bisect_left(
+                page_table_cell_spans,
+                span.end,
+                lo=first,
+                key=attrgetter("span.start"),
+            )
+            table_cell_spans = page_table_cell_spans[first:last]
+        except (IndexError, ValueError):
+            table_cell_spans = tuple()
 
-        for table, cell, span in self._table_cell_spans[first:last]:
+        for table, cell, span in table_cell_spans:
             yield table, cell
