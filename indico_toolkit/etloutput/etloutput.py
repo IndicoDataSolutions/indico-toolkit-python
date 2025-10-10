@@ -65,7 +65,8 @@ class EtlOutput:
             first = bisect_right(tokens, span.start, key=attrgetter("span.end"))
             last = bisect_left(tokens, span.end, lo=first, key=attrgetter("span.start"))
             tokens = tokens[first:last]
-        except (IndexError, ValueError) as error:
+            assert tokens
+        except (AssertionError, IndexError, ValueError) as error:
             raise TokenNotFoundError(f"no token contains {span!r}") from error
 
         return Token(

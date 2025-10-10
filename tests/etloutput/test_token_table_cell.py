@@ -62,6 +62,11 @@ def test_token_not_found(etl_output: EtlOutput, header_span: Span) -> None:
         etl_output.token_for(replace(header_span, page=3))
 
 
+def test_null_span_not_found(etl_output: EtlOutput) -> None:
+    with pytest.raises(TokenNotFoundError):
+        etl_output.token_for(NULL_SPAN)
+
+
 def test_table_cell(
     etl_output: EtlOutput, header_span: Span, content_span: Span
 ) -> None:
