@@ -1,8 +1,5 @@
 import json
-from typing import TYPE_CHECKING, TypeVar
-
-if TYPE_CHECKING:
-    from typing import Any
+from typing import Any, TypeVar
 
 Value = TypeVar("Value")
 

@@ -1,10 +1,7 @@
 from dataclasses import dataclass, replace
-from typing import TYPE_CHECKING
+from typing import Any
 
 from ..utils import get
-
-if TYPE_CHECKING:
-    from typing import Any
 
 
 @dataclass(frozen=True, order=True)

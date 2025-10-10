@@ -1,16 +1,14 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from ...etloutput import Box
-from ..review import Review
 from ..utils import get, has, omit
 from .extraction import Extraction
 
 if TYPE_CHECKING:
-    from typing import Any
-
     from ..document import Document
+    from ..review import Review
     from ..task import Task
 
 

@@ -1,10 +1,7 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import Final
 
 from .utils import get
-
-if TYPE_CHECKING:
-    from typing import Final
 
 
 @dataclass(order=True, frozen=True)
@@ -41,7 +38,7 @@ class Range:
 # rather than using `None` or raising an error. This lets you e.g. sort by the `range`
 # attribute without having to constantly check for `None`, while still allowing you do
 # a "None check" with `bool(cell.range)` or `cell.range == NULL_RANGE`.
-NULL_RANGE: "Final" = Range(
+NULL_RANGE: Final = Range(
     row=0,
     column=0,
     rowspan=0,

@@ -1,14 +1,12 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
-from ..review import Review
 from ..utils import get, omit
 from .prediction import Prediction
 
 if TYPE_CHECKING:
-    from typing import Any
-
     from ..document import Document
+    from ..review import Review
     from ..task import Task
 
 

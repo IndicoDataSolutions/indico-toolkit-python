@@ -1,10 +1,7 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import Any, Final
 
 from .utils import get
-
-if TYPE_CHECKING:
-    from typing import Any, Final
 
 
 @dataclass(order=True, frozen=True)
@@ -60,4 +57,4 @@ class Span:
 # rather than using `None` or raising an error. This lets you e.g. sort by the `span`
 # attribute without having to constantly check for `None`, while still allowing you do
 # a "None check" with `bool(extraction.span)` or `extraction.span == NULL_SPAN`.
-NULL_SPAN: "Final" = Span(page=0, start=0, end=0)
+NULL_SPAN: Final = Span(page=0, start=0, end=0)

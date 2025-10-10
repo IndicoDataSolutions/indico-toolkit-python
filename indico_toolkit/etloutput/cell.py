@@ -1,14 +1,11 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import TYPE_CHECKING
+from typing import Final
 
 from .box import NULL_BOX, Box
 from .range import NULL_RANGE, Range
 from .span import NULL_SPAN, Span
 from .utils import get
-
-if TYPE_CHECKING:
-    from typing import Final
 
 
 class CellType(Enum):
@@ -59,7 +56,7 @@ class Cell:
 # rather than using `None` or raising an error. This lets you e.g. sort by the `cell`
 # attribute without having to constantly check for `None`, while still allowing you do
 # a "None check" with `bool(extraction.cell)` or `extraction.cell == NULL_CELL`.
-NULL_CELL: "Final" = Cell(
+NULL_CELL: Final = Cell(
     type=CellType.CONTENT,
     text="",
     box=NULL_BOX,

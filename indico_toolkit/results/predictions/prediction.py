@@ -1,12 +1,9 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
-
-from ..review import Review
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from typing import Any
-
     from ..document import Document
+    from ..review import Review
     from ..task import Task
 
 

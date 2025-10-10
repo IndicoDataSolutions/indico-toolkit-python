@@ -1,10 +1,7 @@
 from collections.abc import Iterable, Iterator
-from typing import TYPE_CHECKING
+from typing import Callable
 
 from ..etloutput.utils import Value, get, has, json_loaded, str_decoded
-
-if TYPE_CHECKING:
-    from typing import Callable
 
 __all__ = (
     "get",

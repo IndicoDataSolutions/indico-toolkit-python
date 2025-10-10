@@ -1,6 +1,6 @@
 from collections import defaultdict
 from operator import attrgetter
-from typing import TYPE_CHECKING, List, TypeVar, overload
+from typing import TYPE_CHECKING, Any, Final, List, SupportsIndex, TypeVar, overload
 
 from .predictions import (
     Classification,
@@ -13,25 +13,23 @@ from .predictions import (
     Unbundling,
 )
 from .review import Review, ReviewType
-from .task import TaskType
 from .utils import nfilter
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Collection, Container, Iterable
-    from typing import Any, Final, SupportsIndex
 
     from typing_extensions import Self
 
     from .document import Document
     from .result import Result
-    from .task import Task
+    from .task import Task, TaskType
 
 PredictionType = TypeVar("PredictionType", bound=Prediction)
 OfType = TypeVar("OfType", bound=Prediction)
 KeyType = TypeVar("KeyType")
 
 # Non-None sentinel value to support `PredictionList.where(review=None)`.
-REVIEW_UNSPECIFIED: "Final" = Review(
+REVIEW_UNSPECIFIED: Final = Review(
     id=None, reviewer_id=None, notes=None, rejected=None, type=None  # type: ignore[arg-type]
 )
 

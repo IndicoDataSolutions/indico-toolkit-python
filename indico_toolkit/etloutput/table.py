@@ -1,14 +1,11 @@
 from dataclasses import dataclass
 from operator import attrgetter
-from typing import TYPE_CHECKING
+from typing import Final
 
 from .box import NULL_BOX, Box
 from .cell import Cell
 from .span import NULL_SPAN, Span
 from .utils import get
-
-if TYPE_CHECKING:
-    from typing import Final
 
 
 @dataclass(frozen=True)
@@ -82,7 +79,7 @@ class Table:
 # rather than using `None` or raising an error. This lets you e.g. group by the `table`
 # attribute without having to constantly check for `None`, while still allowing you do
 # a "None check" with `bool(extraction.table)` or `extraction.table == NULL_TABLE`.
-NULL_TABLE: "Final" = Table(
+NULL_TABLE: Final = Table(
     box=NULL_BOX,
     spans=tuple(),
     cells=tuple(),

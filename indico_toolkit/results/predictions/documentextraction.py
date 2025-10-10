@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from ...etloutput import (
     NULL_CELL,
@@ -11,16 +11,15 @@ from ...etloutput import (
     Table,
     Token,
 )
-from ..review import Review
 from ..utils import get, has, omit
 from .extraction import Extraction
 from .group import Group
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
-    from typing import Any
 
     from ..document import Document
+    from ..review import Review
     from ..task import Task
 
 

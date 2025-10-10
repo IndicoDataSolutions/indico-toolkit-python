@@ -1,10 +1,7 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import Final
 
 from .utils import get
-
-if TYPE_CHECKING:
-    from typing import Final
 
 
 @dataclass(frozen=True)
@@ -82,4 +79,4 @@ class Box:
 # object rather than using `None` or raising an error. This lets you e.g. sort by the
 # `box` attribute without having to constantly check for `None`, while still allowing
 # you do a "None check" with `bool(extraction.box)` or `extraction.box == NULL_BOX`.
-NULL_BOX: "Final" = Box(page=0, top=0, left=0, right=0, bottom=0)
+NULL_BOX: Final = Box(page=0, top=0, left=0, right=0, bottom=0)

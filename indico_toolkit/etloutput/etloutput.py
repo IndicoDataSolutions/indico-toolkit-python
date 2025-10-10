@@ -5,7 +5,6 @@ from operator import attrgetter
 from typing import TYPE_CHECKING
 
 from .box import Box
-from .span import Span
 from .table import Table
 from .token import NULL_TOKEN, Token
 
@@ -13,6 +12,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
 
     from .cell import Cell
+    from .span import Span
 
 
 @dataclass(frozen=True)
@@ -54,7 +54,7 @@ class EtlOutput:
             tables_on_page=table_pages,
         )
 
-    def token_for(self, span: Span) -> Token:
+    def token_for(self, span: "Span") -> Token:
         """
         Return a `Token` that contains every character from `span`
         or `NULL_TOKEN` if one doesn't exist.
@@ -80,7 +80,7 @@ class EtlOutput:
             span=span,
         )
 
-    def table_cells_for(self, span: Span) -> "Iterator[tuple[Table, Cell]]":
+    def table_cells_for(self, span: "Span") -> "Iterator[tuple[Table, Cell]]":
         """
         Yield the table cells that overlap with `span`.
         """

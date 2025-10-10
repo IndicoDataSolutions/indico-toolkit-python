@@ -1,16 +1,14 @@
 from dataclasses import dataclass, replace
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
-from ..review import Review
 from ..utils import get, has, omit
 from .citation import NULL_CITATION, Citation
 from .extraction import Extraction
 
 if TYPE_CHECKING:
-    from typing import Any
-
     from ...etloutput import Span
     from ..document import Document
+    from ..review import Review
     from ..task import Task
 
 
