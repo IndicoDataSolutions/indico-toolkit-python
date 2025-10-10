@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
-from ..results import Box, Span
-from ..results.utils import get
+from .box import Box
+from .span import Span
+from .utils import get
 
 
 @dataclass(frozen=True)

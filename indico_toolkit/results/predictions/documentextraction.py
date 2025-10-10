@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
+from ...etloutput import NULL_SPAN, Span
 from ..review import Review
 from ..utils import get, has, omit
 from .extraction import Extraction
 from .group import Group
-from .span import NULL_SPAN, Span
 
 if TYPE_CHECKING:
     from typing import Any

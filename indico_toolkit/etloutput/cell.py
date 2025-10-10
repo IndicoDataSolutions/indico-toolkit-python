@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 from enum import Enum
 
-from ..results import NULL_SPAN, Box, Span
-from ..results.utils import get
+from .box import Box
 from .range import Range
+from .span import NULL_SPAN, Span
+from .utils import get
 
 
 class CellType(Enum):

@@ -1,13 +1,14 @@
 from typing import TYPE_CHECKING, TypeAlias, TypeVar
 
-from ..results import NULL_BOX, NULL_SPAN, Box, Span
-from ..results.utils import get, has, json_loaded, str_decoded
+from .box import NULL_BOX, Box
 from .cell import Cell, CellType
 from .errors import EtlOutputError, TableCellNotFoundError, TokenNotFoundError
 from .etloutput import EtlOutput
 from .range import Range
+from .span import NULL_SPAN, Span
 from .table import Table
 from .token import Token
+from .utils import get, has, json_loaded, str_decoded
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable

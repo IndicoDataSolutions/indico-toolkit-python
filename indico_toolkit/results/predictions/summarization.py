@@ -9,9 +9,9 @@ from .extraction import Extraction
 if TYPE_CHECKING:
     from typing import Any
 
+    from ...etloutput import Span
     from ..document import Document
     from ..task import Task
-    from .span import Span
 
 
 @dataclass

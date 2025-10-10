@@ -4,8 +4,9 @@ from dataclasses import dataclass
 from operator import attrgetter
 from typing import TYPE_CHECKING
 
-from ..results import Box, Span
+from .box import Box
 from .errors import TableCellNotFoundError, TokenNotFoundError
+from .span import Span
 from .table import Table
 from .token import Token
 

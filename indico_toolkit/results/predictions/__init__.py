@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING
 from ..errors import ResultError
 from ..normalization import normalize_prediction_dict
 from ..task import TaskType
-from .box import NULL_BOX, Box
 from .citation import NULL_CITATION, Citation
 from .classification import Classification
 from .documentextraction import DocumentExtraction
@@ -11,7 +10,6 @@ from .extraction import Extraction
 from .formextraction import FormExtraction, FormExtractionType
 from .group import Group
 from .prediction import Prediction
-from .span import NULL_SPAN, Span
 from .summarization import Summarization
 from .unbundling import Unbundling
 
@@ -21,7 +19,6 @@ if TYPE_CHECKING:
     from ..task import Task
 
 __all__ = (
-    "Box",
     "Citation",
     "Classification",
     "DocumentExtraction",
@@ -29,11 +26,8 @@ __all__ = (
     "FormExtraction",
     "FormExtractionType",
     "Group",
-    "NULL_BOX",
     "NULL_CITATION",
-    "NULL_SPAN",
     "Prediction",
-    "Span",
     "Summarization",
     "Unbundling",
 )

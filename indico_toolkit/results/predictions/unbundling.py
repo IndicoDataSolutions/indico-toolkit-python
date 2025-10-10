@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
+from ...etloutput import Span
 from ..review import Review
 from ..utils import get, omit
 from .prediction import Prediction
-from .span import Span
 
 if TYPE_CHECKING:
     from typing import Any

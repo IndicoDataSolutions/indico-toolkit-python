@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
+from ...etloutput import NULL_SPAN, Span
 from ..utils import get
-from .span import NULL_SPAN, Span
 
 if TYPE_CHECKING:
     from typing import Any, Final

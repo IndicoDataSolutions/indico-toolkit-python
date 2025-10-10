@@ -1,13 +1,11 @@
 from typing import TYPE_CHECKING, TypeAlias, TypeVar, overload
 
+from ..etloutput import NULL_BOX, NULL_SPAN, Box, Span
 from .document import Document
 from .errors import ResultError
 from .predictionlist import PredictionList
 from .predictions import (
-    NULL_BOX,
     NULL_CITATION,
-    NULL_SPAN,
-    Box,
     Classification,
     DocumentExtraction,
     Extraction,
@@ -15,7 +13,6 @@ from .predictions import (
     FormExtractionType,
     Group,
     Prediction,
-    Span,
     Summarization,
     Unbundling,
 )

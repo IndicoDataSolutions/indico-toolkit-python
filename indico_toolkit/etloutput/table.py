@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from operator import attrgetter
 
-from ..results import Box
-from ..results.utils import get
+from .box import Box
 from .cell import Cell
+from .utils import get
 
 
 @dataclass(frozen=True)
