@@ -2,7 +2,6 @@ from typing import TYPE_CHECKING, TypeAlias, TypeVar, overload
 
 from ..etloutput import NULL_BOX, NULL_SPAN, Box, Span
 from .document import Document
-from .errors import ResultError
 from .predictionlist import PredictionList
 from .predictions import (
     NULL_CITATION,
@@ -42,7 +41,6 @@ __all__ = (
     "Prediction",
     "PredictionList",
     "Result",
-    "ResultError",
     "Review",
     "ReviewType",
     "Span",

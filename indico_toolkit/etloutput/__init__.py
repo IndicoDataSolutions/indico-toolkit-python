@@ -2,7 +2,6 @@ from typing import TYPE_CHECKING, TypeAlias, TypeVar
 
 from .box import NULL_BOX, Box
 from .cell import NULL_CELL, Cell, CellType
-from .errors import EtlOutputError, TableCellNotFoundError, TokenNotFoundError
 from .etloutput import EtlOutput
 from .range import NULL_RANGE, Range
 from .span import NULL_SPAN, Span
@@ -18,7 +17,6 @@ __all__ = (
     "Cell",
     "CellType",
     "EtlOutput",
-    "EtlOutputError",
     "load",
     "load_async",
     "NULL_BOX",
@@ -30,9 +28,7 @@ __all__ = (
     "Range",
     "Span",
     "Table",
-    "TableCellNotFoundError",
     "Token",
-    "TokenNotFoundError",
 )
 
 Loadable: TypeAlias = "dict[str, object] | list[object] | str | bytes"
