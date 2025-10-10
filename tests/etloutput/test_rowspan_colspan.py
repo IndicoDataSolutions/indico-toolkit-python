@@ -120,6 +120,5 @@ def test_columns(table: Table) -> None:
     ],
 )
 def test_table_cell_for(etl_output: EtlOutput, span: Span, expected_text: str) -> None:
-    token = etl_output.token_for(span)
-    table, cell = etl_output.table_cell_for(token)
+    (table, cell), *_ = etl_output.table_cells_for(span)
     assert cell.text == expected_text

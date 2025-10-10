@@ -5,13 +5,13 @@ from operator import attrgetter
 from typing import TYPE_CHECKING
 
 from .box import Box
-from .errors import TableCellNotFoundError, TokenNotFoundError
+from .errors import TokenNotFoundError
 from .span import Span
 from .table import Table
 from .token import Token
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Iterable, Iterator
 
     from .cell import Cell
 
@@ -81,28 +81,13 @@ class EtlOutput:
             span=span,
         )
 
-    def table_cell_for(self, token: Token) -> "tuple[Table, Cell]":
+    def table_cells_for(self, span: Span) -> "Iterator[tuple[Table, Cell]]":
         """
-        Return the `Table` and `Cell` that contain the midpoint of `token`.
-        Raise `TableCellNotFoundError` if it's not inside a table cell.
+        Yield the table cells that overlap with `span`.
         """
-        token_vmid = (token.box.top + token.box.bottom) // 2
-        token_hmid = (token.box.left + token.box.right) // 2
-
-        for table in self.tables_on_page[token.box.page]:
-            if (
-                (table.box.top  <= token_vmid <= table.box.bottom) and
-                (table.box.left <= token_hmid <= table.box.right)
-            ):  # fmt: skip
-                break
-        else:
-            raise TableCellNotFoundError(f"no table contains {token!r}")
-
-        for cell in table.cells:
-            if (
-                (cell.box.top  <= token_vmid <= cell.box.bottom) and
-                (cell.box.left <= token_hmid <= cell.box.right)
-            ):  # fmt: skip
-                return table, cell
-        else:
-            raise TableCellNotFoundError(f"no cell contains {token!r}")
+        if 0 <= span.page < len(self.tables_on_page):
+            for table in self.tables_on_page[span.page]:
+                if any(span & table_span for table_span in table.spans):
+                    for cell in table.cells:
+                        if any(span & cell_span for cell_span in cell.spans):
+                            yield table, cell

@@ -6,10 +6,10 @@ import pytest
 from indico_toolkit import etloutput
 from indico_toolkit.etloutput import (
     NULL_SPAN,
+    NULL_TOKEN,
     CellType,
     EtlOutput,
     Span,
-    TableCellNotFoundError,
     TokenNotFoundError,
 )
 
@@ -37,6 +37,16 @@ def header_span() -> Span:
 @pytest.fixture
 def content_span() -> Span:
     return Span(page=1, start=1343, end=1349)
+
+
+@pytest.fixture
+def line_item_span() -> Span:
+    return Span(page=1, start=1311, end=1244)
+
+
+@pytest.fixture
+def mulitple_table_span() -> Span:
+    return Span(page=1, start=1217, end=1299)
 
 
 def test_text_slice(
@@ -70,11 +80,8 @@ def test_null_span_not_found(etl_output: EtlOutput) -> None:
 def test_table_cell(
     etl_output: EtlOutput, header_span: Span, content_span: Span
 ) -> None:
-    header_token = etl_output.token_for(header_span)
-    content_token = etl_output.token_for(content_span)
-
-    header_table, header_cell = etl_output.table_cell_for(header_token)
-    content_table, content_cell = etl_output.table_cell_for(content_token)
+    (header_table, header_cell), *_ = etl_output.table_cells_for(header_span)
+    (content_table, content_cell), *_ = etl_output.table_cells_for(content_span)
 
     assert header_cell.span == header_span
     assert content_cell.span == content_span
@@ -86,10 +93,27 @@ def test_table_cell(
     assert content_cell.text == "720.00"
 
 
+def test_table_cells(etl_output: EtlOutput, line_item_span: Span) -> None:
+    table_cells = etl_output.table_cells_for(line_item_span)
+    correct_table = etl_output.tables[3]
+    correct_row = correct_table.rows[1]
+    correct_cells = correct_row[1:4]
+
+    for (table, cell), correct_cell in zip(table_cells, correct_cells):
+        assert table == correct_table
+        assert cell == correct_cell
+
+
+def test_multiple_tables(etl_output: EtlOutput, mulitple_table_span: Span) -> None:
+    table_cells = etl_output.table_cells_for(mulitple_table_span)
+    cells = [cell for (table, cell) in table_cells]
+    _correct_cells = etl_output.tables[2].rows[-1] + etl_output.tables[3].rows[0]
+    correct_cells = [cell for cell in _correct_cells if cell.text]
+    assert cells == correct_cells
+
+
 def test_table_cell_not_found(etl_output: EtlOutput) -> None:
-    with pytest.raises(TableCellNotFoundError):
-        token = etl_output.token_for(Span(page=0, start=0, end=8))
-        etl_output.table_cell_for(token)
+    assert not list(etl_output.table_cells_for(NULL_SPAN))
 
 
 def test_empty_cell(etl_output: EtlOutput) -> None:
