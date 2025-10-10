@@ -5,10 +5,9 @@ from operator import attrgetter
 from typing import TYPE_CHECKING
 
 from .box import Box
-from .errors import TokenNotFoundError
 from .span import Span
 from .table import Table
-from .token import Token
+from .token import NULL_TOKEN, Token
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
@@ -57,8 +56,8 @@ class EtlOutput:
 
     def token_for(self, span: Span) -> Token:
         """
-        Return a `Token` that contains every character from `span`.
-        Raise `TokenNotFoundError` if one can't be produced.
+        Return a `Token` that contains every character from `span`
+        or `NULL_TOKEN` if one doesn't exist.
         """
         try:
             tokens = self.tokens_on_page[span.page]
@@ -66,8 +65,8 @@ class EtlOutput:
             last = bisect_left(tokens, span.end, lo=first, key=attrgetter("span.start"))
             tokens = tokens[first:last]
             assert tokens
-        except (AssertionError, IndexError, ValueError) as error:
-            raise TokenNotFoundError(f"no token contains {span!r}") from error
+        except (AssertionError, IndexError, ValueError):
+            return NULL_TOKEN
 
         return Token(
             text=self.text[span.slice],

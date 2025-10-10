@@ -4,14 +4,7 @@ from pathlib import Path
 import pytest
 
 from indico_toolkit import etloutput
-from indico_toolkit.etloutput import (
-    NULL_SPAN,
-    NULL_TOKEN,
-    CellType,
-    EtlOutput,
-    Span,
-    TokenNotFoundError,
-)
+from indico_toolkit.etloutput import NULL_SPAN, NULL_TOKEN, CellType, EtlOutput, Span
 
 data_folder = Path(__file__).parent.parent / "data" / "etloutput"
 etl_output_file = data_folder / "4725" / "111924" / "110239" / "etl_output.json"
@@ -68,13 +61,11 @@ def test_token(etl_output: EtlOutput, header_span: Span, content_span: Span) -> 
 
 
 def test_token_not_found(etl_output: EtlOutput, header_span: Span) -> None:
-    with pytest.raises(TokenNotFoundError):
-        etl_output.token_for(replace(header_span, page=3))
+    assert etl_output.token_for(replace(header_span, page=3)) == NULL_TOKEN
 
 
 def test_null_span_not_found(etl_output: EtlOutput) -> None:
-    with pytest.raises(TokenNotFoundError):
-        etl_output.token_for(NULL_SPAN)
+    assert etl_output.token_for(NULL_SPAN) == NULL_TOKEN
 
 
 def test_table_cell(
