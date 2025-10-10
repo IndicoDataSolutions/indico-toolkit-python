@@ -1,13 +1,13 @@
 from typing import TYPE_CHECKING, TypeAlias, TypeVar
 
 from .box import NULL_BOX, Box
-from .cell import Cell, CellType
+from .cell import NULL_CELL, Cell, CellType
 from .errors import EtlOutputError, TableCellNotFoundError, TokenNotFoundError
 from .etloutput import EtlOutput
-from .range import Range
+from .range import NULL_RANGE, Range
 from .span import NULL_SPAN, Span
-from .table import Table
-from .token import Token
+from .table import NULL_TABLE, Table
+from .token import NULL_TOKEN, Token
 from .utils import get, has, json_loaded, str_decoded
 
 if TYPE_CHECKING:
@@ -22,7 +22,11 @@ __all__ = (
     "load",
     "load_async",
     "NULL_BOX",
+    "NULL_CELL",
+    "NULL_RANGE",
     "NULL_SPAN",
+    "NULL_TABLE",
+    "NULL_TOKEN",
     "Range",
     "Span",
     "Table",

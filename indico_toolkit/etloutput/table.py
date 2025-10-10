@@ -1,10 +1,14 @@
 from dataclasses import dataclass
 from operator import attrgetter
+from typing import TYPE_CHECKING
 
-from .box import Box
+from .box import NULL_BOX, Box
 from .cell import Cell
 from .span import NULL_SPAN, Span
 from .utils import get
+
+if TYPE_CHECKING:
+    from typing import Final
 
 
 @dataclass(frozen=True)
@@ -14,6 +18,9 @@ class Table:
     cells: "tuple[Cell, ...]"
     rows: "tuple[tuple[Cell, ...], ...]"
     columns: "tuple[tuple[Cell, ...], ...]"
+
+    def __bool__(self) -> bool:
+        return self != NULL_TABLE
 
     @property
     def span(self) -> Span:
@@ -69,3 +76,16 @@ class Table:
             rows=rows,
             columns=columns,
         )
+
+
+# It's more ergonomic to represent the lack of tables with a special null table object
+# rather than using `None` or raising an error. This lets you e.g. group by the `table`
+# attribute without having to constantly check for `None`, while still allowing you do
+# a "None check" with `bool(extraction.table)` or `extraction.table == NULL_TABLE`.
+NULL_TABLE: "Final" = Table(
+    box=NULL_BOX,
+    spans=tuple(),
+    cells=tuple(),
+    rows=tuple(),
+    columns=tuple(),
+)

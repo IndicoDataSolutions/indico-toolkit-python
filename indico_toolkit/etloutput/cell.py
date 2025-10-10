@@ -1,10 +1,14 @@
 from dataclasses import dataclass
 from enum import Enum
+from typing import TYPE_CHECKING
 
-from .box import Box
-from .range import Range
+from .box import NULL_BOX, Box
+from .range import NULL_RANGE, Range
 from .span import NULL_SPAN, Span
 from .utils import get
+
+if TYPE_CHECKING:
+    from typing import Final
 
 
 class CellType(Enum):
@@ -19,6 +23,9 @@ class Cell:
     box: Box
     range: Range
     spans: "tuple[Span, ...]"
+
+    def __bool__(self) -> bool:
+        return self != NULL_CELL
 
     @property
     def span(self) -> Span:
@@ -46,3 +53,16 @@ class Cell:
             range=Range.from_dict(cell),
             spans=tuple(map(Span.from_dict, get(cell, list, "doc_offsets"))),
         )
+
+
+# It's more ergonomic to represent the lack of cells with a special null cell object
+# rather than using `None` or raising an error. This lets you e.g. sort by the `cell`
+# attribute without having to constantly check for `None`, while still allowing you do
+# a "None check" with `bool(extraction.cell)` or `extraction.cell == NULL_CELL`.
+NULL_CELL: "Final" = Cell(
+    type=CellType.CONTENT,
+    text="",
+    box=NULL_BOX,
+    range=NULL_RANGE,
+    spans=tuple(),
+)
