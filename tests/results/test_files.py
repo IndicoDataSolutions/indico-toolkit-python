@@ -3,7 +3,6 @@ from pathlib import Path
 import pytest
 
 from indico_toolkit import results
-from indico_toolkit.results import ResultError
 
 data_folder = Path(__file__).parent.parent / "data" / "results"
 
@@ -26,5 +25,5 @@ async def test_file_load_async(result_file: Path) -> None:
 
 
 def test_usupported_version() -> None:
-    with pytest.raises(ResultError):
+    with pytest.raises(ValueError):
         results.load({"file_version": 1})

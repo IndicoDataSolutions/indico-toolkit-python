@@ -1,6 +1,5 @@
 from typing import TYPE_CHECKING
 
-from ..errors import ResultError
 from ..normalization import normalize_prediction_dict
 from ..task import TaskType
 from .citation import NULL_CITATION, Citation
@@ -55,4 +54,4 @@ def from_dict(
     elif task.type == TaskType.UNBUNDLING:
         return Unbundling.from_dict(document, task, review, prediction)
     else:
-        raise ResultError(f"unsupported task type {task.type!r}")
+        raise ValueError(f"unsupported task type {task.type!r}")

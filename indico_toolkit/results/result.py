@@ -4,7 +4,6 @@ from itertools import chain
 
 from . import predictions as prediction
 from .document import Document
-from .errors import ResultError
 from .normalization import normalize_result_dict
 from .predictionlist import PredictionList
 from .predictions import Prediction
@@ -53,7 +52,7 @@ class Result:
         file_version = get(result, int, "file_version")
 
         if file_version != 3:
-            raise ResultError(f"unsupported file version `{file_version}`")
+            raise ValueError(f"unsupported result file version `{file_version}`")
 
         normalize_result_dict(result)
 
