@@ -22,6 +22,11 @@ def etl_output() -> EtlOutput:
     return etloutput.load(etl_output_file, reader=read_uri)
 
 
+@pytest.fixture(scope="module")
+def etl_output_no_tokens_tables() -> EtlOutput:
+    return etloutput.load(etl_output_file, reader=read_uri, tokens=False, tables=False)
+
+
 @pytest.fixture
 def header_span() -> Span:
     return Span(page=1, start=1281, end=1285)
@@ -40,6 +45,11 @@ def line_item_span() -> Span:
 @pytest.fixture
 def mulitple_table_span() -> Span:
     return Span(page=1, start=1217, end=1299)
+
+
+@pytest.fixture
+def outside_table_span() -> Span:
+    return Span(page=1, start=1056, end=1067)
 
 
 def test_text_slice(
@@ -62,10 +72,12 @@ def test_token(etl_output: EtlOutput, header_span: Span, content_span: Span) -> 
 
 def test_token_not_found(etl_output: EtlOutput, header_span: Span) -> None:
     assert etl_output.token_for(replace(header_span, page=3)) == NULL_TOKEN
-
-
-def test_null_span_not_found(etl_output: EtlOutput) -> None:
     assert etl_output.token_for(NULL_SPAN) == NULL_TOKEN
+
+
+def test_no_tokens(etl_output_no_tokens_tables: EtlOutput, header_span: Span) -> None:
+    assert etl_output_no_tokens_tables.token_for(header_span) == NULL_TOKEN
+    assert etl_output_no_tokens_tables.token_for(NULL_SPAN) == NULL_TOKEN
 
 
 def test_table_cell(
@@ -103,8 +115,15 @@ def test_multiple_tables(etl_output: EtlOutput, mulitple_table_span: Span) -> No
     assert cells == correct_cells
 
 
-def test_table_cell_not_found(etl_output: EtlOutput) -> None:
-    assert not list(etl_output.table_cells_for(NULL_SPAN))
+def test_table_cell_not_found(etl_output: EtlOutput, outside_table_span: Span) -> None:
+    assert not tuple(etl_output.table_cells_for(outside_table_span))
+    assert not tuple(etl_output.table_cells_for(NULL_SPAN))
+    assert not tuple(etl_output.table_cells_for(Span(-1, -1, -1)))
+
+
+def test_no_tables(etl_output_no_tokens_tables: EtlOutput, header_span: Span) -> None:
+    assert not tuple(etl_output_no_tokens_tables.table_cells_for(header_span))
+    assert not tuple(etl_output_no_tokens_tables.table_cells_for(NULL_SPAN))
 
 
 def test_empty_cell(etl_output: EtlOutput) -> None:

@@ -1,6 +1,8 @@
 import itertools
 from bisect import bisect_left, bisect_right
+from collections import namedtuple
 from dataclasses import dataclass
+from functools import cached_property
 from operator import attrgetter
 from typing import TYPE_CHECKING
 
@@ -80,13 +82,45 @@ class EtlOutput:
             span=span,
         )
 
+    _TableCellSpan = namedtuple("_TableCellSpan", ["table", "cell", "span"])
+
+    @cached_property
+    def _table_cell_spans(self) -> "tuple[_TableCellSpan, ...]":
+        """
+        Order table cells by their spans such that they can be bisected.
+        """
+        return tuple(
+            sorted(
+                (
+                    self._TableCellSpan(table, cell, span)
+                    for table in self.tables
+                    for cell in table.cells
+                    for span in cell.spans
+                    if span
+                ),
+                key=attrgetter("span"),
+            )
+        )
+
     def table_cells_for(self, span: "Span") -> "Iterator[tuple[Table, Cell]]":
         """
         Yield the table cells that overlap with `span`.
+
+        Note: a single span may overlap the same cell multiple times causing it to be
+        yielded multiple times. Deduplication in `DocumentExtraction.table_cells`
+        accounts for this when OCR is assigned with `PredictionList.assign_ocr()`.
         """
-        if 0 <= span.page < len(self.tables_on_page):
-            for table in self.tables_on_page[span.page]:
-                if any(span & table_span for table_span in table.spans):
-                    for cell in table.cells:
-                        if any(span & cell_span for cell_span in cell.spans):
-                            yield table, cell
+        first = bisect_right(
+            self._table_cell_spans,
+            span.start,
+            key=attrgetter("span.end"),
+        )
+        last = bisect_left(
+            self._table_cell_spans,
+            span.end,
+            lo=first,
+            key=attrgetter("span.start"),
+        )
+
+        for table, cell, span in self._table_cell_spans[first:last]:
+            yield table, cell

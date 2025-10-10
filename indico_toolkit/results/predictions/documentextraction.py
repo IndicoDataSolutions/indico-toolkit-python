@@ -116,13 +116,17 @@ class DocumentExtraction(Extraction):
     def table_cells(self, table_cells: "Iterable[tuple[Table, Cell]]") -> None:
         """
         Set the tables cells the document extraction is in.
+
+        Deduplicate cells to handle the case where multiple
+        spans are contained within the same cell.
         """
         self.tables = []
         self.cells = []
 
         for table, cell in table_cells:
-            self.tables.append(table)
-            self.cells.append(cell)
+            if cell not in self.cells:
+                self.tables.append(table)
+                self.cells.append(cell)
 
     @staticmethod
     def from_dict(
