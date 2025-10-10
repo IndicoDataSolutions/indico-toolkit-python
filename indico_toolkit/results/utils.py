@@ -14,7 +14,8 @@ __all__ = (
 
 
 def nfilter(
-    predicates: "Iterable[Callable[[Value], bool]]", values: "Iterable[Value]"
+    predicates: "Iterable[Callable[[Value], bool]]",
+    values: "Iterable[Value]",
 ) -> "Iterator[Value]":
     """
     Apply multiple filter predicates to an iterable of values.

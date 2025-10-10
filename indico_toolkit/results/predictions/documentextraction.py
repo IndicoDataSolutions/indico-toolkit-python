@@ -37,7 +37,7 @@ class DocumentExtraction(Extraction):
         """
         Return the first `Span` the document extraction covers else `NULL_SPAN`.
 
-        Post-review, document extractions have no spans.
+        Predictions added in review may not have spans.
         """
         return self.spans[0] if self.spans else NULL_SPAN
 
@@ -46,9 +46,8 @@ class DocumentExtraction(Extraction):
         """
         Overwrite all spans with the one provided, handling `NULL_SPAN`.
 
-        This is implemented under the assumption that if you're setting a single span,
-        you want it to be the only one. And if you're working in a context that's
-        multiple-span sensetive, you'll set `extraction.spans` instead.
+        This is assumes if you're setting a single span you want it to be the only one.
+        Multiple-span sensitive contexts should work with `extraction.spans` instead.
         """
         self.spans = [span] if span else []
 
