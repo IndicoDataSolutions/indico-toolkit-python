@@ -3,15 +3,24 @@ from operator import attrgetter
 
 from .box import Box
 from .cell import Cell
+from .span import NULL_SPAN, Span
 from .utils import get
 
 
 @dataclass(frozen=True)
 class Table:
     box: Box
+    spans: "tuple[Span, ...]"
     cells: "tuple[Cell, ...]"
     rows: "tuple[tuple[Cell, ...], ...]"
     columns: "tuple[tuple[Cell, ...], ...]"
+
+    @property
+    def span(self) -> Span:
+        """
+        Return the first `Span` the table covers or `NULL_SPAN` otherwise.
+        """
+        return self.spans[0] if self.spans else NULL_SPAN
 
     @staticmethod
     def from_dict(table: object) -> "Table":
@@ -50,8 +59,12 @@ class Table:
             for column in range(column_count)
         )  # fmt: skip
 
+        for doc_offset in get(table, list, "doc_offsets"):
+            doc_offset["page_num"] = page
+
         return Table(
             box=Box.from_dict(get(table, dict, "position")),
+            spans=tuple(map(Span.from_dict, get(table, list, "doc_offsets"))),
             cells=cells,
             rows=rows,
             columns=columns,
