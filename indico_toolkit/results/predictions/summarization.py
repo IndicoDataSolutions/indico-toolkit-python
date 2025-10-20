@@ -1,3 +1,4 @@
+from copy import copy, deepcopy
 from dataclasses import dataclass, replace
 from typing import TYPE_CHECKING, Any
 
@@ -6,6 +7,8 @@ from .citation import NULL_CITATION, Citation
 from .extraction import Extraction
 
 if TYPE_CHECKING:
+    from typing_extensions import Self
+
     from ...etloutput import Span
     from ..document import Document
     from ..review import Review
@@ -122,3 +125,11 @@ class Summarization(Extraction):
             prediction["rejected"] = True
 
         return prediction
+
+    def copy(self) -> "Self":
+        return replace(
+            self,
+            citations=copy(self.citations),
+            confidences=copy(self.confidences),
+            extras=deepcopy(self.extras),
+        )

@@ -1,4 +1,5 @@
-from dataclasses import dataclass, field
+from copy import copy, deepcopy
+from dataclasses import dataclass, field, replace
 from typing import TYPE_CHECKING, Any
 
 from ...etloutput import (
@@ -17,6 +18,8 @@ from .group import Group
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
+
+    from typing_extensions import Self
 
     from ..document import Document
     from ..review import Review
@@ -187,3 +190,15 @@ class DocumentExtraction(Extraction):
             prediction["rejected"] = True
 
         return prediction
+
+    def copy(self) -> "Self":
+        return replace(
+            self,
+            groups=copy(self.groups),
+            spans=copy(self.spans),
+            tokens=copy(self.tokens),
+            tables=copy(self.tables),
+            cells=copy(self.cells),
+            confidences=copy(self.confidences),
+            extras=deepcopy(self.extras),
+        )
