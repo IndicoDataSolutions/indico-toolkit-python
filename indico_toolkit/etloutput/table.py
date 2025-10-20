@@ -19,6 +19,15 @@ class Table:
     def __bool__(self) -> bool:
         return self != NULL_TABLE
 
+    def __hash__(self) -> int:
+        """
+        Uniquely identify tables by hashing their bounding box and spans.
+
+        This is an order of magnitude speedup for `.groupby(attrgetter("table"))`
+        compared to dataclasses's default __hash__ implementation.
+        """
+        return hash((self.box, self.spans))
+
     @property
     def span(self) -> Span:
         """

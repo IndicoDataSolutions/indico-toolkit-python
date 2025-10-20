@@ -24,6 +24,15 @@ class Cell:
     def __bool__(self) -> bool:
         return self != NULL_CELL
 
+    def __hash__(self) -> int:
+        """
+        Uniquely identify cells by hashing their bounding box and spans.
+
+        This is small speedup for `.groupby(attrgetter("cell"))` compared to
+        dataclasses's default __hash__ implementation.
+        """
+        return hash((self.box, self.spans))
+
     @property
     def span(self) -> Span:
         """
