@@ -1,11 +1,8 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import Any, Final
 
+from ...etloutput import NULL_SPAN, Span
 from ..utils import get
-from .span import NULL_SPAN, Span
-
-if TYPE_CHECKING:
-    from typing import Any, Final
 
 
 @dataclass(order=True, frozen=True)
@@ -44,4 +41,4 @@ class Citation:
 # `citation` attribute without having to constantly check for `None`, while still
 # allowing you do a "None check" with `bool(summarization.citation)` or
 # `summarization.citation == NULL_CITATION`.
-NULL_CITATION: "Final" = Citation(start=0, end=0, span=NULL_SPAN)
+NULL_CITATION: Final = Citation(start=0, end=0, span=NULL_SPAN)

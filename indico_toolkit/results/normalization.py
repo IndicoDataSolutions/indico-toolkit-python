@@ -1,11 +1,8 @@
 import re
-from typing import TYPE_CHECKING
+from typing import Any
 
 from .task import TaskType
 from .utils import get, has
-
-if TYPE_CHECKING:
-    from typing import Any
 
 
 def normalize_result_dict(result: "Any") -> None:

@@ -1,18 +1,20 @@
 import itertools
 from bisect import bisect_left, bisect_right
+from collections import namedtuple
 from dataclasses import dataclass
+from functools import cached_property
 from operator import attrgetter
 from typing import TYPE_CHECKING
 
-from ..results import Box, Span
-from .errors import TableCellNotFoundError, TokenNotFoundError
+from .box import Box
 from .table import Table
-from .token import Token
+from .token import NULL_TOKEN, Token
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Iterable, Iterator
 
     from .cell import Cell
+    from .span import Span
 
 
 @dataclass(frozen=True)
@@ -54,18 +56,19 @@ class EtlOutput:
             tables_on_page=table_pages,
         )
 
-    def token_for(self, span: Span) -> Token:
+    def token_for(self, span: "Span") -> Token:
         """
-        Return a `Token` that contains every character from `span`.
-        Raise `TokenNotFoundError` if one can't be produced.
+        Return a `Token` that contains every character from `span`
+        or `NULL_TOKEN` if one doesn't exist.
         """
         try:
             tokens = self.tokens_on_page[span.page]
             first = bisect_right(tokens, span.start, key=attrgetter("span.end"))
             last = bisect_left(tokens, span.end, lo=first, key=attrgetter("span.start"))
             tokens = tokens[first:last]
-        except (IndexError, ValueError) as error:
-            raise TokenNotFoundError(f"no token contains {span!r}") from error
+            assert tokens
+        except (AssertionError, IndexError, ValueError):
+            return NULL_TOKEN
 
         return Token(
             text=self.text[span.slice],
@@ -79,28 +82,53 @@ class EtlOutput:
             span=span,
         )
 
-    def table_cell_for(self, token: Token) -> "tuple[Table, Cell]":
-        """
-        Return the `Table` and `Cell` that contain the midpoint of `token`.
-        Raise `TableCellNotFoundError` if it's not inside a table cell.
-        """
-        token_vmid = (token.box.top + token.box.bottom) // 2
-        token_hmid = (token.box.left + token.box.right) // 2
+    _TableCellSpan = namedtuple("_TableCellSpan", ["table", "cell", "span"])
 
-        for table in self.tables_on_page[token.box.page]:
-            if (
-                (table.box.top  <= token_vmid <= table.box.bottom) and
-                (table.box.left <= token_hmid <= table.box.right)
-            ):  # fmt: skip
-                break
-        else:
-            raise TableCellNotFoundError(f"no table contains {token!r}")
+    @cached_property
+    def _table_cell_spans_on_page(self) -> "tuple[tuple[_TableCellSpan, ...], ...]":
+        """
+        Order table cells on each page by their spans such that they can be bisected.
+        """
+        return tuple(
+            tuple(
+                sorted(
+                    (
+                        self._TableCellSpan(table, cell, span)
+                        for table in page_tables
+                        for cell in table.cells
+                        for span in cell.spans
+                        if span
+                    ),
+                    key=attrgetter("span"),
+                )
+            )
+            for page_tables in self.tables_on_page
+        )
 
-        for cell in table.cells:
-            if (
-                (cell.box.top  <= token_vmid <= cell.box.bottom) and
-                (cell.box.left <= token_hmid <= cell.box.right)
-            ):  # fmt: skip
-                return table, cell
-        else:
-            raise TableCellNotFoundError(f"no cell contains {token!r}")
+    def table_cells_for(self, span: "Span") -> "Iterator[tuple[Table, Cell]]":
+        """
+        Yield the table cells that overlap with `span`.
+
+        Note: a single span may overlap the same cell multiple times causing it to be
+        yielded multiple times. Deduplication in `DocumentExtraction.table_cells`
+        accounts for this when OCR is assigned with `PredictionList.assign_ocr()`.
+        """
+        try:
+            page_table_cell_spans = self._table_cell_spans_on_page[span.page]
+            first = bisect_right(
+                page_table_cell_spans,
+                span.start,
+                key=attrgetter("span.end"),
+            )
+            last = bisect_left(
+                page_table_cell_spans,
+                span.end,
+                lo=first,
+                key=attrgetter("span.start"),
+            )
+            table_cell_spans = page_table_cell_spans[first:last]
+        except (IndexError, ValueError):
+            table_cell_spans = tuple()
+
+        for table, cell, span in table_cell_spans:
+            yield table, cell

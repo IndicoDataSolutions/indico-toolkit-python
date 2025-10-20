@@ -3,8 +3,7 @@ from pathlib import Path
 import pytest
 
 from indico_toolkit import etloutput
-from indico_toolkit.etloutput import EtlOutput, Table
-from indico_toolkit.results import Span
+from indico_toolkit.etloutput import EtlOutput, Span, Table
 
 data_folder = Path(__file__).parent.parent / "data" / "etloutput"
 etl_output_file = data_folder / "4725" / "112731" / "112257" / "etl_output_rs_cs.json"
@@ -121,6 +120,5 @@ def test_columns(table: Table) -> None:
     ],
 )
 def test_table_cell_for(etl_output: EtlOutput, span: Span, expected_text: str) -> None:
-    token = etl_output.token_for(span)
-    table, cell = etl_output.table_cell_for(token)
+    (table, cell), *_ = etl_output.table_cells_for(span)
     assert cell.text == expected_text

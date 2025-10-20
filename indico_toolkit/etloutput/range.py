@@ -1,6 +1,7 @@
 from dataclasses import dataclass
+from typing import Final
 
-from ..results.utils import get
+from .utils import get
 
 
 @dataclass(order=True, frozen=True)
@@ -11,6 +12,9 @@ class Range:
     columnspan: int
     rows: "tuple[int, ...]"
     columns: "tuple[int, ...]"
+
+    def __bool__(self) -> bool:
+        return self != NULL_RANGE
 
     @staticmethod
     def from_dict(cell: object) -> "Range":
@@ -28,3 +32,17 @@ class Range:
             rows=tuple(rows),
             columns=tuple(columns),
         )
+
+
+# It's more ergonomic to represent the lack of ranges with a special null range object
+# rather than using `None` or raising an error. This lets you e.g. sort by the `range`
+# attribute without having to constantly check for `None`, while still allowing you do
+# a "None check" with `bool(cell.range)` or `cell.range == NULL_RANGE`.
+NULL_RANGE: Final = Range(
+    row=0,
+    column=0,
+    rowspan=0,
+    columnspan=0,
+    rows=tuple(),
+    columns=tuple(),
+)

@@ -1,10 +1,7 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import Any, Final
 
-from ..utils import get
-
-if TYPE_CHECKING:
-    from typing import Any, Final
+from .utils import get
 
 
 @dataclass(order=True, frozen=True)
@@ -19,6 +16,26 @@ class Span:
 
     def __bool__(self) -> bool:
         return self != NULL_SPAN
+
+    def __and__(self, other: "Span") -> "Span":
+        """
+        Return a new `Span` for the overlap between `self` and `other`
+        or `NULL_SPAN` if they don't overlap.
+
+        Supports set-like `extraction.span & cell.span` syntax.
+        """
+        if (
+            self.page != other.page
+            or self.end <= other.start  # `self` is to the left of `other`
+            or self.start >= other.end  # `self` is to the right of `other`
+        ):
+            return NULL_SPAN
+        else:
+            return Span(
+                page=self.page,
+                start=max(self.start, other.start),
+                end=min(self.end, other.end),
+            )
 
     @staticmethod
     def from_dict(span: object) -> "Span":
@@ -40,4 +57,4 @@ class Span:
 # rather than using `None` or raising an error. This lets you e.g. sort by the `span`
 # attribute without having to constantly check for `None`, while still allowing you do
 # a "None check" with `bool(extraction.span)` or `extraction.span == NULL_SPAN`.
-NULL_SPAN: "Final" = Span(page=0, start=0, end=0)
+NULL_SPAN: Final = Span(page=0, start=0, end=0)

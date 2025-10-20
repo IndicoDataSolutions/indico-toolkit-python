@@ -1,17 +1,18 @@
+from copy import copy, deepcopy
 from dataclasses import dataclass, replace
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
-from ..review import Review
 from ..utils import get, has, omit
 from .citation import NULL_CITATION, Citation
 from .extraction import Extraction
 
 if TYPE_CHECKING:
-    from typing import Any
+    from typing_extensions import Self
 
+    from ...etloutput import Span
     from ..document import Document
+    from ..review import Review
     from ..task import Task
-    from .span import Span
 
 
 @dataclass
@@ -23,7 +24,7 @@ class Summarization(Extraction):
         """
         Return the first `Citation` the summarization covers else `NULL_CITATION`.
 
-        Post-review, summarizations have no citations.
+        Predictions added in review may not have citations.
         """
         return self.citations[0] if self.citations else NULL_CITATION
 
@@ -32,17 +33,15 @@ class Summarization(Extraction):
         """
         Overwrite all citations with the one provided, handling `NULL_CITATION`.
 
-        This is implemented under the assumption that if you're setting a single
-        citation, you want it to be the only one. And if you're working in a context
-        that's multiple-citation sensetive, you'll set `summarization.citations`
-        instead.
+        This is assumes if you're setting a single citation it should be the only one.
+        Multiple-citation sensitive contexts should work with `summarization.citations`.
         """
         self.citations = [citation] if citation else []
 
     @property
     def spans(self) -> "tuple[Span, ...]":
         """
-        Return the spans covered by `self.citations`.
+        Return the `Span`s covered by `self.citations`.
         """
         return tuple(citation.span for citation in self.citations)
 
@@ -51,7 +50,7 @@ class Summarization(Extraction):
         """
         Return the `Span` the first citation covers else `NULL_SPAN`.
 
-        Post-review, summarizations have no citations/spans.
+        Predictions added in review may not have citations.
         """
         return self.citation.span
 
@@ -64,9 +63,9 @@ class Summarization(Extraction):
         Using `NULL_SPAN` for a citation is not explicitly handled,
         and should be considered undefined behavior.
 
-        This is implemented under the assumption that if you're setting a single span,
-        there's only one citation and you want to update its span. And if you're
-        working in a context that's multiple-citation/span sensetive, you'll set
+        This is assumes if you're setting a single span,
+        there's only one citation and you want it to update its span.
+        Multiple-context/span sensitive contexts should work with
         `summarization.citations` instead.
         """
         self.citation = replace(self.citation, span=span)
@@ -126,3 +125,11 @@ class Summarization(Extraction):
             prediction["rejected"] = True
 
         return prediction
+
+    def copy(self) -> "Self":
+        return replace(
+            self,
+            citations=copy(self.citations),
+            confidences=copy(self.confidences),
+            extras=deepcopy(self.extras),
+        )

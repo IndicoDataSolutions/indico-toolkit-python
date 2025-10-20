@@ -1,15 +1,16 @@
-from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from copy import copy, deepcopy
+from dataclasses import dataclass, replace
+from typing import TYPE_CHECKING, Any
 
-from ..review import Review
+from ...etloutput import Span
 from ..utils import get, omit
 from .prediction import Prediction
-from .span import Span
 
 if TYPE_CHECKING:
-    from typing import Any
+    from typing_extensions import Self
 
     from ..document import Document
+    from ..review import Review
     from ..task import Task
 
 
@@ -54,3 +55,11 @@ class Unbundling(Prediction):
             "confidence": self.confidences,
             "spans": [span.to_dict() for span in self.spans],
         }
+
+    def copy(self) -> "Self":
+        return replace(
+            self,
+            spans=copy(self.spans),
+            confidences=copy(self.confidences),
+            extras=deepcopy(self.extras),
+        )

@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and versions match the minimum IPA version required to use functionality.
 
 
+## [v7.2.2] - 2025-10-14
+
+### Added
+
+- Parse table spans from ETL Output as `Table.spans`.
+- `NULL_CELL`, `NULL_RANGE`, `NULL_TABLE`, and `NULL_TOKEN` constants.
+- Document Extraction attributes for assigning tokens, tables, and cells from OCR:
+    - `DocumentExtraction.tokens`, `DocumentExtraction.tables`, `DocumentExtraction.cells`
+- Document Extraction convenience properties for singular token, table, and cell access:
+    - `DocumentExtraction.token`, `DocumentExtraction.table`, `DocumentExtraction.cell`
+- `PredictionList.assign_ocr(etl_outputs, tokens=True, tables=True)` method.
+- Custom `__hash__` methods for tables and cells to speed up `.groupby(...)`.
+- Prediction `.copy()` methods that only copy mutable state.
+
+### Changed
+
+- Move `Box` and `Span` from results to etloutput to avoid circular imports.
+  (Both can still be imported from either module.)
+- Return `NULL_TOKEN` instead of raising an exception from `EtlOutput.token_for(span)`.
+- Rewrite table cell lookup `EtlOutput.table_cells_for(span)` using a fast, span-based,
+  binary search algorithm that can return multiple overlapped table cells.
+
+### Removed
+
+- Custom `results` and `etloutput` error classes that are nearly never used.
+  (Replaced with idiomatic Python error classes.)
+
+
 ## [v7.2.1] - 2025-09-09
 
 ### Fixed
@@ -265,6 +293,7 @@ This is the first major version release tested to work on Indico 6.X.
 - Row Association now also sorting on 'bbtop'.
 
 
+[v7.2.1]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v7.2.1...v7.2.2
 [v7.2.1]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v7.2.0...v7.2.1
 [v7.2.0]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v6.14.2...v7.2.0
 [v6.14.2]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v6.14.1...v6.14.2

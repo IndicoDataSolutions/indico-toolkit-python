@@ -1,6 +1,7 @@
 from collections import defaultdict
+from itertools import chain
 from operator import attrgetter
-from typing import TYPE_CHECKING, List, TypeVar, overload
+from typing import TYPE_CHECKING, Any, Final, List, SupportsIndex, TypeVar, overload
 
 from .predictions import (
     Classification,
@@ -13,25 +14,24 @@ from .predictions import (
     Unbundling,
 )
 from .review import Review, ReviewType
-from .task import TaskType
 from .utils import nfilter
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Collection, Container, Iterable
-    from typing import Any, Final, SupportsIndex
+    from collections.abc import Callable, Collection, Container, Iterable, Mapping
 
     from typing_extensions import Self
 
+    from ..etloutput import EtlOutput
     from .document import Document
     from .result import Result
-    from .task import Task
+    from .task import Task, TaskType
 
 PredictionType = TypeVar("PredictionType", bound=Prediction)
 OfType = TypeVar("OfType", bound=Prediction)
 KeyType = TypeVar("KeyType")
 
 # Non-None sentinel value to support `PredictionList.where(review=None)`.
-REVIEW_UNSPECIFIED: "Final" = Review(
+REVIEW_UNSPECIFIED: Final = Review(
     id=None, reviewer_id=None, notes=None, rejected=None, type=None  # type: ignore[arg-type]
 )
 
@@ -81,6 +81,43 @@ class PredictionList(List[PredictionType]):
         """
         for prediction in self:
             function(prediction)
+
+        return self
+
+    def assign_ocr(
+        self,
+        etl_outputs: "Mapping[Document, EtlOutput]",
+        *,
+        tokens: bool = True,
+        tables: bool = True,
+    ) -> "Self":
+        """
+        Assign OCR tokens, tables, and/or cells using `etl_outputs`.
+
+        Use `tokens` or `tables` to skip lookup and assignment of those attributes.
+        """
+        extractions_by_document = self.oftype(
+            DocumentExtraction,
+        ).groupby(
+            attrgetter("document"),
+        )
+
+        for document, extractions in extractions_by_document.items():
+            etl_output = etl_outputs[document]
+
+            for extraction in extractions:
+                if tokens:
+                    extraction.tokens = list(
+                        filter(
+                            None,
+                            map(etl_output.token_for, extraction.spans),
+                        )
+                    )
+
+                if tables:
+                    extraction.table_cells = chain.from_iterable(
+                        map(etl_output.table_cells_for, extraction.spans)
+                    )
 
         return self
 

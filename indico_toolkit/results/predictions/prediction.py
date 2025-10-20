@@ -1,12 +1,12 @@
-from dataclasses import dataclass
-from typing import TYPE_CHECKING
-
-from ..review import Review
+from copy import copy, deepcopy
+from dataclasses import dataclass, replace
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from typing import Any
+    from typing_extensions import Self
 
     from ..document import Document
+    from ..review import Review
     from ..task import Task
 
 
@@ -33,3 +33,10 @@ class Prediction:
         Create a prediction dictionary for auto review changes.
         """
         raise NotImplementedError()
+
+    def copy(self) -> "Self":
+        return replace(
+            self,
+            confidences=copy(self.confidences),
+            extras=deepcopy(self.extras),
+        )
