@@ -11,12 +11,14 @@ and versions match the minimum IPA version required to use functionality.
 ### Added
 
 - Parse table spans from ETL Output as `Table.spans`.
-- Add `NULL_CELL`, `NULL_RANGE`, `NULL_TABLE`, and `NULL_TOKEN` constants.
-- Add Document Extraction attributes for assigning tokens, tables, and cells from OCR:
+- `NULL_CELL`, `NULL_RANGE`, `NULL_TABLE`, and `NULL_TOKEN` constants.
+- Document Extraction attributes for assigning tokens, tables, and cells from OCR:
     - `DocumentExtraction.tokens`, `DocumentExtraction.tables`, `DocumentExtraction.cells`
-- Add Document Extraction convenience properties for singular token, table, and cell access:
+- Document Extraction convenience properties for singular token, table, and cell access:
     - `DocumentExtraction.token`, `DocumentExtraction.table`, `DocumentExtraction.cell`
-- Add `PredictionList.assign_ocr(etl_outputs, tokens=True, tables=True)` method.
+- `PredictionList.assign_ocr(etl_outputs, tokens=True, tables=True)` method.
+- Custom `__hash__` methods for tables and cells to speed up `.groupby(...)`.
+- Prediction `.copy()` methods that only copy mutable state.
 
 ### Changed
 
