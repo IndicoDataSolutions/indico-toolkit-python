@@ -11,7 +11,13 @@ class SubmissionIdsPendingAutoReview(GraphQLRequest):  # type: ignore[misc, no-a
     query SubmissionIdsPendingAutoReview($workflowIds: [Int]) {
         submissions(
             desc: false
-            filters: { status: PENDING_AUTO_REVIEW }
+            filters: {
+                AND: [
+                    { status: PENDING_AUTO_REVIEW }
+                    { filesDeleted: false }
+                    { retrieved: false }
+                ]
+            }
             limit: 1000
             orderBy: ID
             workflowIds: $workflowIds
@@ -39,13 +45,16 @@ class SubmissionIdsPendingDownstream(GraphQLRequest):  # type: ignore[misc, no-a
         submissions(
             desc: false
             filters: {
-                AND: {
-                    retrieved: false
-                    OR: [
-                        { status: COMPLETE }
-                        { status: FAILED }
-                    ]
-                }
+                AND: [
+                    {
+                        OR: [
+                            { status: COMPLETE }
+                            { status: FAILED }
+                        ]
+                    }
+                    { filesDeleted: false }
+                    { retrieved: false }
+                ]
             }
             limit: 1000
             orderBy: ID
