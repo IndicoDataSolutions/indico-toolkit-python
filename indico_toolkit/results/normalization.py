@@ -54,6 +54,13 @@ def normalize_prediction_dict(task_type: TaskType, prediction: "Any") -> None:
     ) and not has(prediction, list, "spans"):
         prediction["spans"] = []
 
+    # Form Extraction bounding boxes may very rarely have a `.0` decimal place,
+    # which causes them to fail strict validation.
+    if task_type == TaskType.FORM_EXTRACTION:
+        for edge in ("top", "left", "right", "bottom"):
+            if has(prediction, float, edge):
+                prediction[edge] = int(prediction[edge])
+
     # Form Extractions added in review may lack bounding box information.
     # These values will match `NULL_BOX`.
     if task_type == TaskType.FORM_EXTRACTION and not has(prediction, int, "top"):
