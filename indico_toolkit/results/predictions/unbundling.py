@@ -1,5 +1,5 @@
-from copy import copy, deepcopy
-from dataclasses import dataclass, replace
+from copy import copy
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
 from ...etloutput import Span
@@ -24,6 +24,14 @@ class Unbundling(Prediction):
         Return the pages covered by `self.spans`.
         """
         return tuple(span.page for span in self.spans)
+
+    def __deepcopy__(self, memo: Any) -> "Self":
+        """
+        Supports `copy.deepcopy(prediction)` without copying immutable objects.
+        """
+        new_instance = super().__deepcopy__(memo)
+        new_instance.spans = copy(self.spans)
+        return new_instance
 
     @staticmethod
     def from_dict(
@@ -55,11 +63,3 @@ class Unbundling(Prediction):
             "confidence": self.confidences,
             "spans": [span.to_dict() for span in self.spans],
         }
-
-    def copy(self) -> "Self":
-        return replace(
-            self,
-            spans=copy(self.spans),
-            confidences=copy(self.confidences),
-            extras=deepcopy(self.extras),
-        )

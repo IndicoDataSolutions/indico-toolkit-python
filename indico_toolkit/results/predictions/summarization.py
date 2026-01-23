@@ -1,4 +1,4 @@
-from copy import copy, deepcopy
+from copy import copy
 from dataclasses import dataclass, replace
 from typing import TYPE_CHECKING, Any
 
@@ -70,6 +70,14 @@ class Summarization(Extraction):
         """
         self.citation = replace(self.citation, span=span)
 
+    def __deepcopy__(self, memo: Any) -> "Self":
+        """
+        Supports `copy.deepcopy(prediction)` without copying immutable objects.
+        """
+        new_instance = super().__deepcopy__(memo)
+        new_instance.citations = copy(self.citations)
+        return new_instance
+
     @staticmethod
     def from_dict(
         document: "Document",
@@ -125,11 +133,3 @@ class Summarization(Extraction):
             prediction["rejected"] = True
 
         return prediction
-
-    def copy(self) -> "Self":
-        return replace(
-            self,
-            citations=copy(self.citations),
-            confidences=copy(self.confidences),
-            extras=deepcopy(self.extras),
-        )

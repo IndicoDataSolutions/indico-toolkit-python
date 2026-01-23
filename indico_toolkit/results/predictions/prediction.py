@@ -1,5 +1,5 @@
 from copy import copy, deepcopy
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -28,15 +28,17 @@ class Prediction:
     def confidence(self, value: float) -> None:
         self.confidences[self.label] = value
 
+    def __deepcopy__(self, memo: Any) -> "Self":
+        """
+        Supports `copy.deepcopy(prediction)` without copying immutable objects.
+        """
+        new_instance = copy(self)
+        new_instance.confidences = copy(self.confidences)
+        new_instance.extras = deepcopy(self.extras, memo)
+        return new_instance
+
     def to_dict(self) -> "dict[str, Any]":
         """
         Create a prediction dictionary for auto review changes.
         """
         raise NotImplementedError()
-
-    def copy(self) -> "Self":
-        return replace(
-            self,
-            confidences=copy(self.confidences),
-            extras=deepcopy(self.extras),
-        )

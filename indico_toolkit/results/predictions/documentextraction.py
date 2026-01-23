@@ -1,5 +1,5 @@
-from copy import copy, deepcopy
-from dataclasses import dataclass, field, replace
+from copy import copy
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
 from ...etloutput import (
@@ -131,6 +131,19 @@ class DocumentExtraction(Extraction):
                 self.tables.append(table)
                 self.cells.append(cell)
 
+    def __deepcopy__(self, memo: Any) -> "Self":
+        """
+        Supports `copy.deepcopy(prediction)` without copying immutable objects.
+        This provides a significant time and memory improvement when OCR is assigned.
+        """
+        new_instance = super().__deepcopy__(memo)
+        new_instance.groups = copy(self.groups)
+        new_instance.spans = copy(self.spans)
+        new_instance.tokens = copy(self.tokens)
+        new_instance.tables = copy(self.tables)
+        new_instance.cells = copy(self.cells)
+        return new_instance
+
     @staticmethod
     def from_dict(
         document: "Document",
@@ -190,15 +203,3 @@ class DocumentExtraction(Extraction):
             prediction["rejected"] = True
 
         return prediction
-
-    def copy(self) -> "Self":
-        return replace(
-            self,
-            groups=copy(self.groups),
-            spans=copy(self.spans),
-            tokens=copy(self.tokens),
-            tables=copy(self.tables),
-            cells=copy(self.cells),
-            confidences=copy(self.confidences),
-            extras=deepcopy(self.extras),
-        )
