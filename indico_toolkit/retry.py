@@ -10,8 +10,7 @@ if TYPE_CHECKING:
     from typing import ParamSpec, TypeVar
 
     ArgumentsType = ParamSpec("ArgumentsType")
-    OuterReturnType = TypeVar("OuterReturnType")
-    InnerReturnType = TypeVar("InnerReturnType")
+    ReturnType = TypeVar("ReturnType")
 
 
 def retry(
@@ -20,7 +19,7 @@ def retry(
     wait: float = 1,
     backoff: float = 4,
     jitter: float = 0.5,
-) -> "Callable[[Callable[ArgumentsType, OuterReturnType]], Callable[ArgumentsType, OuterReturnType]]":  # noqa: E501
+) -> "Callable[[Callable[ArgumentsType, ReturnType]], Callable[ArgumentsType, ReturnType]]":  # noqa: E501
     """
     Decorate a function or coroutine to retry when it raises specified errors,
     apply exponential backoff and jitter to the wait time,
@@ -46,15 +45,15 @@ def retry(
 
     @overload
     def retry_decorator(
-        decorated: "Callable[ArgumentsType, Awaitable[InnerReturnType]]",
-    ) -> "Callable[ArgumentsType, Awaitable[InnerReturnType]]": ...
+        decorated: "Callable[ArgumentsType, Awaitable[ReturnType]]",
+    ) -> "Callable[ArgumentsType, Awaitable[ReturnType]]": ...
     @overload
     def retry_decorator(
-        decorated: "Callable[ArgumentsType, InnerReturnType]",
-    ) -> "Callable[ArgumentsType, InnerReturnType]": ...
+        decorated: "Callable[ArgumentsType, ReturnType]",
+    ) -> "Callable[ArgumentsType, ReturnType]": ...
     def retry_decorator(
-        decorated: "Callable[ArgumentsType, InnerReturnType]",
-    ) -> "Callable[ArgumentsType, Awaitable[InnerReturnType]] | Callable[ArgumentsType, InnerReturnType]":  # noqa: E501
+        decorated: "Callable[ArgumentsType, ReturnType]",
+    ) -> "Callable[ArgumentsType, Awaitable[ReturnType]] | Callable[ArgumentsType, ReturnType]":  # noqa: E501
         """
         Decorate either a function or coroutine as appropriate.
         """
@@ -63,7 +62,7 @@ def retry(
             @wraps(decorated)
             async def retrying_coroutine(  # type: ignore[return]
                 *args: "ArgumentsType.args", **kwargs: "ArgumentsType.kwargs"
-            ) -> "InnerReturnType":
+            ) -> "ReturnType":
                 for times_retried in range(count + 1):
                     try:
                         return await decorated(*args, **kwargs)  # type: ignore[no-any-return]
@@ -79,7 +78,7 @@ def retry(
             @wraps(decorated)
             def retrying_function(  # type: ignore[return]
                 *args: "ArgumentsType.args", **kwargs: "ArgumentsType.kwargs"
-            ) -> "InnerReturnType":
+            ) -> "ReturnType":
                 for times_retried in range(count + 1):
                     try:
                         return decorated(*args, **kwargs)
