@@ -37,8 +37,34 @@ class Prediction:
         new_instance.extras = deepcopy(self.extras, memo)
         return new_instance
 
+    def __replace__override__(self, **attributes: Any) -> "Self":
+        """
+        Supports `copy.replace(prediction, **attrs)` on Python 3.13+
+
+        Unlike `dataclasses.replace(**attrs)` this performs a deep copy and allows
+        assigning properties in addition to attributes.
+
+        E.g.
+        >>> dataclasses.replace(prediction, confidence=1.0)
+        Shallow copy and raises TypeError(...)
+        >>> copy.replace(prediction, confidence=1.0)
+        Deep copy and returns Prediction(confidence=1.0, ...)
+        """
+        new_instance = deepcopy(self)
+
+        for attribute, value in attributes.items():
+            setattr(new_instance, attribute, value)
+
+        return new_instance
+
     def to_dict(self) -> "dict[str, Any]":
         """
         Create a prediction dictionary for auto review changes.
         """
         raise NotImplementedError()
+
+
+# `dataclass()` doesn't (yet) provide a way to override the generated `__replace__`.
+# It must be overridden after class generation and unshadowed on all subclasses.
+Prediction.__replace__ = Prediction.__replace__override__  # type:ignore[method-assign]
+del Prediction.__replace__override__

@@ -117,3 +117,7 @@ class FormExtraction(Extraction):
             prediction["rejected"] = True
 
         return prediction
+
+
+# Unshadow `Prediction.__replace__`.
+del FormExtraction.__replace__

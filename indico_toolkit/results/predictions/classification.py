@@ -40,3 +40,7 @@ class Classification(Prediction):
             "label": self.label,
             "confidence": self.confidences,
         }
+
+
+# Unshadow `Prediction.__replace__`.
+del Classification.__replace__

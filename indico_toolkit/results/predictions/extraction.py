@@ -33,3 +33,7 @@ class Extraction(Prediction):
 
     def unreject(self) -> None:
         self.rejected = False
+
+
+# Unshadow `Prediction.__replace__`.
+del Extraction.__replace__

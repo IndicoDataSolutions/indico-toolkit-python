@@ -63,3 +63,7 @@ class Unbundling(Prediction):
             "confidence": self.confidences,
             "spans": [span.to_dict() for span in self.spans],
         }
+
+
+# Unshadow `Prediction.__replace__`.
+del Unbundling.__replace__
