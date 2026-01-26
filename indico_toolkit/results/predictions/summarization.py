@@ -133,7 +133,3 @@ class Summarization(Extraction):
             prediction["rejected"] = True
 
         return prediction
-
-
-# Unshadow `Prediction.__replace__`.
-del Summarization.__replace__

@@ -64,7 +64,8 @@ class Prediction:
         raise NotImplementedError()
 
 
-# `dataclass()` doesn't (yet) provide a way to override the generated `__replace__`.
-# It must be overridden after class generation and unshadowed on all subclasses.
-Prediction.__replace__ = Prediction.__replace__override__  # type:ignore[method-assign]
+# `dataclass()` doesn't (yet) provide a way to override the generated `__replace__`
+# method on Python 3.13+. It must be overridden after class generation and unshadowed
+# on all derived classes.
+Prediction.__replace__ = Prediction.__replace__override__  # type:ignore
 del Prediction.__replace__override__

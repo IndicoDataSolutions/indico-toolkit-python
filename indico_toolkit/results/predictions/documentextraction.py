@@ -203,7 +203,3 @@ class DocumentExtraction(Extraction):
             prediction["rejected"] = True
 
         return prediction
-
-
-# Unshadow `Prediction.__replace__`.
-del DocumentExtraction.__replace__

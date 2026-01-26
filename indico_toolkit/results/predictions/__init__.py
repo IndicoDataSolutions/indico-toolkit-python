@@ -1,3 +1,4 @@
+import sys
 from typing import TYPE_CHECKING
 
 from ..normalization import normalize_prediction_dict
@@ -55,3 +56,14 @@ def from_dict(
         return Unbundling.from_dict(document, task, review, prediction)
     else:
         raise ValueError(f"unsupported task type {task.type!r}")
+
+
+# `dataclass()` doesn't (yet) provide a way to configure the generated `__replace__`
+# method on Python 3.13+. Unshadow `Prediction.__replace__` in generated subclasses.
+if sys.version_info >= (3, 13):
+    del Classification.__replace__
+    del DocumentExtraction.__replace__
+    del Extraction.__replace__
+    del FormExtraction.__replace__
+    del Summarization.__replace__
+    del Unbundling.__replace__
