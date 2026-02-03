@@ -1,6 +1,8 @@
-from dataclasses import dataclass
+from copy import deepcopy
+from dataclasses import dataclass, replace
 from functools import partial
 from itertools import chain
+from typing import TYPE_CHECKING, Any
 
 from . import predictions as prediction
 from .document import Document
@@ -10,6 +12,9 @@ from .predictions import Prediction
 from .review import Review, ReviewType
 from .task import Task
 from .utils import get
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 @dataclass(frozen=True, order=True)
@@ -43,6 +48,12 @@ class Result:
     @property
     def final(self) -> "PredictionList[Prediction]":
         return self.predictions.where(review=self.reviews[-1] if self.reviews else None)
+
+    def __deepcopy__(self, memo: Any) -> "Self":
+        """
+        Supports `copy.deepcopy(result)` without copying immutable objects.
+        """
+        return replace(self, predictions=deepcopy(self.predictions, memo))
 
     @staticmethod
     def from_dict(result: object) -> "Result":

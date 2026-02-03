@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and versions match the minimum IPA version required to use functionality.
 
 
+## [v7.2.3] - 2026-01-30
+
+### Added
+
+- Filter out deleted and retrieved submissions when polling in `AutoReviewPoller` and
+  `DownstreamPoller`. This makes submissions that can't be processed automatically drop
+  off (deleted submsissions), and provides an API-based mechanism to force a
+  problematic submission to drop off Auto Review without failing it in the DB
+  (marking retrieved).
+- Normalize edge cases where Form Extraction bounding boxes are `float`s.
+- Support idiomatic `copy.deepcopy()` and `copy.replace()` of `Prediction`s and
+  `PredicitonList`s via `__deepcopy__` and `__replace__`.
+
+### Changed
+
+- Simplify type annotations for `retry()` decorator.
+
+### Removed
+
+- `Prediction.copy()` in favor of `copy.deepcopy()` and `copy.replace()`.
+
+
 ## [v7.2.2] - 2025-10-14
 
 ### Added
@@ -293,7 +315,8 @@ This is the first major version release tested to work on Indico 6.X.
 - Row Association now also sorting on 'bbtop'.
 
 
-[v7.2.1]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v7.2.1...v7.2.2
+[v7.2.3]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v7.2.2...v7.2.3
+[v7.2.2]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v7.2.1...v7.2.2
 [v7.2.1]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v7.2.0...v7.2.1
 [v7.2.0]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v6.14.2...v7.2.0
 [v6.14.2]: https://github.com/IndicoDataSolutions/indico-toolkit-python/compare/v6.14.1...v6.14.2

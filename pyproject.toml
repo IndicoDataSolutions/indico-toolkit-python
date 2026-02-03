@@ -12,8 +12,8 @@ authors = [
 readme = "README.md"
 urls = { source = "https://github.com/IndicoDataSolutions/Indico-Solutions-Toolkit" }
 requires-python = ">=3.10"
-version = "7.2.2"
-dependencies = ["indico-client (>=6.14.0,<7.0.0)"]
+version = "7.2.3"
+dependencies = ["indico-client (>=6.14.0,<8.0.0)"]
 
 [project.optional-dependencies]
 all = ["pandas (>=2.2.3,<3.0.0)", "plotly (>=5.2.1,<6.0.0)", "tqdm (>=4.50.0,<5.0.0)"]
