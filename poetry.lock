@@ -1936,4 +1936,4 @@ snapshots = ["pandas"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "6917bdbcc33359ce37b5b0c1db336cddad6159680fc08d3c24d047666873c281"
+content-hash = "d1c7150e350af38aae77f5334afa3d74dbf2e860790595e882651d817c690e0b"
