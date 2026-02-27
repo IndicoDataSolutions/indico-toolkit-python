@@ -39,7 +39,7 @@ def content_span() -> Span:
 
 @pytest.fixture
 def line_item_span() -> Span:
-    return Span(page=1, start=1311, end=1244)
+    return Span(page=1, start=1311, end=1344)
 
 
 @pytest.fixture
