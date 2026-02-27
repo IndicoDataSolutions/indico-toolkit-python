@@ -39,11 +39,11 @@ def content_span() -> Span:
 
 @pytest.fixture
 def line_item_span() -> Span:
-    return Span(page=1, start=1311, end=1244)
+    return Span(page=1, start=1311, end=1344)
 
 
 @pytest.fixture
-def mulitple_table_span() -> Span:
+def multiple_table_span() -> Span:
     return Span(page=1, start=1217, end=1299)
 
 
@@ -107,8 +107,8 @@ def test_table_cells(etl_output: EtlOutput, line_item_span: Span) -> None:
         assert cell == correct_cell
 
 
-def test_multiple_tables(etl_output: EtlOutput, mulitple_table_span: Span) -> None:
-    table_cells = etl_output.table_cells_for(mulitple_table_span)
+def test_multiple_tables(etl_output: EtlOutput, multiple_table_span: Span) -> None:
+    table_cells = etl_output.table_cells_for(multiple_table_span)
     cells = [cell for (table, cell) in table_cells]
     _correct_cells = etl_output.tables[2].rows[-1] + etl_output.tables[3].rows[0]
     correct_cells = [cell for cell in _correct_cells if cell.text]
