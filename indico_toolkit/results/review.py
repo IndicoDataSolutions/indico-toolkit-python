@@ -23,13 +23,10 @@ class Review:
         """
         Create a `Review` from a review dictionary.
         """
-        rejected = False
-        if isinstance(review, dict):
-            rejected = bool(review.get("review_rejected", False))
         return Review(
             id=get(review, int, "review_id"),
             reviewer_id=get(review, int, "reviewer_id"),
             notes=get(review, str, "review_notes"),
-            rejected=rejected,
+            rejected=get(review, bool, "review_rejected"),
             type=ReviewType(get(review, str, "review_type")),
         )
