@@ -48,3 +48,14 @@ def test_classification_predictions():
         "model_v1",
     )
     assert isinstance(wf_result.get_predictions, Classification)
+
+
+def test_review_rejected_defaults_false_when_missing():
+    wf_result = WorkflowResult(
+        {
+            "submission_id": 12,
+            "results": {"document": {"results": {"model_v1": {"pre_review": []}}}},
+        },
+        "model_v1",
+    )
+    assert wf_result.review_rejected is False

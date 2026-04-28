@@ -126,7 +126,7 @@ class WorkflowResult:
 
     @property
     def review_rejected(self) -> int:
-        return self.result["review_rejected"]
+        return self.result.get("review_rejected", False)
 
     @property
     def admin_review(self) -> bool:
